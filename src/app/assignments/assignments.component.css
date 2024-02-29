@@ -6,3 +6,10 @@
     background-color: beige;
     padding: 5px;
 }
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.btnAjout{
+    align-self: flex-end;
+}
