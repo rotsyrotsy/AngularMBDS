@@ -1,29 +1,28 @@
 
-@if(formVisible){
-    <app-add-assignment (nouvelAssignment)="ajouteAssignment($event)" ></app-add-assignment>
-} @else{
     <div class="container">
-        <button class="btnAjout" mat-stroked-button color="accent"
-        (click)="onAddAssignmentClick()"> 
-            Ajouter un devoir
-        </button>
+        <a routerLink='/add'>
+            <button class="btnAjout" mat-stroked-button color="accent"> 
+                Ajouter un devoir
+            </button>
+        </a>
 
         <h2>Liste des assignments</h2>
         <mat-list>
         @for(a of assignements; track a.nom){
-            <mat-list-item (click)='assignementSelected(a)'>
-                <div [ngStyle]="{'color': getColor(a)}">
-                    <h3 matLine>{{a.nom}}</h3>
-                    <p matLine>Rendu: {{a.rendu}}</p>
-                    <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
-                    <p matListItemLine >
-                        {{a.nom}} rendu : {{a.rendu}}
-                    </p>
-                </div>
-            </mat-list-item>
+            <nav><a routerLink='/assignment/{{a.id}}'>
+                <mat-list-item>
+                    <div [ngStyle]="{'color': getColor(a)}">
+                        <h3 matLine>{{a.nom}}</h3>
+                        <p matLine>Rendu: {{a.rendu}}</p>
+                        <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
+                        <p matListItemLine >
+                            {{a.nom}} rendu : {{a.rendu}}
+                        </p>
+                    </div>
+                </mat-list-item>
+            </a></nav>
             <mat-divider></mat-divider>
         }
         </mat-list>
-        <app-assignment-detail (deleteAssignment)="supprimerAssignment()"  [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
     </div>
-}
+
