@@ -12,13 +12,15 @@
             }
             <nav>
                 <a routerLink='/assignment/{{assignmentTransmis.id}}/edit'>
-                    <button mat-raised-button color="primary"> 
+                    <button mat-raised-button color="primary" 
+                    [disabled]="!isAdmin()" > 
                         Modifier
                     </button>
                 </a>
             </nav>
             <button mat-raised-button color="warn"
-            (click)="onDeleteAssignment()"> 
+            (click)="onDeleteAssignment()"
+            [disabled]="!isAdmin()"> 
             Supprimer</button>
         </mat-card-actions>
       </mat-card>

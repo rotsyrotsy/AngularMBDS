@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterOutlet, RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -20,7 +21,8 @@ export class AssignmentDetailComponent {
 
   constructor(private assignmentsService:AssignmentsService,
     private route: ActivatedRoute,
-    private router:Router){}
+    private router:Router,
+    private authService : AuthService){}
 
   ngOnInit():void{
     this.getAssignment();
@@ -55,5 +57,8 @@ export class AssignmentDetailComponent {
     }
     this.router.navigate(['/home']);
 
+  }
+  isAdmin(){
+    return this.authService.loggedIn;
   }
 }
