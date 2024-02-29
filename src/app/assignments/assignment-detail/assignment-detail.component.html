@@ -10,6 +10,13 @@
             @if(!assignmentTransmis.rendu){
                 <mat-checkbox (click)="onAssignmentRendu()">Rendu</mat-checkbox>
             }
+            <nav>
+                <a routerLink='/assignment/{{assignmentTransmis.id}}/edit'>
+                    <button mat-raised-button color="primary"> 
+                        Modifier
+                    </button>
+                </a>
+            </nav>
             <button mat-raised-button color="warn"
             (click)="onDeleteAssignment()"> 
             Supprimer</button>

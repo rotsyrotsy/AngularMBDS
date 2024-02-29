@@ -26,6 +26,8 @@ export class AssignmentDetailComponent {
     this.getAssignment();
   }
   getAssignment(){
+    console.log(this.route.snapshot.queryParams);
+    
     const id = this.route.snapshot.params['id'];
     
     this.assignmentsService.getAssignment(Number(id))
