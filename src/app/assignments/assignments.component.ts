@@ -7,6 +7,7 @@ import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { MatButtonModule } from '@angular/material/button';
+import { AssignmentsService } from '../shared/assignments.service';
 
 @Component({
   selector: 'app-assignments',
@@ -22,30 +23,27 @@ export class AssignmentsComponent {
   // Memorisation de l'assignment clique
   assignmentSelectionne:Assignment | undefined;
 
-  assignements: Assignment[] =[{
-    nom:"TP1 Angular Michel Buffa",
-    dateDeRendu:new Date('2024-02-15'),
-    rendu:false
-  },{
-    nom:"TP SQL3 de Serge Miranda",
-    dateDeRendu:new Date ('2024-01-15'),
-    rendu:true
-  },{
-    nom:"TP BD Mr Gabriel Mopolo",
-    dateDeRendu:new Date ('2024-03-01'),
-    rendu:false
-  }]
+  assignements: Assignment[] =[]
 
-
+  constructor(private assignmentsService:AssignmentsService){}
 
   getColor(a:any){
     return a.rendu ? 'green' : 'red';
   }
-  // ngOnInit(): void {
+  ngOnInit(): void {
   //   setTimeout(()=>{
   //     this.boutonActive = true;
   //   },3000)
-  // }
+    this.getAssignmentFromService();
+  }
+  getAssignmentFromService(){
+    this.assignmentsService.getAssignments()
+    .subscribe((assignments)=>{
+      console.log("avant");
+      this.assignements = assignments;
+    });
+    console.log("apres");
+  }
   assignementSelected(a:Assignment){
     this.assignmentSelectionne = a;
   }
@@ -53,8 +51,11 @@ export class AssignmentsComponent {
     this.formVisible=true;
   }
   ajouteAssignment(event:Assignment){
-    this.assignements.push(event);
-    this.formVisible = false;
+    this.assignmentsService.addAssignment(event)
+    .subscribe((reponse)=>{
+      console.log(reponse);
+      this.formVisible = false;
+    });
   }
   supprimerAssignment(){
     if(this.assignmentSelectionne){
@@ -62,7 +63,6 @@ export class AssignmentsComponent {
       if (index > -1) { 
         this.assignements.splice(index, 1); 
         this.assignmentSelectionne = undefined;
-  
       }
     }
   }
