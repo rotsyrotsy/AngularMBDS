@@ -9,7 +9,7 @@
         <h2>Liste des assignments</h2>
         <mat-list>
         @for(a of assignements; track a.nom){
-            <nav><a routerLink='/assignment/{{a.id}}'>
+            <nav><a routerLink='/assignment/{{a._id}}'>
                 <mat-list-item>
                     <div [ngStyle]="{'color': getColor(a)}">
                         <h3 matLine>{{a.nom}}</h3>

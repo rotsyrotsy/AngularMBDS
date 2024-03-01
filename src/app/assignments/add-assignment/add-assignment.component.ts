@@ -31,12 +31,11 @@ export class AddAssignmentComponent {
     if((this.nomAssignment=='' || this.dateDeRendu===undefined)) return;
 
     let newAssignment = new Assignment();
-    newAssignment.id = Math.floor(Math.random()*100000);
     newAssignment.nom = this.nomAssignment;
     newAssignment.dateDeRendu = this.dateDeRendu;
     newAssignment.rendu = false;
 
-    this.assignmentsService.addAssignment(event)
+    this.assignmentsService.addAssignment(newAssignment)
     .subscribe((reponse)=>{
       console.log(reponse);
       this.router.navigate(['/home']);

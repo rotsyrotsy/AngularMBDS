@@ -25,14 +25,9 @@ export class AssignmentDetailComponent {
     private authService : AuthService){}
 
   ngOnInit():void{
-    this.getAssignment();
-  }
-  getAssignment(){
-    console.log(this.route.snapshot.queryParams);
-    
     const id = this.route.snapshot.params['id'];
     
-    this.assignmentsService.getAssignment(Number(id))
+    this.assignmentsService.getAssignment(id)
     .subscribe(assignment=>{
       this.assignmentTransmis = assignment
     });
@@ -41,11 +36,12 @@ export class AssignmentDetailComponent {
   onAssignmentRendu(){
     if(this.assignmentTransmis){
       this.assignmentTransmis.rendu=true;
+      
       this.assignmentsService.updateAssignment(this.assignmentTransmis)
       .subscribe((message)=>{
         console.log(message);
+        this.router.navigate(['/home']);
       })
-      this.router.navigate(['/home']);
     }
   }
   onDeleteAssignment(){

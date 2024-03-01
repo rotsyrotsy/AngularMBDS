@@ -11,7 +11,7 @@
                 <mat-checkbox (click)="onAssignmentRendu()">Rendu</mat-checkbox>
             }
             <nav>
-                <a routerLink='/assignment/{{assignmentTransmis.id}}/edit'>
+                <a routerLink='/assignment/{{assignmentTransmis._id}}/edit'>
                     <button mat-raised-button color="primary" 
                     [disabled]="!isAdmin()" > 
                         Modifier

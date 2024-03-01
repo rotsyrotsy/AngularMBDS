@@ -38,7 +38,7 @@ export class EditAssignmentComponent {
   ngOnInit(){
     const id = this.route.snapshot.params['id'];
     
-    this.assignmentsService.getAssignment(Number(id))
+    this.assignmentsService.getAssignment(id)
     .subscribe(assignment=>{
       this.assignment = assignment;
       if(assignment !== undefined){
