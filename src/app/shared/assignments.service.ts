@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { LoggingService } from './logging.service';
 import { HttpClient } from '@angular/common/http';
+import { bdInitialAssignments } from './data';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { HttpClient } from '@angular/common/http';
 export class AssignmentsService {
 
   assignements: Assignment[] =[]
-  uri = 'http://localhost:8010/api/assignments';
+  // uri = 'http://localhost:8010/api/assignments';
+  uri = 'https://angularmbdsback.onrender.com/api/assignments';
 
   constructor(private logService:LoggingService,
     private http:HttpClient) {}
@@ -19,6 +21,10 @@ export class AssignmentsService {
   getAssignments():Observable<Assignment[]>{
     return this.http.get<Assignment[]>(this.uri);
   }
+  getAssignmentsPagines(page:number, limit:number):Observable<any> {
+    return this.http.get<Assignment[]>(this.uri + "?page=" + page + "&limit=" + limit);
+  }
+
   addAssignment(assignment:Assignment):Observable<any>{
     this.logService.log(assignment.nom, "ajoute");
     return this.http.post<Assignment>(this.uri, assignment);
@@ -65,4 +71,36 @@ export class AssignmentsService {
       return of(result as T);
     }
   }
+  // VERSION NAIVE (on ne peut pas savoir quand l'opération des 1000 insertions est terminée)
+  peuplerBD() {
+    // on utilise les données de test générées avec mockaroo.com pour peupler la base
+    // de données
+    bdInitialAssignments.forEach(a => {
+      let nouvelAssignment = new Assignment();
+      nouvelAssignment.nom = a.nom;
+      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+      nouvelAssignment.rendu = a.rendu;
+
+      this.addAssignment(nouvelAssignment)
+      .subscribe(() => {
+        console.log("Assignment " + a.nom + " ajouté");
+      });
+    });
+  }
+
+  peuplerBDavecForkJoin():Observable<any> {
+    let appelsVersAddAssignment:Observable<any>[] = [];
+
+    bdInitialAssignments.forEach(a => {
+      const nouvelAssignment = new Assignment();
+      nouvelAssignment.nom = a.nom;
+      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+      nouvelAssignment.rendu = a.rendu;
+
+      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
+    });
+
+    return forkJoin(appelsVersAddAssignment);
+  }
+
 }

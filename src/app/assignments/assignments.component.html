@@ -5,8 +5,82 @@
                 Ajouter un devoir
             </button>
         </a>
-
         <h2>Liste des assignments</h2>
+        <p>Nb documents : {{totalDocs}}, nbPages : {{totalPages}}
+            <br>
+            Page courante : {{page}}, nb par page de document : {{limit}}
+        </p>
+            <mat-slider
+                min="1"
+                max="10"
+                step="1"
+                thumbLabel
+            >
+            <input matSliderThumb [(ngModel)]="limit" (change)="getAssignmentsFromService()">
+            </mat-slider>        
+        <div>
+            <button mat-raised-button color="primary" 
+            (click)="premierePage()"
+            [disabled]='!hasPrevPage'> 
+                Premiere page
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="primary" 
+            (click)="pagePrecedente()"
+            [disabled]='!hasPrevPage'> 
+                Precedent
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="primary" 
+            (click)="pageSuivante()"
+            [disabled]='!hasNextPage'> 
+                Suivant
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="primary" 
+            (click)="dernierePage()"
+            [disabled]='!hasNextPage'> 
+                Derniere page
+            </button>
+        </div>
+        
+        <mat-paginator #paginator
+               class="demo-paginator"
+               (page)="handlePageEvent($event)"
+               [length]="totalPages"
+               [pageSize]="limit"
+               [showFirstLastButtons]="true"
+               [pageSizeOptions]="[5,10,25]"
+               [pageIndex]="page"
+               aria-label="Select page">
+        </mat-paginator>
+        <table mat-table [dataSource]="assignements" class="mat-elevation-z8 demo-table">
+
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef> Nom </th>
+              <td mat-cell *matCellDef="let a"> {{a.nom}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="dateDeRendu">
+              <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
+              <td mat-cell *matCellDef="let a"> {{a.dateDeRendu|date}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="rendu">
+              <th mat-header-cell *matHeaderCellDef> Rendu </th>
+              <td mat-cell *matCellDef="let a"> {{a.rendu}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
         <mat-list>
         @for(a of assignements; track a.nom){
             <nav><a routerLink='/assignment/{{a._id}}'>
@@ -15,9 +89,7 @@
                         <h3 matLine>{{a.nom}}</h3>
                         <p matLine>Rendu: {{a.rendu}}</p>
                         <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
-                        <p matListItemLine >
-                            {{a.nom}} rendu : {{a.rendu}}
-                        </p>
+                        
                     </div>
                 </mat-list-item>
             </a></nav>
