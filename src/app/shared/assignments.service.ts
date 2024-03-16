@@ -11,8 +11,8 @@ import { bdInitialAssignments } from './data';
 export class AssignmentsService {
 
   assignements: Assignment[] =[]
-  // uri = 'http://localhost:8010/api/assignments';
-  uri = 'https://angularmbdsback.onrender.com/api/assignments';
+  uri = 'http://localhost:8010/api/assignments';
+  // uri = 'https://angularmbdsback.onrender.com/api/assignments';
 
   constructor(private logService:LoggingService,
     private http:HttpClient) {}

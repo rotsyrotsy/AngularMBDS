@@ -1,0 +1,48 @@
+ 
+mat-toolbar{
+    position:fixed;
+    top:0;
+    z-index: 2;
+    color: white;
+    background: linear-gradient(to right, #16cccc  0%, #2E3192 100%);
+}
+
+mat-sidenav-container {
+    height:100%;
+}
+
+/* // Move the content down so that it won't be hidden by the toolbar */
+mat-sidenav {
+    padding-top: 3.5rem;
+    @media screen and (min-width: 600px) {
+      padding-top: 4rem;
+    }
+
+    .entry{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding:0.5rem;
+    }
+  }
+
+/* // Move the content down so that it won't be hidden by the toolbar */
+mat-sidenav-content{
+    padding-top: 4.5rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    @media screen and (min-width: 600px) {
+        padding-top: 5rem;
+        padding-bottom: 2rem;
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+}
+.expanded {
+  width: auto;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
