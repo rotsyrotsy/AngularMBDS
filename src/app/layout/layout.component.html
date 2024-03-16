@@ -1,0 +1,43 @@
+
+    <mat-toolbar>
+        <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h1>{{title}}</h1>
+        <span class="example-spacer"></span>
+        <button mat-icon-button  aria-label="Settings" [matMenuTriggerFor]="menu">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>person</mat-icon>Profil
+            </button>
+            <button mat-menu-item (click)="logout()" >
+                <mat-icon>login</mat-icon>Déconnexion
+            </button>
+        </mat-menu>
+      </mat-toolbar>
+      <mat-sidenav-container autosize>
+        <mat-sidenav  [opened]="true" [ngClass]="!isCollapsed ? 'expanded' : ''" mode="side">
+          <mat-nav-list>
+            @for(item of navigation; track $index){
+                <a mat-list-item routerLink="{{item['url']}}">
+                    <span class="entry">
+                      <mat-icon>{{item['icon']}}</mat-icon>
+                      @if(!isCollapsed){
+                          <span >{{item['label']}}</span>
+                      }
+                    </span>
+                  </a>
+                }
+          </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <router-outlet></router-outlet>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+      
+    <!-- <mat-slide-toggle (click)='login()' color="primary" >Login</mat-slide-toggle>
+    <button mat-button (click)="genererDonneesDeTest()">Peupler BD</button>
+    -->
+      
