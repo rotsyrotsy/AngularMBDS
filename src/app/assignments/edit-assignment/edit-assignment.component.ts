@@ -8,6 +8,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GlobalService } from '../../shared/global.service';
 
 @Component({
  selector: 'app-edit-assignment',
@@ -25,25 +26,29 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EditAssignmentComponent {
   assignment: Assignment | undefined;
-  // Pour les champs de formulaire
   nomAssignment = '';
   dateDeRendu?: Date = undefined;
  
   constructor(
     private assignmentsService: AssignmentsService,
     private router: Router,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private globalService:GlobalService
   ) {}
 
   ngOnInit(){
     const id = this.route.snapshot.params['id'];
     
     this.assignmentsService.getAssignment(id)
-    .subscribe(assignment=>{
-      this.assignment = assignment;
-      if(assignment !== undefined){
-        this.nomAssignment = assignment.nom;
-        this.dateDeRendu = assignment.dateDeRendu;
+    .subscribe((response)=>{
+      if(response.success){
+        this.assignment = response.data;
+        if(response.data !== undefined){
+          this.nomAssignment = response.data.nom;
+          this.dateDeRendu = response.data.dateDeRendu;
+        }
+      }else{
+        this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
       }
     });
   }
@@ -57,11 +62,12 @@ export class EditAssignmentComponent {
     this.assignment.dateDeRendu = this.dateDeRendu;
     this.assignmentsService
       .updateAssignment(this.assignment)
-      .subscribe((message) => {
-        console.log(message);
- 
-        // navigation vers la home page
-        this.router.navigate(['/home']);
+      .subscribe((response)=>{
+        if(response.success){
+          this.globalService.openSnackBar(response.message,'',['success-snackbar']);
+        }else{
+          this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
+        }
       });
   }
  }

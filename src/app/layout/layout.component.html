@@ -1,6 +1,6 @@
 
     <mat-toolbar>
-        <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+        <button mat-icon-button aria-label="Menu icon" (click)="drawer.toggle();">
           <mat-icon>menu</mat-icon>
         </button>
         <h1>{{title}}</h1>
@@ -17,27 +17,29 @@
             </button>
         </mat-menu>
       </mat-toolbar>
-      <mat-sidenav-container autosize>
-        <mat-sidenav  [opened]="true" [ngClass]="!isCollapsed ? 'expanded' : ''" mode="side">
+      <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="true">
           <mat-nav-list>
             @for(item of navigation; track $index){
                 <a mat-list-item routerLink="{{item['url']}}">
                     <span class="entry">
                       <mat-icon>{{item['icon']}}</mat-icon>
-                      @if(!isCollapsed){
-                          <span >{{item['label']}}</span>
-                      }
+                      <span>{{item['label']}}</span>
+                      
                     </span>
                   </a>
                 }
           </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
-          <router-outlet></router-outlet>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
+        </mat-drawer>
       
-    <!-- <mat-slide-toggle (click)='login()' color="primary" >Login</mat-slide-toggle>
+        <div class="example-sidenav-content">
+          <router-outlet></router-outlet>
+        </div>
+      
+      </mat-drawer-container>
+      
+      
+    <!-- 
     <button mat-button (click)="genererDonneesDeTest()">Peupler BD</button>
     -->
       

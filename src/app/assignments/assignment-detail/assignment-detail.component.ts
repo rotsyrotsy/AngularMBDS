@@ -8,6 +8,7 @@ import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
+import { GlobalService } from '../../shared/global.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -22,14 +23,18 @@ export class AssignmentDetailComponent {
   constructor(private assignmentsService:AssignmentsService,
     private route: ActivatedRoute,
     private router:Router,
-    private authService : AuthService){}
+    private globalService : GlobalService){}
 
   ngOnInit():void{
     const id = this.route.snapshot.params['id'];
     
     this.assignmentsService.getAssignment(id)
-    .subscribe(assignment=>{
-      this.assignmentTransmis = assignment
+    .subscribe((response)=>{
+        if(response.success){
+          this.assignmentTransmis = response.data;
+        }else{
+          this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
+        }
     });
   }
 
@@ -38,23 +43,28 @@ export class AssignmentDetailComponent {
       this.assignmentTransmis.rendu=true;
       
       this.assignmentsService.updateAssignment(this.assignmentTransmis)
-      .subscribe((message)=>{
-        console.log(message);
-        this.router.navigate(['/home']);
-      })
+      .subscribe((response)=>{
+        if(response.success){
+          this.globalService.openSnackBar(response.message,'',['success-snackbar']);
+        }else{
+          this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
+        }
+      });
     }
   }
   onDeleteAssignment(){
     if(this.assignmentTransmis){
       this.assignmentsService.deleteAssignment(this.assignmentTransmis)
-      .subscribe((reponse)=>{
-        this.assignmentTransmis=undefined;
-      })
+      .subscribe((response)=>{
+        if(response.success){
+          this.assignmentTransmis=undefined;
+          this.globalService.openSnackBar(response.message,'',['success-snackbar']);
+        }else{
+          this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
+        }
+      });
     }
     this.router.navigate(['/home']);
 
-  }
-  isAdmin(){
-    return this.authService.loggedIn;
   }
 }

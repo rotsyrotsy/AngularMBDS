@@ -12,6 +12,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {PageEvent, MatPaginatorModule} from '@angular/material/paginator';
+import { GlobalService } from '../shared/global.service';
 
 @Component({
   selector: 'app-assignments',
@@ -33,30 +34,36 @@ export class AssignmentsComponent {
   hasPrevPage!:boolean;
   displayedColumns:string[]=['nom', 'dateDeRendu','rendu'];
 
-  constructor(private assignmentsService:AssignmentsService){}
+  constructor(private assignmentsService:AssignmentsService,
+    private globalService : GlobalService){}
 
   getColor(a:any){
     return a.rendu ? 'green' : 'red';
   }
   ngOnInit(): void {
-  //   setTimeout(()=>{
-  //     this.boutonActive = true;
-  //   },3000)
     this.getAssignmentFromService();
   }
   getAssignmentFromService(){
     this.assignmentsService.getAssignmentsPagines(this.page, this.limit)
-    .subscribe((data)=>{
-      console.log("Donnees arrivees");
-      this.assignements = data.docs;
-      this.page = data.page;
-      this.limit = data.limit;
-      this.totalDocs = data.totalDocs;
-      this.totalPages = data.totalPages;
-      this.nextPage = data.nextPage;
-      this.prevPage = data.prevPage;
-      this.hasNextPage = data.hasNextPage;
-      this.hasPrevPage = data.hasPrevPage;
+    .subscribe(
+      (data)=>{
+        if(data.success){
+          data = data.data;
+          console.log("Donnees arrivees");
+          this.assignements = data.docs;
+          this.page = data.page;
+          this.limit = data.limit;
+          this.totalDocs = data.totalDocs;
+          this.totalPages = data.totalPages;
+          this.nextPage = data.nextPage;
+          this.prevPage = data.prevPage;
+          this.hasNextPage = data.hasNextPage;
+          this.hasPrevPage = data.hasPrevPage;
+          this.globalService.closeSnackBar();
+        }else{
+          this.globalService.openSnackBar(data.error,'',['danger-snackbar']);
+        } 
+      
     });
     console.log("Requete envoyee");
   }

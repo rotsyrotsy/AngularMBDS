@@ -44,6 +44,21 @@
             </button>
         </div>
         
+        <mat-list>
+            @for(a of assignements; track a.nom){
+                <nav><a routerLink='/assignment/{{a._id}}'>
+                    <mat-list-item>
+                        <div [ngStyle]="{'color': getColor(a)}">
+                            <h3 matLine>{{a.nom}}</h3>
+                            <p matLine>Rendu: {{a.rendu}}</p>
+                            <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
+                            
+                        </div>
+                    </mat-list-item>
+                </a></nav>
+                <mat-divider></mat-divider>
+            }
+            </mat-list>
         <mat-paginator #paginator
                class="demo-paginator"
                (page)="handlePageEvent($event)"
@@ -79,22 +94,8 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+          </table> 
+       
 
-        <mat-list>
-        @for(a of assignements; track a.nom){
-            <nav><a routerLink='/assignment/{{a._id}}'>
-                <mat-list-item>
-                    <div [ngStyle]="{'color': getColor(a)}">
-                        <h3 matLine>{{a.nom}}</h3>
-                        <p matLine>Rendu: {{a.rendu}}</p>
-                        <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
-                        
-                    </div>
-                </mat-list-item>
-            </a></nav>
-            <mat-divider></mat-divider>
-        }
-        </mat-list>
     </div>
 

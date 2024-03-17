@@ -9,6 +9,7 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { Router } from '@angular/router';
+import { GlobalService } from '../../shared/global.service';
 
 @Component({
   selector: 'app-add-assignment',
@@ -25,7 +26,8 @@ export class AddAssignmentComponent {
   nomAssignment='';
   dateDeRendu=undefined;
   constructor(private assignmentsService:AssignmentsService,
-    private router:Router){}
+    private router:Router,
+    private globalService:GlobalService){}
 
   onSubmit(event:any){
     if((this.nomAssignment=='' || this.dateDeRendu===undefined)) return;
@@ -36,9 +38,12 @@ export class AddAssignmentComponent {
     newAssignment.rendu = false;
 
     this.assignmentsService.addAssignment(newAssignment)
-    .subscribe((reponse)=>{
-      console.log(reponse);
-      this.router.navigate(['/home']);
+    .subscribe((response)=>{
+      if(response.success){
+        this.globalService.openSnackBar(response.message,'',['success-snackbar']);
+      }else{
+        this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
+      }
     });
   }
 }

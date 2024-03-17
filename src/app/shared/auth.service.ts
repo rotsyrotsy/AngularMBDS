@@ -1,17 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, catchError, of, throwError } from 'rxjs';
+import { GlobalConstants } from './global-constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   loggedIn = false;
-  constructor() { }
+  uri = GlobalConstants.urlAPI+"/users";
 
-  logIn(){
+  constructor(private http:HttpClient) { }
+
+  login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
+
+    const body = {"email": email, "password": password};
+    return this.http.post<any>(this.uri+"/login", body)
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      }
+      )
+    )
+  
   }
   logOut(){
     this.loggedIn=false;
+    localStorage.clear();
   }
   isAdmin(){
     const isUserAdmin = new Promise(
