@@ -1,64 +1,10 @@
 
     <div class="container">
-        <a routerLink='/add'>
-            <button class="btnAjout" mat-stroked-button color="accent"> 
-                Ajouter un devoir
-            </button>
-        </a>
         <h2>Liste des assignments</h2>
-        <p>Nb documents : {{totalDocs}}, nbPages : {{totalPages}}
-            <br>
-            Page courante : {{page}}, nb par page de document : {{limit}}
-        </p>
-            <mat-slider
-                min="1"
-                max="10"
-                step="1"
-                thumbLabel
-            >
-            <input matSliderThumb [(ngModel)]="limit" (change)="getAssignmentsFromService()">
-            </mat-slider>        
-        <div>
-            <button mat-raised-button color="primary" 
-            (click)="premierePage()"
-            [disabled]='!hasPrevPage'> 
-                Premiere page
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="primary" 
-            (click)="pagePrecedente()"
-            [disabled]='!hasPrevPage'> 
-                Precedent
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="primary" 
-            (click)="pageSuivante()"
-            [disabled]='!hasNextPage'> 
-                Suivant
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="primary" 
-            (click)="dernierePage()"
-            [disabled]='!hasNextPage'> 
-                Derniere page
-            </button>
+        <div class="pagination-number">
+            Total documents : {{totalDocs}}&nbsp;Total pages : {{totalPages}}<br>
+            Documents par page: {{limit}}&nbsp;Page courante : {{page}}
         </div>
-        
-        <mat-list>
-            @for(a of assignements; track a.nom){
-                <nav><a routerLink='/assignment/{{a._id}}'>
-                    <mat-list-item>
-                        <div [ngStyle]="{'color': getColor(a)}">
-                            <h3 matLine>{{a.nom}}</h3>
-                            <p matLine>Rendu: {{a.rendu}}</p>
-                            <h3 matListItemLine>Date de rendu: {{a.dateDeRendu|date}}</h3>
-                            
-                        </div>
-                    </mat-list-item>
-                </a></nav>
-                <mat-divider></mat-divider>
-            }
-            </mat-list>
         <mat-paginator #paginator
                class="demo-paginator"
                (page)="handlePageEvent($event)"
@@ -69,33 +15,35 @@
                [pageIndex]="page"
                aria-label="Select page">
         </mat-paginator>
-        <table mat-table [dataSource]="assignements" class="mat-elevation-z8 demo-table">
-
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-          
-            <!-- Position Column -->
-            <ng-container matColumnDef="nom">
-              <th mat-header-cell *matHeaderCellDef> Nom </th>
-              <td mat-cell *matCellDef="let a"> {{a.nom}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="dateDeRendu">
-              <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
-              <td mat-cell *matCellDef="let a"> {{a.dateDeRendu|date}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="rendu">
-              <th mat-header-cell *matHeaderCellDef> Rendu </th>
-              <td mat-cell *matCellDef="let a"> {{a.rendu}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table> 
-       
+        
+        <mat-grid-list cols="2" rowHeight="2:1">
+            @for(a  of assignements; track a.nom){
+                <mat-grid-tile>
+                    <mat-card class="example-card">
+                        <mat-card-header [ngStyle]="{'color': getColorRendu(a)}" class="flex-container">
+                            <div>
+                                <mat-card-title>
+                                    {{a.nom}}<mat-icon [ngStyle]="{'color':getColorRendu(a)}">{{getIconRendu(a)}}</mat-icon>
+                                </mat-card-title>
+                                <mat-card-subtitle>Big Data</mat-card-subtitle>
+                            </div>
+                            <div mat-card-avatar class="example-header-image"></div>
+                            
+                        </mat-card-header>
+                        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                        <mat-card-content>
+                            <p>Auteur : {{a.nom}}</p>
+                            <p>Date de rendu : {{a.nom}}</p>
+                        </mat-card-content>
+                        <mat-card-actions class="card-actions">
+                        <button mat-button color="primary" aria-label="Afficher les details"><mat-icon>visibility</mat-icon> AFFICHER</button>
+                        <button mat-button color="accent" aria-label="Modifier le devoir"><mat-icon>edit</mat-icon> MODIFIER</button>
+                        <button mat-button color="warn" aria-label="Supprimer le devoir"><mat-icon>delete</mat-icon> SUPPRIMER</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </mat-grid-tile>
+            }
+    </mat-grid-list>
 
     </div>
 

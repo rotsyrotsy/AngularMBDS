@@ -13,11 +13,14 @@ import { FormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {PageEvent, MatPaginatorModule} from '@angular/material/paginator';
 import { GlobalService } from '../shared/global.service';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-assignments',
   standalone: true,
-  imports: [ MatPaginatorModule,MatTableModule,FormsModule,MatSliderModule,RouterOutlet,RouterLink,MatButtonModule,RenduDirective,AssignmentDetailComponent,
+  imports: [ MatGridListModule,MatIconModule, MatPaginatorModule,MatCardModule,MatTableModule,FormsModule,MatSliderModule,RouterOutlet,RouterLink,MatButtonModule,RenduDirective,AssignmentDetailComponent,
     MatListModule,CommonModule, AddAssignmentComponent],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
@@ -37,8 +40,11 @@ export class AssignmentsComponent {
   constructor(private assignmentsService:AssignmentsService,
     private globalService : GlobalService){}
 
-  getColor(a:any){
+  getColorRendu(a:any){
     return a.rendu ? 'green' : 'red';
+  }
+  getIconRendu(a:any){
+    return a.rendu ? 'check' : 'close';
   }
   ngOnInit(): void {
     this.getAssignmentFromService();
