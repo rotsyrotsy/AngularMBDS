@@ -2,3 +2,16 @@
     display: flex;
     justify-content: space-between;
 }
+.container .info{
+    margin-right: 2rem;
+}
+.container .head{
+    background-color: #fafafa;
+    padding: 1rem 1rem;
+    border-radius: var(--mdc-elevated-card-container-shape);
+    width: 50%;
+    margin-right: 2rem;
+}
+:host ::ng-deep.mat-mdc-card-content {
+    padding-top: 16px;
+  }

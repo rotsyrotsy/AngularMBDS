@@ -1,27 +1,52 @@
 
 @if(assignmentTransmis){
-    <h2>Details de l'assignment</h2>
-    <mat-card>
+    <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
+          <mat-card-subtitle>{{assignmentTransmis.dateDeRendu|date}}</mat-card-subtitle>
+        </mat-card-header>
         <mat-card-content>
-            <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
-            <mat-card-subtitle>{{assignmentTransmis.dateDeRendu|date}}</mat-card-subtitle>
+            <div class="container">
+                <div class="container head">
+                    <div class="info">
+                        <img mat-card-lg-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+                    </div>
+                    <div class="info">
+                        <p [ngStyle]="{'color': isActive(assignmentTransmis), 'font-weight':'bold'}">
+                            <mat-icon>radio_button_checked</mat-icon>&nbsp;{{assignmentTransmis.rendu ? 'ACTIF' : 'NON ACTIF'}}
+                        </p>
+                        <p>Nom : Rabe</p>
+                        <p>Email : example.email&#64;gmail.com</p>
+                    </div>
+                </div>
+                <div class="container head">
+                    <div class="info">
+                        <img mat-card-lg-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+                    </div>
+                    <div class="info">
+                        <p>Matiere : Big Data</p>
+                        <p>Professeur : Mopolo Moke</p>
+                    </div>
+                </div>
+            </div>
+            <p [ngStyle]="{'color':getColorRendu(assignmentTransmis), 'font-weight':'bold'}">{{assignmentTransmis.rendu ? 'Rendu' : 'En attente'}}<mat-icon>{{getIconRendu(assignmentTransmis)}}</mat-icon></p>
+            <p>This card has divider and indeterminate progress as footer</p>
+            <p>Note : <strong>14/20</strong></p>
         </mat-card-content>
-        <mat-card-actions class="container">
-            @if(!assignmentTransmis.rendu){
-                <mat-checkbox (click)="onAssignmentRendu()">Rendu</mat-checkbox>
-            }
+        <mat-card-actions>
             <nav>
                 <a routerLink='/assignment/{{assignmentTransmis._id}}/edit'>
-                    <button mat-raised-button color="primary" 
+                    <button mat-button
                      > 
-                        Modifier
+                        MODIFIER
                     </button>
                 </a>
             </nav>
-            <button mat-raised-button color="warn"
+            <button mat-button
             (click)="onDeleteAssignment()"
             > 
-            Supprimer</button>
+            SUPPRIMER</button>
         </mat-card-actions>
       </mat-card>
+      
 }

@@ -7,13 +7,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { AuthService } from '../../shared/auth.service';
 import { GlobalService } from '../../shared/global.service';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,MatButtonModule,MatCardModule,CommonModule,MatCheckboxModule],
+  imports: [MatIconModule,MatGridListModule,RouterOutlet,RouterLink,MatButtonModule,MatCardModule,CommonModule,MatCheckboxModule],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
@@ -37,7 +38,16 @@ export class AssignmentDetailComponent {
         }
     });
   }
-
+  getColorRendu(a:any){
+    return a.rendu ? 'green' : 'red';
+  }
+  getIconRendu(a:any){
+    return a.rendu ? 'check' : 'close';
+  }
+  isActive(assignment:Assignment){
+    // à changer en assignment.student_id.active
+    return assignment.rendu ? 'green' : 'red';
+  }
   onAssignmentRendu(){
     if(this.assignmentTransmis){
       this.assignmentTransmis.rendu=true;

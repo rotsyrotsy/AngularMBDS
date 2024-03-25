@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { MatButtonModule } from '@angular/material/button';
 import { AssignmentsService } from '../shared/assignments.service';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import {MatSliderModule} from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
@@ -28,7 +28,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 export class AssignmentsComponent {
   assignements: Assignment[] =[]
   page=1;
-  limit=10;
+  limit=9;
   totalDocs!:number;
   totalPages!:number;
   nextPage !:number;
@@ -38,9 +38,10 @@ export class AssignmentsComponent {
   displayedColumns:string[]=['nom', 'dateDeRendu','rendu'];
 
   constructor(private assignmentsService:AssignmentsService,
-    private globalService : GlobalService){}
+    private globalService : GlobalService,
+    private router : Router){}
 
-  getColorRendu(a:any){
+  public getColorRendu(a:any){
     return a.rendu ? 'green' : 'red';
   }
   getIconRendu(a:any){
@@ -96,5 +97,8 @@ export class AssignmentsComponent {
     this.page = event.pageIndex+1;
     this.limit = event.pageSize;
     this.getAssignmentFromService();
+  }
+  navigateDetails(id:String|undefined){
+    this.router.navigate(['assignment', id]);
   }
 }
