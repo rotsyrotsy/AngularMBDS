@@ -4,3 +4,21 @@
     flex-direction: column;
     margin: 5px;
 }
+
+.form .flexbox{
+    display: flex;
+    column-gap: 2rem;
+    padding-bottom: 10px;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+.img-container img {
+    flex-shrink: 0;
+    max-width: 200px;
+    max-height: 100px;
+}

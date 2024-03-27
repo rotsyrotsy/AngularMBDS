@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import {MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
