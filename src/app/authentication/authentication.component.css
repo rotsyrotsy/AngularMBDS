@@ -1,11 +1,16 @@
-.loginCard{
-    margin: 5px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-}
-.form{
+:host {
+    display: block;
+    width: 100%;
+    height: 100vh; /* 100% of the viewport height */
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(#fafafa  50%, #11d7d7 100%);
+    overflow: hidden; /* optional, to prevent scrolling */
+  }
+  .center {
     display: flex;
-    flex-direction: column;
-}
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    width: 100%;
+  }

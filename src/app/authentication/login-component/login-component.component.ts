@@ -7,20 +7,20 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../shared/auth.service';
-import { GlobalService } from '../shared/global.service';
+import { Router, RouterLink, } from '@angular/router';
+import { AuthService } from '../../shared/auth.service';
+import { GlobalService } from '../../shared/global.service';
 
 @Component({
-  selector: 'app-authentication',
+  selector: 'app-login-component',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [MatCardModule,CommonModule, FormsModule, MatIconModule,RouterOutlet,
+  imports: [MatCardModule,CommonModule, FormsModule, MatIconModule,
     MatInputModule,MatFormFieldModule,MatButtonModule,ReactiveFormsModule,RouterLink],
-  templateUrl: './authentication.component.html',
-  styleUrl: './authentication.component.css'
+  templateUrl: './login-component.component.html',
+  styleUrl: './login-component.component.css'
 })
-export class AuthenticationComponent {
+export class LoginComponentComponent {
   hide=true;
   email='';
   password='';

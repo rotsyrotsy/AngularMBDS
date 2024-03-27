@@ -40,7 +40,7 @@ export class LayoutComponent {
   }
   logout(){
       this.authService.logOut();
-      this.router.navigate(["/login"]);
+      this.router.navigate(["/auth/login"]);
   }
   genererDonneesDeTest() {
     // VERSION AVEC Observable

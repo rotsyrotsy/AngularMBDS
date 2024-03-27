@@ -6,11 +6,17 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
 import { authGuard } from './shared/auth.guard';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LayoutComponent } from './layout/layout.component';
+import { SignupComponentComponent } from './authentication/signup-component/signup-component.component';
+import { LoginComponentComponent } from './authentication/login-component/login-component.component';
 
 export const routes: Routes = [
-    {path:'login', component:AuthenticationComponent},
     {path:'', redirectTo:'home', pathMatch:'full'},
-    
+    {path:'auth',
+    component:AuthenticationComponent,
+    children:[
+        {path:'login', component:LoginComponentComponent},
+        {path:'signup', component:SignupComponentComponent},
+    ]},
     {path:'',
     component:LayoutComponent,
     children:[
