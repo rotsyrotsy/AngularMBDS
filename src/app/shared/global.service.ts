@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root'
 })
 export class GlobalService {
-
+  private loading: boolean = false;
   constructor(private _snackBar: MatSnackBar) { }
 
   openSnackBar(message:string, action:string, classes:string[]):void{
@@ -18,5 +18,12 @@ export class GlobalService {
   }
   closeSnackBar():void{
     this._snackBar.dismiss();
+  }
+  setLoading(loading: boolean) {
+    this.loading = loading;
+  }
+
+  getLoading(): boolean {
+    return this.loading;
   }
 }

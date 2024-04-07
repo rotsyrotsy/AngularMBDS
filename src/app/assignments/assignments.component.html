@@ -1,47 +1,100 @@
+<div>
+  <h2>Liste des devoirs</h2>
 
-    <div class="container">
-        <h2>Liste des assignments</h2>
-        
-        <mat-grid-list cols="3" rowHeight="2:2.5">
-            @for(a  of assignements; track a.nom){
-                <mat-grid-tile>
-                    <mat-card class="example-card">
-                        <mat-card-header [ngStyle]="{'color': getColorRendu(a)}">
-                            <mat-card-title-group>
-                              <mat-card-title>{{a.nom}}<mat-icon [ngStyle]="{'color':getColorRendu(a)}">{{getIconRendu(a)}}</mat-icon></mat-card-title>
-                              <mat-card-subtitle>Big Data</mat-card-subtitle>
-                              <div mat-card-avatar class="example-header-image"></div>
-                            </mat-card-title-group>
-                          </mat-card-header>
+  <mat-card style="padding: 10px;">
+    <form>
+      <div class="example-container">
+        <div class="flex-item">
+          <mat-checkbox>Rendu</mat-checkbox>
+        </div>
+        <div class="flex-item">
+          <mat-form-field>
+            <mat-label>Mot clé</mat-label>
+            <input matInput placeholder="Mot clé" [(ngModel)]="searchKeyword" />
+          </mat-form-field>
+        </div>
+        <div class="flex-item">
+          <mat-form-field>
+            <mat-label>Date de Rendu</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [(ngModel)]="searchDateDeRendu"
+              name="date"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="flex-item">
+          <button mat-flat-button color="primary">Rechercher</button>
+        </div>
+      </div>
+    </form>
 
-                        <img (click)="navigateDetails(a._id)" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                        <mat-card-content>
-                            <p>Auteur : {{a.nom}}</p>
-                            <p>Date de rendu : {{a.dateDeRendu|date}}</p>
-                        </mat-card-content>
-                        <mat-card-actions class="card-actions">
-                        <a routerLink='/assignment/{{a._id}}/edit'>
-                            <button mat-button color="primary" aria-label="Modifier le devoir"><mat-icon>edit</mat-icon> </button>
-                        </a>
-                        <button mat-button color="warn" aria-label="Supprimer le devoir"><mat-icon>delete</mat-icon> </button>
-                        </mat-card-actions>
-                    </mat-card>
-                </mat-grid-tile>
-            }
+    <mat-grid-list cols="4" rowHeight="2:3">
+      @for(a of assignements; track a.nom){
+      <mat-grid-tile>
+        <mat-card class="example-card mat-elevation-z8" >
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>{{ a.nom }}</mat-card-title>
+              <mat-card-subtitle>Big Data</mat-card-subtitle>
+              <div mat-card-avatar class="example-header-image"></div>
+            </mat-card-title-group>
+          </mat-card-header>
+
+          <img
+            (click)="navigateDetails(a._id)"
+            mat-card-image
+            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+            alt="Photo of a Shiba Inu"
+          />
+          <mat-card-content>
+            <p>Auteur : {{ a.nom }}</p>
+            <p>Date de rendu : {{ a.dateDeRendu | date }}</p>
+            <p [ngStyle]="{ color: getColorRendu(a), 'font-weight': 'bold' }">
+              {{ a.rendu ? "RENDU" : "NON RENDU" }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="card-actions">
+            <a routerLink="/assignment/{{ a._id }}/edit">
+              <button
+                mat-button
+                color="primary"
+                aria-label="Modifier le devoir"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </a>
+            <button mat-button color="warn" aria-label="Supprimer le devoir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+      }
     </mat-grid-list>
     <div class="pagination-number">
-        Total documents : {{totalDocs}}&nbsp;Total pages : {{totalPages}}<br>
-        Documents par page: {{limit}}&nbsp;Page courante : {{page}}
+      Total documents : {{ totalDocs }}&nbsp;Total pages : {{ totalPages
+      }}<br />
+      Documents par page: {{ limit }}&nbsp;Page courante : {{ page }}
     </div>
-    <mat-paginator #paginator
-           class="demo-paginator"
-           (page)="handlePageEvent($event)"
-           [length]="totalPages"
-           [pageSize]="limit"
-           [showFirstLastButtons]="true"
-           [pageSizeOptions]="[9,15,21]"
-           [pageIndex]="page"
-           aria-label="Select page">
+    <mat-paginator
+      #paginator
+      class="demo-paginator"
+      (page)="handlePageEvent($event)"
+      [length]="totalPages"
+      [pageSize]="limit"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[8, 16, 24]"
+      [pageIndex]="page"
+      aria-label="Select page"
+    >
     </mat-paginator>
+  </mat-card>
 </div>
-

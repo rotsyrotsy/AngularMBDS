@@ -29,6 +29,7 @@ export class AssignmentDetailComponent {
   ngOnInit():void{
     const id = this.route.snapshot.params['id'];
     
+    this.globalService.setLoading(true);
     this.assignmentsService.getAssignment(id)
     .subscribe((response)=>{
         if(response.success){
@@ -36,6 +37,7 @@ export class AssignmentDetailComponent {
         }else{
           this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
         }
+        this.globalService.setLoading(false);
     });
   }
   getColorRendu(a:any){
