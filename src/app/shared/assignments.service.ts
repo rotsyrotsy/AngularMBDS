@@ -42,8 +42,8 @@ export class AssignmentsService {
       })
       );
   }
-  updateAssignment(assignment:Assignment):Observable<any>{
-    return this.http.put<any>(this.uri, assignment,{'headers':this.headers})
+  updateAssignment(id:string, assignment:Assignment):Observable<any>{
+    return this.http.put<any>(this.uri+"/"+id,assignment, {'headers':this.headers})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

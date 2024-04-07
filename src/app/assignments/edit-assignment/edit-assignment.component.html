@@ -1,21 +1,115 @@
 @if(assignment) {
-    <div class="container">
-     <h1>Edition de l'assignment {{assignment.nom}}</h1>
-     <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); ">
-       <mat-form-field>
-         <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
-       </mat-form-field>
-       <mat-form-field>
-         <input matInput [matDatepicker]="picker" placeholder="Edition de la date" [(ngModel)]="dateDeRendu" name="date">
-         <mat-datepicker-toggle matSuffix [for]="picker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #picker></mat-datepicker>
-       </mat-form-field>
-       <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
-        Sauver
-      </button>
-    </form>
-   </div>
+<div>
+  <mat-card class="card-container" style="padding: 10px">
+    <mat-card-header>
+      <mat-card-title>Modifier un devoir</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form ngForm #formupdate (submit)="onSaveAssignment()">
+        <mat-stepper #stepper>
+          <mat-step label="Afficher les informations">
+            <div class="form">
+              <mat-form-field>
+                <mat-label>Nom</mat-label>
+                <input
+                  readonly
+                  matInput
+                  placeholder="Nom"
+                  name="nom"
+                  [(ngModel)]="nomAssignment"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Date de Rendu</mat-label>
+                <input
+                  readonly
+                  matInput
+                  [matDatepicker]="picker"
+                  [(ngModel)]="dateDeRendu"
+                  name="date"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <div class="flexbox">
+                <mat-form-field [ngStyle]="{ width: '50%' }">
+                  <mat-label>Matière</mat-label>
+
+                  <input
+                    readonly
+                    matInput
+                    placeholder="Matiere"
+                    name="subject"
+                    [value]="subjectControl.value?.name"
+                  />
+                </mat-form-field>
+
+                <div class="img-container">
+                  <img
+                    src="{{ subjectControl.value?.picture ?? defaultImage }}"
+                  />
+                </div>
+              </div>
+              <mat-form-field>
+                <mat-label>Professeur</mat-label>
+                <input
+                  matInput
+                  readonly
+                  value="{{ (subjectControl.value?.professor)!.name }}"
+                />
+              </mat-form-field>
+            </div>
+            <div>
+              <button type="button" mat-button matStepperNext>Suivant</button>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Rendre le devoir</ng-template>
+            <div class="form">
+              <mat-checkbox name="rendu" [(ngModel)]="renduAssignment"
+                >Rendre le devoir</mat-checkbox
+              >
+              <mat-form-field>
+                <mat-label>Note</mat-label>
+                <input
+                  matInput
+                  placeholder="Note"
+                  name="note"
+                  [(ngModel)]="noteAssignment"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Remarque</mat-label>
+                <input
+                  matInput
+                  placeholder="Remarque"
+                  name="remarque"
+                  [(ngModel)]="remarqueAssignment"
+                />
+              </mat-form-field>
+            </div>
+            <div>
+              <button type="button" mat-button matStepperPrevious>
+                Précédent
+              </button>
+              <button
+                type="submit"
+                mat-button
+                color="primary"
+                [disabled]="nomAssignment == '' || subjectControl === undefined"
+              >
+                Valider
+              </button>
+            </div>
+          </mat-step>
+        </mat-stepper>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
 }
-   
-   

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { RenduDirective } from '../shared/rendu.directive';
-import { Assignment } from './assignment.model';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
@@ -23,6 +22,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AssignmentFK } from './assignment_fk.model';
 import { GlobalConstants } from '../shared/global-constants';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteAssignmentComponent } from './dialog-delete-assignment/dialog-delete-assignment.component';
+import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-assignments',
@@ -53,6 +55,7 @@ import { GlobalConstants } from '../shared/global-constants';
   styleUrl: './assignments.component.css',
 })
 export class AssignmentsComponent {
+
   assignements: AssignmentFK[] = [];
   page = 1;
   limit = 8;
@@ -66,12 +69,12 @@ export class AssignmentsComponent {
   searchKeyword = '';
   searchDateDeRendu = undefined;
   defaultImage = GlobalConstants.defaultImage;
-
-
+  
   constructor(
     private assignmentsService: AssignmentsService,
     private globalService: GlobalService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   getColorRendu(a: any) {
@@ -96,9 +99,7 @@ export class AssignmentsComponent {
           this.prevPage = data.prevPage;
           this.hasNextPage = data.hasNextPage;
           this.hasPrevPage = data.hasPrevPage;
-          this.globalService.closeSnackBar();
-          console.log(this.assignements);
-          
+          this.globalService.closeSnackBar();          
         } else {
           this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);
         }
@@ -129,5 +130,16 @@ export class AssignmentsComponent {
   }
   navigateDetails(id: String | undefined) {
     this.router.navigate(['assignment', id]);
+  }
+  onDeleteAssignment(assignment : AssignmentFK) {
+    if (assignment) {
+      this.dialog.open(DialogDeleteAssignmentComponent, {
+        width: '250px',
+        data: {
+          assignment: assignment,
+          callbackFunction: () => {this.getAssignmentFromService()} 
+        },
+      });
+    }
   }
 }

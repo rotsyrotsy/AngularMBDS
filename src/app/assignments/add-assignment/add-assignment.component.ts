@@ -17,7 +17,6 @@ import { GlobalService } from '../../shared/global.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
-import { Subject } from '../../subjects/subject.model';
 import { SubjectsService } from '../../shared/subjects.service';
 import { SubjectProfessor } from '../../subjects/subject_professor.model';
 import moment from 'moment';
@@ -44,10 +43,9 @@ import moment from 'moment';
   styleUrl: './add-assignment.component.css',
 })
 export class AddAssignmentComponent {
-  subjects: Subject[] = [];
+  subjects: SubjectProfessor[] = [];
   subjectControl = new FormControl<SubjectProfessor | null>(null, Validators.required);
   nomFormControl = new FormControl('', [Validators.required]);
-  selectedSubject = this.subjects[0];
 
   //champs du formulaire
   nomAssignment = '';
@@ -74,7 +72,7 @@ export class AddAssignmentComponent {
       });
   }
 
-  onSubmit(event: any) {
+  onSubmit() {
     if (this.nomAssignment == '' || this.subjectControl.value?._id === undefined) return;
 
     let newAssignment = new Assignment();
