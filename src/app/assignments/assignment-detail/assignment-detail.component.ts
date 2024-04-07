@@ -10,6 +10,8 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { GlobalService } from '../../shared/global.service';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
+import { AssignmentFK } from '../assignment_fk.model';
+import { GlobalConstants } from '../../shared/global-constants';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -19,8 +21,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './assignment-detail.component.css'
 })
 export class AssignmentDetailComponent {
-  assignmentTransmis!: Assignment|undefined;
-
+  assignmentTransmis!: AssignmentFK|undefined;
+  defaultImage = GlobalConstants.defaultImage;
   constructor(private assignmentsService:AssignmentsService,
     private route: ActivatedRoute,
     private router:Router,
@@ -32,8 +34,10 @@ export class AssignmentDetailComponent {
     this.globalService.setLoading(true);
     this.assignmentsService.getAssignment(id)
     .subscribe((response)=>{
+      console.log(response.data[0]);
+      
         if(response.success){
-          this.assignmentTransmis = response.data;
+          this.assignmentTransmis = response.data[0];
         }else{
           this.globalService.openSnackBar(response.error,'',['danger-snackbar']);
         }
@@ -42,13 +46,6 @@ export class AssignmentDetailComponent {
   }
   getColorRendu(a:any){
     return a.rendu ? 'green' : 'red';
-  }
-  getIconRendu(a:any){
-    return a.rendu ? 'check' : 'close';
-  }
-  isActive(assignment:Assignment){
-    // à changer en assignment.student_id.active
-    return assignment.rendu ? 'green' : 'red';
   }
   onAssignmentRendu(){
     if(this.assignmentTransmis){

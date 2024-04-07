@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import {
-  FormBuilder,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
@@ -54,15 +53,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './signup-component.component.css',
 })
 export class SignupComponentComponent {
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  thirdFormGroup = this._formBuilder.group({
-    thirdCtrl: ['', Validators.required],
-  });
   passwordFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -83,8 +73,7 @@ export class SignupComponentComponent {
 
   constructor(
     private authService: AuthService,
-    private globalService: GlobalService,
-    private _formBuilder: FormBuilder
+    private globalService: GlobalService
   ) {}
 
   selectFile(event: any): void {
@@ -119,6 +108,7 @@ export class SignupComponentComponent {
         this.globalService.openSnackBar(response.message, '', [
           'success-snackbar',
         ]);
+
         this.resetForm();
       } else {
         this.globalService.closeSnackBar();

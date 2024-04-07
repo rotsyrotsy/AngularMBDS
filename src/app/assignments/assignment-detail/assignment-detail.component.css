@@ -16,7 +16,6 @@
   padding-top: 16px;
 }
 .example-header-image {
-  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
   background-size: cover;
   height: 40px;
   width: 40px;

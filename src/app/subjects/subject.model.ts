@@ -3,5 +3,4 @@ export class Subject {
     name? : string;
     picture! : string;
     professor_id? : string;
-
 }

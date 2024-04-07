@@ -2,7 +2,7 @@
   <h2>Liste des devoirs</h2>
 
   <mat-card style="padding: 10px;">
-    <form>
+    <form ngForm #searchForm>
       <div class="example-container">
         <div class="flex-item">
           <mat-checkbox>Rendu</mat-checkbox>
@@ -10,7 +10,7 @@
         <div class="flex-item">
           <mat-form-field>
             <mat-label>Mot clé</mat-label>
-            <input matInput placeholder="Mot clé" [(ngModel)]="searchKeyword" />
+            <input matInput placeholder="Mot clé" [(ngModel)]="searchKeyword" name="searchKeyword" />
           </mat-form-field>
         </div>
         <div class="flex-item">
@@ -20,7 +20,7 @@
               matInput
               [matDatepicker]="picker"
               [(ngModel)]="searchDateDeRendu"
-              name="date"
+              name="searchDateDeRendu"
             />
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
@@ -31,7 +31,7 @@
           </mat-form-field>
         </div>
         <div class="flex-item">
-          <button mat-flat-button color="primary">Rechercher</button>
+          <button type="submit" mat-flat-button color="primary">Rechercher</button>
         </div>
       </div>
     </form>
@@ -43,19 +43,19 @@
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>{{ a.nom }}</mat-card-title>
-              <mat-card-subtitle>Big Data</mat-card-subtitle>
-              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-subtitle>{{ a.subject.name }}</mat-card-subtitle>
+              <div mat-card-avatar [ngStyle]="{'background-image': 'url('+(a.subject.professor?.picture ?? defaultImage)+')', 'background-size': 'cover'}"></div>
             </mat-card-title-group>
           </mat-card-header>
 
           <img
             (click)="navigateDetails(a._id)"
             mat-card-image
-            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-            alt="Photo of a Shiba Inu"
+            src="{{a.subject.picture ?? defaultImage}}"
+            alt="{{a.subject.name}}"
           />
           <mat-card-content>
-            <p>Auteur : {{ a.nom }}</p>
+            <p>Auteur : {{ a.student.name }}</p>
             <p>Date de rendu : {{ a.dateDeRendu | date }}</p>
             <p [ngStyle]="{ color: getColorRendu(a), 'font-weight': 'bold' }">
               {{ a.rendu ? "RENDU" : "NON RENDU" }}

@@ -21,6 +21,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { AssignmentFK } from './assignment_fk.model';
+import { GlobalConstants } from '../shared/global-constants';
 
 @Component({
   selector: 'app-assignments',
@@ -51,7 +53,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   styleUrl: './assignments.component.css',
 })
 export class AssignmentsComponent {
-  assignements: Assignment[] = [];
+  assignements: AssignmentFK[] = [];
   page = 1;
   limit = 8;
   totalDocs!: number;
@@ -63,6 +65,8 @@ export class AssignmentsComponent {
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
   searchKeyword = '';
   searchDateDeRendu = undefined;
+  defaultImage = GlobalConstants.defaultImage;
+
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -93,6 +97,8 @@ export class AssignmentsComponent {
           this.hasNextPage = data.hasNextPage;
           this.hasPrevPage = data.hasPrevPage;
           this.globalService.closeSnackBar();
+          console.log(this.assignements);
+          
         } else {
           this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);
         }

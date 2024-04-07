@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  FormBuilder,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
@@ -14,18 +13,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { Router } from '@angular/router';
 import { GlobalService } from '../../shared/global.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { Subject } from '../../subjects/subject.model';
-import { User } from '../../users/user.model';
+import { SubjectsService } from '../../shared/subjects.service';
+import { SubjectProfessor } from '../../subjects/subject_professor.model';
+import moment from 'moment';
 
 @Component({
   selector: 'app-add-assignment',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [
+    provideNativeDateAdapter(),
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,50 +44,10 @@ import { User } from '../../users/user.model';
   styleUrl: './add-assignment.component.css',
 })
 export class AddAssignmentComponent {
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  subjects: Subject[] = [
-    {
-      _id: '0',
-      name: 'Big Data',
-      picture: 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-      professor_id: '0',
-    },
-    {
-      _id: '1',
-      name: 'Angular',
-      picture: 'https://material.angular.io/assets/img/examples/shiba2.jpg',
-      professor_id: '1',
-    },
-  ];
-
-  users: User[] = [
-    {
-      _id: '0',
-      name: 'Mopolo',
-      email: 'test@gmail.com',
-      password: 'password',
-      role: 'ROLE_USER_PROFESSOR',
-      picture:
-        'https://upload.wikimedia.org/wikipedia/en/d/d5/Professor_%28Money_Heist%29.jpg',
-      active: 0,
-    },
-    {
-      _id: '1',
-      name: 'Buffa',
-      email: 'test2@gmail.com',
-      password: 'password',
-      role: 'ROLE_USER_PROFESSOR',
-      picture:
-        'https://www.superprof.ca/blog/wp-content/uploads/2022/07/pexels-rodnae-productions-7092613.jpg',
-      active: 0,
-    },
-  ];
-  subjectControl = new FormControl<Subject | null>(null, Validators.required);
+  subjects: Subject[] = [];
+  subjectControl = new FormControl<SubjectProfessor | null>(null, Validators.required);
+  nomFormControl = new FormControl('', [Validators.required]);
+  selectedSubject = this.subjects[0];
 
   //champs du formulaire
   nomAssignment = '';
@@ -93,19 +55,35 @@ export class AddAssignmentComponent {
 
   constructor(
     private assignmentsService: AssignmentsService,
-    private router: Router,
-    private globalService: GlobalService,
-    private _formBuilder: FormBuilder
+    private subjectsService: SubjectsService,
+    private globalService: GlobalService
   ) {}
+  ngOnInit(): void {
+    this.globalService.setLoading(true);
+    this.subjectsService
+      .getAllSubjects(1)
+      .subscribe((data) => {
+        if (data.success) {
+          data = data.data;
+          this.subjects = data.docs;
+          this.globalService.closeSnackBar();
+        } else {
+          this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);
+        }
+        this.globalService.setLoading(false);
+      });
+  }
 
   onSubmit(event: any) {
-    if (this.nomAssignment == '' || this.dateDeRendu === undefined) return;
+    if (this.nomAssignment == '' || this.subjectControl.value?._id === undefined) return;
 
     let newAssignment = new Assignment();
     newAssignment.nom = this.nomAssignment;
-    newAssignment.dateDeRendu = this.dateDeRendu;
     newAssignment.rendu = false;
-
+    newAssignment.subject_id = this.subjectControl.value._id;
+    if(this.dateDeRendu !== undefined){
+      newAssignment.dateDeRendu = moment(this.dateDeRendu).format('YYYY-MM-DD');
+    }
     this.assignmentsService
       .addAssignment(newAssignment)
       .subscribe((response) => {
@@ -114,13 +92,10 @@ export class AddAssignmentComponent {
             'success-snackbar',
           ]);
         } else {
-          this.globalService.openSnackBar(response.error, '', [
+          this.globalService.openSnackBar(response.message, '', [
             'danger-snackbar',
           ]);
         }
       });
-  }
-  getUser(id: string): User | undefined {
-    return this.users.find((user) => user._id === id);
   }
 }

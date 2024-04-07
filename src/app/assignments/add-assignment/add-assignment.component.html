@@ -1,5 +1,5 @@
-
-<mat-card class="example-card">
+<div>
+  <mat-card class="card-container" style="padding: 10px;">
     <mat-card-header>
       <mat-card-title>Ajout d'un devoir</mat-card-title>
     </mat-card-header>
@@ -9,12 +9,15 @@
         #assignmentForm
         >
         <mat-stepper #stepper>
-            <mat-step [stepControl]="firstFormGroup">
+            <mat-step errorMessage="Le nom est requis.">
                 <ng-template matStepLabel>Remplissez le nom et la date</ng-template>
                 <div class="form">
                     <mat-form-field>
                         <mat-label>Nom</mat-label>
-                        <input matInput placeholder="Nom" name="nom" [(ngModel)]="nomAssignment">
+                        <input [formControl]="nomFormControl" matInput placeholder="Nom" name="nom" [(ngModel)]="nomAssignment" required>
+                        @if (nomFormControl.hasError('required')) {
+                          <mat-error>Veuillez donner un intitulé au devoir</mat-error>
+                        }
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Date de Rendu</mat-label>
@@ -25,21 +28,22 @@
                     </mat-form-field>
                 </div>
                 <div>
-                  <button mat-button matStepperNext>Suivant</button>
+                  <button type="button" mat-button matStepperNext>Suivant</button>
                 </div>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup" label="Selectionnez la matière">
+            <mat-step label="Selectionnez la matière">
                 <div class="form">
                     <div class="flexbox">
                         <mat-form-field [ngStyle]="{'width':'50%'}">
                             <mat-label>Matière</mat-label>
-                            <mat-select [formControl]="subjectControl">
+
+                            <mat-select [formControl]="subjectControl" required>
                                 
                                 <mat-option>None</mat-option>
                                 @for (subject of subjects; track subject) {
                                     <mat-option [value]="subject">
-                                        <img [ngStyle]="{'width':'20px','height':'20px','border-radius':'50%'}" src="{{subject.picture}}" >
-                                        <span>{{subject.name}}</span>
+                                        <img [ngStyle]="{'width':'20px','height':'20px','border-radius':'50%'}" src="{{ (subject.picture=='') ? subject.picture :  'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'}}" >
+                                        &nbsp;&nbsp;<span>{{subject.name}}</span>
                                     </mat-option>
                                 }
                             </mat-select>
@@ -53,25 +57,16 @@
                     </div>
                     <mat-form-field>
                         <mat-label>Professeur</mat-label>
-                        <input matInput disabled value="{{ getUser(subjectControl.value?.professor_id!)?.name }}">
+                        <input matInput disabled value="{{ (subjectControl.value?.professor!).name }}">
                       </mat-form-field>
 
                 </div>
                 <div>
-                  <button mat-button matStepperPrevious>Précédent</button>
-                  <button mat-button matStepperNext>Suivant</button>
+                  <button type="button" mat-button matStepperPrevious>Précédent</button>
+                  <button type="submit" mat-button color="primary" [disabled]="nomAssignment=='' || subjectControl===undefined">
+                    Valider
+                  </button>
                 </div>
-            </mat-step>
-            <mat-step>
-              <ng-template matStepLabel>Done</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button color="primary" [disabled]="nomAssignment=='' || dateDeRendu===undefined"> 
-                    Ajouter un devoir
-                </button>
-                <button mat-button matStepperPrevious>Précédent</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-              </div>
             </mat-step>
           </mat-stepper>
         </form>
@@ -81,3 +76,4 @@
 
     </mat-card-content>
   </mat-card>
+</div>

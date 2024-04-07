@@ -4,8 +4,8 @@ export class Assignment {
     student_id! : string;
     subject_id! : string;
     note! : string;
-    remarques! : string;
-    dateDeRendu! : Date;
+    remarque! : string;
+    dateDeRendu! : Date|string;
     rendu! : boolean;
 
 }
