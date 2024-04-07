@@ -37,4 +37,15 @@ export class AuthService {
     );
     return isUserAdmin;
   }
+  register(params:Object):Observable<any>{
+    console.log(params);
+    
+    return this.http.post<any>(this.uri+"/signup", params)
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      }
+      )
+    )
+  }
 }

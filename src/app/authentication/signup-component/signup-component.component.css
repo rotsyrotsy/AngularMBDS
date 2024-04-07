@@ -43,4 +43,18 @@
   .mat-toolbar-single-row button {
     width: 100px;
   }
-  
+  .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .preview{
+    max-width: 300px;
+  }
+  .mat-stepper-vertical {
+    margin-top: 8px;
+  }
+  .mat-mdc-form-field {
+    margin-top: 16px;
+    width: 100%;
+  }

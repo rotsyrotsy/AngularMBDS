@@ -1,119 +1,149 @@
 <mat-card class="registerCard">
-    <mat-card-title class="registerTitle">S'inscrire</mat-card-title>
-    <mat-card-content>
+  <mat-card-title class="registerTitle">S'inscrire</mat-card-title>
+  <mat-card-content>
+    <form ngForm #registerForm>
+      <mat-stepper orientation="vertical" [linear]="false" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <ng-template matStepLabel>Remplissez vos informations</ng-template>
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="nameFormControl"
+              placeholder="Ex.pat@example.com"
+              [(ngModel)]="name"
+              required
+            />
+            @if (nameFormControl.hasError('required')) {
+            <mat-error>Le nom est <strong>requis</strong></mat-error>
+            }
+          </mat-form-field>
 
-        <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
-            <mat-step [stepControl]="firstFormGroup">
-              <form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Remplissez vos informations</ng-template>
-                    <mat-form-field>
-                        <mat-label>Nom</mat-label>
-                        <input type="text" matInput [formControl]="nameFormControl"
-                            placeholder="Ex.pat@example.com" [(ngModel)]="name" required>
-                        @if (nameFormControl.hasError('required')) {
-                        <mat-error>Le nom est <strong>requis</strong></mat-error>
-                        }
-                    </mat-form-field>
-                    
-                    <div>
-                        @if (progress) {
-                        <mat-toolbar class="progress-bar">
-                          <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
-                          <span class="progress">{{ progress }}%</span>
-                        </mat-toolbar>
-                        }
-                      
-                        <mat-form-field>
-                          <div>
-                            <mat-toolbar>
-                              <input matInput [value]="fileName" [ngStyle]="{'fontSize':'16px', 'fontWeight':'normal'}" />
-                      
-                              <button
-                                mat-flat-button
-                                color="primary"
-                                [disabled]="!currentFile"
-                                (click)="upload()"
-                              >
-                                Upload
-                              </button>
-                            </mat-toolbar>
-                      
-                            <input
-                              type="file"
-                              id="fileInput"
-                              (change)="selectFile($event)"
-                              name="fileInput"
-                            />
-                          </div>
-                        </mat-form-field>
-                      </div>
-                <div>
-                  <button mat-button matStepperNext>Suivant</button>
-                </div>
-              </form>
-            </mat-step>
-            <mat-step [stepControl]="secondFormGroup">
-              <form [formGroup]="secondFormGroup">
-                <ng-template matStepLabel>Remplissez vos informations d'authentification</ng-template>
-                
-                    <mat-form-field>
-                        <mat-label>Email</mat-label>
-                        <input type="email" matInput [formControl]="emailFormControl"
-                            placeholder="Ex.pat@example.com" [(ngModel)]="email" required>
-                        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
-                        <mat-error>Entrez une adresse email valide</mat-error>
-                        }
-                        @if (emailFormControl.hasError('required')) {
-                        <mat-error>Le champ email est <strong>requis</strong></mat-error>
-                        }
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Mot de passe</mat-label>
-                        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
-                        [formControl]="passwordFormControl" [(ngModel)]="password" required>
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        @if (passwordFormControl.hasError('required')) {
-                            <mat-error>Entrez votre mot de passe</mat-error>
-                        }
-                    </mat-form-field>
-                <div>
-                  <button mat-button matStepperPrevious>Precedent</button>
-                  <button mat-button matStepperNext>Suivant</button>
-                </div>
-              </form>
-            </mat-step>
-            
-            <mat-step [stepControl]="thirdFormGroup">
-                <form [formGroup]="thirdFormGroup">
-                  <ng-template matStepLabel>Donnez votre role</ng-template>
-                  
-                  <mat-form-field>
-                    <mat-label>Role</mat-label>
-                    <mat-select>
-                      @for (role of roles; track role) {
-                        <mat-option [value]="role">{{role}}</mat-option>
-                      }
-                    </mat-select>
-                </mat-form-field>
-                  <div>
-                    <button mat-button matStepperPrevious>Precedent</button>
-                    <button mat-button matStepperNext [disabled]="email=='' || password==''" >S'inscrire</button>
-                  </div>
-                </form>
-            </mat-step>
-            <mat-step>
-              <ng-template matStepLabel>Valider</ng-template>
-              <p>Vous etes maintenant inscris.</p>
+          <div>
+            @if (progress) {
+            <mat-toolbar class="progress-bar">
+              <mat-progress-bar
+                color="accent"
+                [value]="progress"
+              ></mat-progress-bar>
+              <span class="progress">{{ progress }}%</span>
+            </mat-toolbar>
+            }
+
+            <mat-form-field>
               <div>
-                <button mat-button (click)="stepper.reset()">Reinitialiser</button>
+                <mat-toolbar>
+                  <input
+                    matInput
+                    [value]="fileName"
+                    [ngStyle]="{ fontSize: '16px', fontWeight: 'normal' }"
+                  />
+                </mat-toolbar>
+
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  (change)="selectFile($event)"
+                  name="fileInput"
+                />
               </div>
-            </mat-step>
-          </mat-stepper>
-    </mat-card-content>
+            </mat-form-field>
+          </div>
+          @if (preview!=='') {
+            <div>
+              <img [src]="preview" class="preview" />
+            </div>
+          }
+          <div>
+            <button type="button" mat-button matStepperNext>Suivant</button>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel
+            >Remplissez vos informations d'authentification</ng-template
+          >
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input
+              type="email"
+              matInput
+              [formControl]="emailFormControl"
+              placeholder="Ex.pat@example.com"
+              [(ngModel)]="email"
+              required
+            />
+            @if (emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')) {
+            <mat-error>Entrez une adresse email valide</mat-error>
+            } @if (emailFormControl.hasError('required')) {
+            <mat-error>Le champ email est <strong>requis</strong></mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input
+              matInput
+              placeholder="Password"
+              [type]="hidePassword ? 'password' : 'text'"
+              [formControl]="passwordFormControl"
+              [(ngModel)]="password"
+              required
+            />
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+            @if (passwordFormControl.hasError('required')) {
+            <mat-error>Entrez votre mot de passe</mat-error>
+            }
+          </mat-form-field>
+          <div>
+            <button type="button" mat-button matStepperPrevious>
+              Precedent
+            </button>
+            <button type="button" mat-button matStepperNext>Suivant</button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup">
+          <ng-template matStepLabel>Donnez votre role</ng-template>
+
+          <mat-form-field>
+            <mat-label>Role</mat-label>
+            <mat-select [(value)]="selectedRole">
+              @for (role of roles; track role) {
+              <mat-option [value]="role">{{ role }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button type="button" mat-button matStepperPrevious>
+              Precedent
+            </button>
+            <button
+              type="submit"
+              mat-button
+              (click)="onSignup(stepper)"
+              [disabled]="email == '' || password == '' || name == ''"
+            >
+              S'inscrire
+            </button>
+            @if (loading) {
+            <div class="center">
+              <mat-progress-spinner
+                diameter="40"
+                mode="indeterminate"
+              ></mat-progress-spinner>
+            </div>
+            }
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </form>
+  </mat-card-content>
 </mat-card>
 <p class="text-center">
-    <a routerLink='/auth/login'>
-        Vous avez deja un compte ?
-    </a>
+  <a routerLink="/auth/login"> Vous avez deja un compte ? </a>
 </p>
-  

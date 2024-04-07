@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     background: linear-gradient(#fafafa  50%, #11d7d7 100%);
-    overflow: hidden; /* optional, to prevent scrolling */
+    overflow: auto;
   }
   .center {
     display: flex;

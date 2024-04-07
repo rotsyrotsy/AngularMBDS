@@ -12,7 +12,7 @@ export class GlobalService {
     this._snackBar.open(message,action,{
           panelClass: classes,
           horizontalPosition: 'center',
-          verticalPosition: 'bottom',
+          verticalPosition: 'top',
           duration: 2000,
         });
   }
