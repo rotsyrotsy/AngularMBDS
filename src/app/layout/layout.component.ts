@@ -49,8 +49,8 @@ export class LayoutComponent {
     this.globalService.closeSnackBar();
     this.navigation.push(
       { icon: 'home', label: 'Accueil', url: '/home' },
-      { icon: 'list', label: 'Les devoirs', url: '/home' },
-      { icon: 'add', label: 'Ajouter un devoir', url: '/add' }
+      { icon: 'add', label: 'Ajouter un devoir', url: '/add' },
+      { icon: 'list', label: 'Matières', url: '/subjects' },
     );
   }
   logout() {

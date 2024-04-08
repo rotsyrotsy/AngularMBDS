@@ -9,6 +9,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { SignupComponentComponent } from './authentication/signup-component/signup-component.component';
 import { LoginComponentComponent } from './authentication/login-component/login-component.component';
 import { authStudentGuard } from './shared/authStudent.guard';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 export const routes: Routes = [
     {path:'', redirectTo:'home', pathMatch:'full'},
@@ -24,7 +25,8 @@ export const routes: Routes = [
         {path:'home', component:AssignmentsComponent},
         {path:'add', component:AddAssignmentComponent, canActivate: [authStudentGuard]},
         {path:'assignment/:id', component:AssignmentDetailComponent},
-        {path:'assignment/:id/edit', component:EditAssignmentComponent, canActivate: [authGuard]}
+        {path:'assignment/:id/edit', component:EditAssignmentComponent, canActivate: [authGuard]},
+        {path:'subjects', component:SubjectsComponent, canActivate: [authGuard]},
     ]},
 
     
