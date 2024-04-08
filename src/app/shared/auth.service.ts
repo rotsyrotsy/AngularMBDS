@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { GlobalConstants } from './global-constants';
@@ -37,10 +37,10 @@ export class AuthService {
     );
     return isUserAdmin;
   }
-  register(params:Object):Observable<any>{
-    console.log(params);
-    
-    return this.http.post<any>(this.uri+"/signup", params)
+  register(formdata:FormData):Observable<any>{
+    let headers = new HttpHeaders();
+    headers = headers.append('enctype', 'multipart/form-data');
+    return this.http.post<any>(this.uri+"/signup", formdata,{ headers: headers })
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

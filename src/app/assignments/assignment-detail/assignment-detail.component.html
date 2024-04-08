@@ -12,7 +12,7 @@
                 <div class="flex-item">{{assignmentTransmis.subject.professor?.name}}</div>
             </div>
             <div>
-                <img style="max-width: 400px;" src="{{assignmentTransmis.subject.picture ?? defaultImage}}" alt="{{assignmentTransmis.subject.name}}">
+                <img style="max-width: 400px;" src="{{assignmentTransmis.subject.picture ? assignmentTransmis.subject.picture : defaultImage}}" alt="{{assignmentTransmis.subject.name}}">
             </div>
             <p [ngStyle]="{'color':getColorRendu(assignmentTransmis), 'font-weight':'bold'}">{{assignmentTransmis.rendu ? 'Rendu' : 'Non rendu'}}</p>
             <p>Matière : {{assignmentTransmis.subject.name}}</p>

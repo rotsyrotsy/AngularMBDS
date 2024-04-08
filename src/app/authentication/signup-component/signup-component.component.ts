@@ -59,14 +59,14 @@ export class SignupComponentComponent {
     Validators.email,
   ]);
   nameFormControl = new FormControl('', [Validators.required]);
-  roles: String[] = ['ROLE_USER_STUDENT', 'ROLE_USER_PROFESSOR'];
+  roles: string[] = ['ROLE_USER_STUDENT', 'ROLE_USER_PROFESSOR'];
   hidePassword = true;
   email = '';
   password = '';
   name = '';
   selectedRole = this.roles[0];
   loading = false;
-  currentFile?: File;
+  currentFile?: any;
   progress = 0;
   preview = '';
   fileName = 'Select file';
@@ -79,30 +79,26 @@ export class SignupComponentComponent {
   selectFile(event: any): void {
     this.progress = 0;
     if (event.target.files && event.target.files[0]) {
-      const file: File = event.target.files[0];
-      this.currentFile = file;
+      this.currentFile = event.target.files[0];;
       const reader = new FileReader();
       reader.onload=(e:any)=>{
-        console.log(e.target.result);
         this.preview = e.target.result;
       }
-      reader.readAsDataURL(this.currentFile);
       this.fileName = this.currentFile.name;
     } else {
       this.fileName = 'Select file';
     }
   }
   onSignup(stepper: MatStepper) {
-    const params = {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      role: this.selectedRole,
-      file: this.currentFile,
-    };
-    console.log(params);
+    const formdata = new FormData();
+    formdata.append('name',this.name);
+    formdata.append('password',this.password);
+    formdata.append('email',this.email);
+    formdata.append('role',this.selectedRole);
+    formdata.append('file',this.currentFile);
     this.loading = true;
-    this.authService.register(params).subscribe((response) => {
+
+    this.authService.register(formdata).subscribe((response) => {
       if (response.success) {
         this.globalService.closeSnackBar();
         this.globalService.openSnackBar(response.message, '', [
@@ -111,6 +107,8 @@ export class SignupComponentComponent {
 
         this.resetForm();
       } else {
+        console.log(response);
+        
         this.globalService.closeSnackBar();
         this.globalService.openSnackBar(response.message, '', [
           'danger-snackbar',
