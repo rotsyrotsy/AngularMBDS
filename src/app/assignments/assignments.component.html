@@ -51,7 +51,7 @@
           <img
             (click)="navigateDetails(a._id)"
             mat-card-image
-            src="{{a.subject.picture ?? defaultImage}}"
+            src="{{a.subject.picture ? a.subject.picture  : defaultImage}}"
             alt="{{a.subject.name}}"
           />
           <mat-card-content>
@@ -61,20 +61,23 @@
               {{ a.rendu ? "RENDU" : "NON RENDU" }}
             </p>
           </mat-card-content>
-          <mat-card-actions class="card-actions">
-            <a routerLink="/assignment/{{ a._id }}/edit">
-              <button
-                mat-button
-                color="primary"
-                aria-label="Modifier le devoir"
-              >
-                <mat-icon>edit</mat-icon>
+          @if (isAdmin) {
+            <mat-card-actions class="card-actions">
+              <a routerLink="/assignment/{{ a._id }}/edit">
+                <button
+                  mat-button
+                  color="primary"
+                  aria-label="Modifier le devoir"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </a>
+              <button mat-button color="warn" aria-label="Supprimer le devoir" (click)="onDeleteAssignment(a)">
+                <mat-icon>delete</mat-icon>
               </button>
-            </a>
-            <button mat-button color="warn" aria-label="Supprimer le devoir" (click)="onDeleteAssignment(a)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-card-actions>
+            </mat-card-actions>
+          }
+          
         </mat-card>
       </mat-grid-tile>
       }

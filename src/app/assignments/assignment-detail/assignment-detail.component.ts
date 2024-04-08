@@ -13,6 +13,7 @@ import { AssignmentFK } from '../assignment_fk.model';
 import { GlobalConstants } from '../../shared/global-constants';
 import { DialogDeleteAssignmentComponent } from '../dialog-delete-assignment/dialog-delete-assignment.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../shared/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -34,11 +35,13 @@ import { MatDialog } from '@angular/material/dialog';
 export class AssignmentDetailComponent {
   assignmentTransmis!: AssignmentFK | undefined;
   defaultImage = GlobalConstants.defaultImage;
+  isAdmin = false;
   constructor(
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private globalService: GlobalService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService : AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +58,13 @@ export class AssignmentDetailComponent {
       }
       this.globalService.setLoading(false);
     });
+    this.authService.isAdmin()
+    .then((admin)=>{
+        if(admin){
+          this.isAdmin = true;
+        }
+      }
+    );
   }
   getColorRendu(a: any) {
     return a.rendu ? 'green' : 'red';
@@ -79,7 +89,7 @@ export class AssignmentDetailComponent {
     }
   }
   onDeleteAssignment() {
-    if (this.assignmentTransmis) {
+    if (this.assignmentTransmis && this.isAdmin) {
       this.dialog.open(DialogDeleteAssignmentComponent, {
         width: '250px',
         data: {
@@ -87,6 +97,10 @@ export class AssignmentDetailComponent {
           callbackFunction: () => {} 
         },
       });
+    }else{
+      this.globalService.openSnackBar("Vous n'avez pas la permission requise pour cette action.", '', [
+        'danger-snackbar',
+      ]);
     }
   }
 }

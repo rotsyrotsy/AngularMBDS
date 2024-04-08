@@ -25,6 +25,7 @@ import { GlobalConstants } from '../shared/global-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteAssignmentComponent } from './dialog-delete-assignment/dialog-delete-assignment.component';
 import { EventEmitter } from 'stream';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-assignments',
@@ -69,12 +70,14 @@ export class AssignmentsComponent {
   searchKeyword = '';
   searchDateDeRendu = undefined;
   defaultImage = GlobalConstants.defaultImage;
+  isAdmin = false;
   
   constructor(
     private assignmentsService: AssignmentsService,
     private globalService: GlobalService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthService,
   ) {}
 
   getColorRendu(a: any) {
@@ -82,6 +85,13 @@ export class AssignmentsComponent {
   }
   ngOnInit(): void {
     this.getAssignmentFromService();
+    this.authService.isAdmin()
+    .then((admin)=>{
+        if(admin){
+          this.isAdmin = true;
+        }
+      }
+    );
   }
   getAssignmentFromService() {
     this.globalService.setLoading(true);
