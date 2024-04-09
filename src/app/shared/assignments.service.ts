@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { bdInitialAssignments } from './data';
 import { GlobalConstants } from './global-constants';
 import { DOCUMENT } from '@angular/common';
+import { AssignmentFK } from '../assignments/assignment_fk.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,20 @@ export class AssignmentsService {
   getAssignmentsPagines(page:number, limit:number):Observable<any> {
     return this.http.get<Assignment[]>(this.uri + "?page=" + page + "&limit=" + limit, {'headers':this.headers})
     .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
+  }
+  getAssignmentsNonRendus():Observable<any> {
+    return this.http.get<any>(this.uri + "?page=1&limit=10", {'headers':this.headers})
+    .pipe(
+      map(data => {
+        console.log(data.data.docs);
+        
+        data.data.docs = data.data.docs.filter((element:AssignmentFK)=>element.rendu==false);
+        return data;
+      }),
       catchError((data:any)=>{
         return of(data.error);
       })

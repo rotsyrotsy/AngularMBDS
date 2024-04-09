@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  Injectable } from '@angular/core';
+import {  Inject, Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { GlobalConstants } from './global-constants';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
   .set('content-type', 'application/json')
   .set('Access-Control-Allow-Origin', '*');
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {
       const localStorage = document.defaultView?.localStorage;
       if (localStorage) {
         this.headers = this.headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');

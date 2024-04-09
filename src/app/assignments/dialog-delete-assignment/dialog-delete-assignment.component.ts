@@ -7,11 +7,9 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { AssignmentFK } from '../assignment_fk.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { GlobalService } from '../../shared/global.service';
 import { Router } from '@angular/router';
-import { AssignmentsComponent } from '../assignments.component';
 
 @Component({
   selector: 'app-dialog-delete-assignment',

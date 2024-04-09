@@ -28,4 +28,12 @@ export class SubjectsService {
       })
     );
   }
+  getAllSubjectsNoPagination():Observable<any> {
+    return this.http.get<Subject[]>(this.uri + "/nopagination", {'headers':this.headers})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
+  }
 }

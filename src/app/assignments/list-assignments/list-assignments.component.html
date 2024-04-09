@@ -1,0 +1,102 @@
+<mat-card style="padding: 10px">
+  <form ngForm #searchForm>
+    <div class="search-container">
+      <mat-checkbox>Rendu</mat-checkbox>
+      <mat-form-field>
+        <mat-label>Mot clé</mat-label>
+        <input
+          matInput
+          placeholder="Mot clé"
+          [(ngModel)]="searchKeyword"
+          name="searchKeyword"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date de Rendu</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="searchDateDeRendu"
+          name="searchDateDeRendu"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button type="submit" mat-flat-button color="primary">Rechercher</button>
+    </div>
+  </form>
+
+  <mat-grid-list cols="4" rowHeight="2:3">
+    @for(a of assignements; track a.nom){
+    <mat-grid-tile>
+      <mat-card class="example-card mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>{{ a.nom }}</mat-card-title>
+            <mat-card-subtitle>{{ a.subject.name }}</mat-card-subtitle>
+            <div
+              mat-card-avatar
+              [ngStyle]="{
+                'background-image':
+                  'url(' + (a.subject.professor?.picture ?? defaultImage) + ')',
+                'background-size': 'cover'
+              }"
+            ></div>
+          </mat-card-title-group>
+        </mat-card-header>
+
+        <img
+          (click)="navigateDetails(a._id)"
+          mat-card-image
+          src="{{ a.subject.picture ? a.subject.picture : defaultImage }}"
+          alt="{{ a.subject.name }}"
+        />
+        <mat-card-content>
+          <p>Auteur : {{ a.student.name }}</p>
+          <p>Date de rendu : {{ a.dateDeRendu | date }}</p>
+          <p [ngStyle]="{ color: getColorRendu(a), 'font-weight': 'bold' }">
+            {{ a.rendu ? "RENDU" : "NON RENDU" }}
+          </p>
+        </mat-card-content>
+        @if (isAdmin) {
+        <mat-card-actions class="card-actions">
+          <a routerLink="/assignment/{{ a._id }}/edit">
+            <button mat-button color="primary" aria-label="Modifier le devoir">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </a>
+          <button
+            mat-button
+            color="warn"
+            aria-label="Supprimer le devoir"
+            (click)="onDeleteAssignment(a)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+        }
+      </mat-card>
+    </mat-grid-tile>
+    }
+  </mat-grid-list>
+  <div class="pagination-number">
+    Total documents : {{ totalDocs }}&nbsp;Total pages : {{ totalPages }}<br />
+    Documents par page: {{ limit }}&nbsp;Page courante : {{ page }}
+  </div>
+  <mat-paginator
+    #paginator
+    class="demo-paginator"
+    (page)="handlePageEvent($event)"
+    [length]="totalPages"
+    [pageSize]="limit"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[8, 16, 24]"
+    [pageIndex]="page"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</mat-card>

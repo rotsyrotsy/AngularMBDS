@@ -13,17 +13,16 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from '../../shared/global.service';
-import { AssignmentFK } from '../assignment_fk.model';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
-import { SubjectProfessor } from '../../subjects/subject_professor.model';
-import { SubjectsService } from '../../shared/subjects.service';
 import { GlobalConstants } from '../../shared/global-constants';
-import moment from 'moment';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Assignment } from '../assignment.model';
+import { AssignmentFK } from '../assignment_fk.model';
+import { SubjectProfessor } from '../../subjects/subject_professor.model';
+import { SubjectsService } from '../../shared/subjects.service';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -71,7 +70,7 @@ export class EditAssignmentComponent {
 
     this.globalService.setLoading(true);
 
-    this.subjectsService.getAllSubjects(1).subscribe((data) => {
+    this.subjectsService.getAllSubjectsNoPagination().subscribe((data) => {
       if (data.success) {
         data = data.data;
         this.subjects = data.docs;

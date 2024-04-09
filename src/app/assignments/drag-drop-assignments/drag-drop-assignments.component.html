@@ -1,0 +1,50 @@
+<mat-card style="padding: 0 10px 10px 10px">
+  <mat-card-content style="padding-top: 0px;">
+    <div class="example-container">
+      <h4 style="color: red;">Non rendu</h4>
+
+      <div
+        cdkDropList
+        #nonRenduList="cdkDropList"
+        [cdkDropListData]="nonRendus"
+        [cdkDropListConnectedTo]="[renduList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (item of nonRendus; track item) {
+            <div class="example-box" cdkDrag>
+                {{ item.nom }}
+                <div class="content-drag">
+                    <div>Matière : {{item.subject.name}}</div>
+                    <div>Auteur : {{ item.student.name}}</div>
+                    <div>Envoyé le {{ item.dateDeRendu | date}}</div>
+                </div>
+            </div>
+        }
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h4 style="color: green;">Rendu</h4>
+
+      <div
+        cdkDropList
+        #renduList="cdkDropList"
+        [cdkDropListData]="rendus"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (item of rendus; track item) {
+            <div class="example-box" cdkDrag>
+                {{ item.nom }}
+                <div class="content-drag">
+                    <div>Matière : {{item.subject.name}}</div>
+                    <div>Auteur : {{ item.student.name}}</div>
+                    <div>Envoyé le {{ item.dateDeRendu | date}}</div>
+                </div>
+            </div>
+        }
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

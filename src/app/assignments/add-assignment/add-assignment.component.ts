@@ -59,7 +59,7 @@ export class AddAssignmentComponent {
   ngOnInit(): void {
     this.globalService.setLoading(true);
     this.subjectsService
-      .getAllSubjects(1)
+      .getAllSubjectsNoPagination()
       .subscribe((data) => {
         if (data.success) {
           data = data.data;
