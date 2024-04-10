@@ -26,8 +26,14 @@ export class AssignmentsService {
       }
     }
 
-  getAssignmentsPagines(page:number, limit:number):Observable<any> {
-    return this.http.get<Assignment[]>(this.uri + "?page=" + page + "&limit=" + limit, {'headers':this.headers})
+  getAssignmentsPagines(page:number, limit:number, params:any={}):Observable<any> {
+    let urlParams:string = "?page=" + page + "&limit=" + limit;
+    if(params){
+      for (let key of  Object.keys(params)){
+        urlParams += "&"+key+"="+params[key]
+      }
+    };
+    return this.http.get<Assignment[]>(this.uri + urlParams, {'headers':this.headers})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -38,8 +44,6 @@ export class AssignmentsService {
     return this.http.get<any>(this.uri + "?page=1&limit=10", {'headers':this.headers})
     .pipe(
       map(data => {
-        console.log(data.data.docs);
-        
         data.data.docs = data.data.docs.filter((element:AssignmentFK)=>element.rendu==false);
         return data;
       }),

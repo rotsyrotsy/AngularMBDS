@@ -1,9 +1,9 @@
 <mat-card style="padding: 10px">
-  <form ngForm #searchForm>
+  <form ngForm #searchForm (submit)="onSearchAssignments()">
     <div class="search-container">
-      <mat-checkbox>Rendu</mat-checkbox>
+      <mat-checkbox [(ngModel)]="renduKeyword" name="renduKeyword">Rendu</mat-checkbox>
       <mat-form-field>
-        <mat-label>Mot clé</mat-label>
+        <mat-label>Nom</mat-label>
         <input
           matInput
           placeholder="Mot clé"

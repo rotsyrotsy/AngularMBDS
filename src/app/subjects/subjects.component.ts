@@ -81,8 +81,6 @@ export class SubjectsComponent {
     this.subjectsService
       .getAllSubjects(this.page)
       .subscribe((data) => {
-        console.log(data);
-        
         if (data.success) {
           data = data.data;
           this.subjects = data.docs;

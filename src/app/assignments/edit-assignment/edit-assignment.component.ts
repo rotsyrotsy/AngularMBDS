@@ -112,11 +112,13 @@ export class EditAssignmentComponent {
 
   onSaveAssignment() {
     if (!this.assignment) return;
-    if (
-      this.nomAssignment == '' ||
-      this.subjectControl.value?._id === undefined
-    )
+
+    if (this.noteAssignment === '' || isNaN(parseInt(this.noteAssignment))){
+      this.globalService.openSnackBar("Entrez une note valide", '', [
+        'danger-snackbar',
+      ]);
       return;
+    } 
 
     // on récupère les valeurs dans le formulaire
     let updateAssignment = new Assignment();

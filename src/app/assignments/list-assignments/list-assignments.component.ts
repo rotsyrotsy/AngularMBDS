@@ -23,6 +23,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import moment from 'moment';
 
 @Component({
   selector: 'app-list-assignments',
@@ -63,6 +64,7 @@ export class ListAssignmentsComponent {
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
   searchKeyword = '';
   searchDateDeRendu = undefined;
+  renduKeyword=null;
   defaultImage = GlobalConstants.defaultImage;
   isAdmin = false;
 
@@ -85,10 +87,10 @@ export class ListAssignmentsComponent {
       }
     });
   }
-  getAssignmentFromService() {
+  getAssignmentFromService(params:any = {}) {
     this.globalService.setLoading(true);
     this.assignmentsService
-      .getAssignmentsPagines(this.page, this.limit)
+      .getAssignmentsPagines(this.page, this.limit, params)
       .subscribe((data) => {
         if (data.success) {
           data = data.data;
@@ -103,7 +105,7 @@ export class ListAssignmentsComponent {
           this.hasPrevPage = data.hasPrevPage;
           this.globalService.closeSnackBar();
         } else {
-          this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);
+          this.globalService.openSnackBar(data.error ? data.error : data.message, '', ['danger-snackbar']);
         }
         this.globalService.setLoading(false);
       });
@@ -145,5 +147,13 @@ export class ListAssignmentsComponent {
         },
       });
     }
+  }
+  onSearchAssignments(){
+    if (this.searchKeyword == '' && this.searchDateDeRendu==undefined && this.renduKeyword==null) return;
+    let params:any={};
+    if(this.searchKeyword != '') params.nom = this.searchKeyword;
+    if(this.searchDateDeRendu != undefined) params.dateDeRendu = moment(this.searchDateDeRendu).format('YYYY-MM-DD');
+    if(this.renduKeyword != null) params.rendu =this.renduKeyword;
+    this.getAssignmentFromService(params);
   }
 }
