@@ -1,0 +1,38 @@
+.flex-container {
+    max-width: 100%;
+    margin: 25px 25px 25px 0;
+    display: flex;
+    gap: 2rem;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+#fileInput {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+  }
+  
+  .mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+    padding: 0;
+  }
+  
+  .mat-toolbar-single-row button {
+    width: 100px;
+  }
+  .img-profile{
+    width: 250px;
+    height: 250px;
+  }
+  .img-profile > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

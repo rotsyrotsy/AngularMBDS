@@ -73,4 +73,18 @@ export class AuthService {
       )
     )
   }
+  updateUser(formdata:FormData):Observable<any>{
+    let fdheaders = new HttpHeaders();
+    fdheaders = fdheaders.append('enctype', 'multipart/form-data');
+    fdheaders = fdheaders.append('Access-Control-Allow-Origin', '*');
+    if (isPlatformBrowser(this.platformId)) {
+      fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+    }
+    return this.http.post<any>(this.uri + "/uploadProfile", formdata, {'headers':fdheaders})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
+  }
 }
