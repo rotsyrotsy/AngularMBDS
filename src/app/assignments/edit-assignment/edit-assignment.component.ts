@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AssignmentsService } from '../../shared/assignments.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from '../../shared/global.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -62,7 +62,8 @@ export class EditAssignmentComponent {
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private subjectsService: SubjectsService,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private router:Router,
   ) {}
 
   ngOnInit() {
@@ -132,6 +133,7 @@ export class EditAssignmentComponent {
           this.globalService.openSnackBar(response.message, '', [
             'success-snackbar',
           ]);
+          this.router.navigate(['/assignment/'+this.assignment?._id]);
         } else {
           this.globalService.openSnackBar(response.message, '', [
             'danger-snackbar',

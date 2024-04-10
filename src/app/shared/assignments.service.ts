@@ -81,6 +81,8 @@ export class AssignmentsService {
       );
   }
   updateAssignment(id: string, assignment: Assignment): Observable<any> {
+    console.log(assignment);
+    
     return this.http
       .put<any>(this.uri + '/' + id, assignment, { headers: this.headers })
       .pipe(

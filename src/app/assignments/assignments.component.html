@@ -1,10 +1,10 @@
+<div>
+  <h2>Liste des devoirs</h2>
+  <app-list-assignments [isAdmin]="isAdmin" ></app-list-assignments>
+</div>
 @if (isAdmin) {
   <div>
     <h2>Etat des devoirs</h2>
     <app-drag-drop-assignments></app-drag-drop-assignments>
   </div>
 }
-<div>
-  <h2>Liste des devoirs</h2>
-  <app-list-assignments [isAdmin]="isAdmin" ></app-list-assignments>
-</div>

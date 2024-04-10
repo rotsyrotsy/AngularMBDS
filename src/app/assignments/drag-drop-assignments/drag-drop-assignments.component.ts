@@ -24,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DragDropAssignmentsComponent {
   nonRendus : AssignmentFK[] = [];
-  rendus: AssignmentFK[] = [];
+  rendus: any = [];
 
 
   constructor(
