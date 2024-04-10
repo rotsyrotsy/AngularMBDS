@@ -1,7 +1,12 @@
 <div>
     <h2>Liste des matières</h2>
   
-    <div style="padding: 10px;">
+    <mat-card style="padding: 10px;">
+        <div>
+            <button mat-button color="primary" aria-label="Ajouter une matiere" (click)="openAddDialog()">
+                <mat-icon>add</mat-icon>Ajouter une matière
+            </button>
+        </div>
         <table
         mat-table
         [dataSource]="subjects"
@@ -49,5 +54,5 @@
         aria-label="Select page"
         >
         </mat-paginator>
-    </div>
+    </mat-card>
 </div>
