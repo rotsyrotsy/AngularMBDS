@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  Inject, Injectable } from '@angular/core';
+import {  Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { GlobalConstants } from './global-constants';
-import { DOCUMENT } from '@angular/common';
+import {  isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +11,10 @@ export class AuthService {
   loggedIn = false;
   uri = GlobalConstants.urlAPI+"/users";
 
-  headers= new HttpHeaders()
-  .set('content-type', 'application/json')
-  .set('Access-Control-Allow-Origin', '*');
-
-  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {
-      const localStorage = document.defaultView?.localStorage;
-      if (localStorage) {
-        this.headers = this.headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-      }
-    }
+  constructor(private http:HttpClient, @Inject(PLATFORM_ID) public platformId: object) {
+  }
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
-
     const body = {"email": email, "password": password};
     return this.http.post<any>(this.uri+"/login", body)
     .pipe(
@@ -32,14 +23,21 @@ export class AuthService {
       }
       )
     )
-  
   }
   logOut(){
     this.loggedIn=false;
-    localStorage.clear();
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.clear();
+    }
   }
   getCurrentUser(){
-    return this.http.get<any>(this.uri + "/profile", {'headers':this.headers})
+    let fdheaders = new HttpHeaders();
+    fdheaders = fdheaders.append('content-type', 'application/json')
+    fdheaders = fdheaders.append('Access-Control-Allow-Origin', '*');
+    if (isPlatformBrowser(this.platformId)) {
+      fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+    }
+    return this.http.get<any>(this.uri + "/profile", {'headers':fdheaders})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -49,17 +47,17 @@ export class AuthService {
   isAdmin(){
     const isUserAdmin = new Promise(
       (resolve, reject)=>{
-        this.getCurrentUser()
-        .subscribe((response) => {
-          if (response.success) {
-            const userdata = response.data;        
-            // console.log(userdata.user.role,userdata.user.role==="ROLE_USER_PROFESSOR");
-                
-            resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
-          } else {
-            reject(response.message);
-          }
-        });
+        if (isPlatformBrowser(this.platformId)) {
+          this.getCurrentUser()
+          .subscribe((response) => {
+            if (response.success) {
+              const userdata = response.data;        
+              resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
+            } else {
+              reject(response.message);
+            }
+          });
+        }
       }
     );
     return isUserAdmin;

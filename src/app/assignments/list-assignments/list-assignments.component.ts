@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AssignmentFK } from '../assignment_fk.model';
 import { GlobalConstants } from '../../shared/global-constants';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { GlobalService } from '../../shared/global.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../../shared/auth.service';
 import { DialogDeleteAssignmentComponent } from '../dialog-delete-assignment/dialog-delete-assignment.component';
-import { RenduDirective } from '../../shared/rendu.directive';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +22,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import moment from 'moment';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-list-assignments',
@@ -40,18 +39,20 @@ import moment from 'moment';
     RouterOutlet,
     RouterLink,
     MatButtonModule,
-    RenduDirective,
     MatListModule,
     CommonModule,
     MatDatepickerModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   templateUrl: './list-assignments.component.html',
   styleUrl: './list-assignments.component.css',
 })
 export class ListAssignmentsComponent {
+  @Input()isAdmin = false;
+
   assignements: AssignmentFK[] = [];
   page = 1;
   limit = 8;
@@ -66,14 +67,12 @@ export class ListAssignmentsComponent {
   searchDateDeRendu = undefined;
   renduKeyword=null;
   defaultImage = GlobalConstants.defaultImage;
-  isAdmin = false;
 
   constructor(
     private assignmentsService: AssignmentsService,
     private globalService: GlobalService,
     private router: Router,
     public dialog: MatDialog,
-    private authService: AuthService
   ) {}
 
   getColorRendu(a: any) {
@@ -81,11 +80,6 @@ export class ListAssignmentsComponent {
   }
   ngOnInit(): void {
     this.getAssignmentFromService();
-    this.authService.isAdmin().then((admin) => {
-      if (admin) {
-        this.isAdmin = true;
-      }
-    });
   }
   getAssignmentFromService(params:any = {}) {
     this.globalService.setLoading(true);
@@ -149,11 +143,14 @@ export class ListAssignmentsComponent {
     }
   }
   onSearchAssignments(){
-    if (this.searchKeyword == '' && this.searchDateDeRendu==undefined && this.renduKeyword==null) return;
-    let params:any={};
-    if(this.searchKeyword != '') params.nom = this.searchKeyword;
-    if(this.searchDateDeRendu != undefined) params.dateDeRendu = moment(this.searchDateDeRendu).format('YYYY-MM-DD');
-    if(this.renduKeyword != null) params.rendu =this.renduKeyword;
-    this.getAssignmentFromService(params);
+    if (this.searchKeyword == '' && this.searchDateDeRendu==undefined && this.renduKeyword==null){
+      this.getAssignmentFromService()
+    }else{
+      let params:any={};
+      if(this.searchKeyword != '') params.nom = this.searchKeyword;
+      if(this.searchDateDeRendu != undefined) params.dateDeRendu = moment(this.searchDateDeRendu).format('YYYY-MM-DD');
+      if(this.renduKeyword != null) params.rendu =  (this.renduKeyword === '1') ;
+      this.getAssignmentFromService(params);
+    }
   }
 }

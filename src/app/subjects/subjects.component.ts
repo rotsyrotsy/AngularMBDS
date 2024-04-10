@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RenduDirective } from '../shared/rendu.directive';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +21,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../shared/auth.service';
 import { SubjectProfessor } from './subject_professor.model';
 import { SubjectsService } from '../shared/subjects.service';
-import { AddAssignmentComponent } from '../assignments/add-assignment/add-assignment.component';
 import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 @Component({
@@ -40,7 +38,6 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
     RouterOutlet,
     RouterLink,
     MatButtonModule,
-    RenduDirective,
     MatListModule,
     CommonModule,
     MatDatepickerModule,

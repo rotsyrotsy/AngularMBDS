@@ -2,7 +2,7 @@
     <mat-card-title class="loginTitle">Login</mat-card-title>
     <mat-card-content>
         <form class="form" 
-        ngForm (submit)="onLogin($event);loginForm.reset()" 
+        ngForm (submit)="onLogin();loginForm.reset()" 
         #loginForm
         >
             
@@ -31,6 +31,14 @@
                     Log In
                 </button>
             </div>
+            @if (loading) {
+                <div class="center">
+                  <mat-progress-spinner
+                    diameter="40"
+                    mode="indeterminate"
+                  ></mat-progress-spinner>
+                </div>
+            }
         </form>
     </mat-card-content>
 </mat-card>
