@@ -27,7 +27,10 @@ export class AuthService {
   logOut(){
     this.loggedIn=false;
     if (isPlatformBrowser(this.platformId)) {
+      console.log(localStorage);
+      
       localStorage.clear();
+      console.log(localStorage);
     }
   }
   getCurrentUser(){
@@ -47,7 +50,6 @@ export class AuthService {
   isAdmin(){
     const isUserAdmin = new Promise(
       (resolve, reject)=>{
-        if (isPlatformBrowser(this.platformId)) {
           this.getCurrentUser()
           .subscribe((response) => {
             if (response.success) {
@@ -58,7 +60,7 @@ export class AuthService {
             }
           });
         }
-      }
+      
     );
     return isUserAdmin;
   }
@@ -80,7 +82,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
     }
-    return this.http.post<any>(this.uri + "/uploadProfile", formdata, {'headers':fdheaders})
+    return this.http.put<any>(this.uri + "/update", formdata, {'headers':fdheaders})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

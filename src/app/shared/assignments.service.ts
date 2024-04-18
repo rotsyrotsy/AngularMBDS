@@ -42,6 +42,7 @@ export class AssignmentsService {
         urlParams += '&' + key + '=' + params[key];
       }
     }
+    console.log("liiiiiiiiiiiste",this.headers);
     return this.http
       .get<Assignment[]>(this.uri + urlParams, { headers: this.headers })
       .pipe(
@@ -80,9 +81,7 @@ export class AssignmentsService {
         })
       );
   }
-  updateAssignment(id: string, assignment: Assignment): Observable<any> {
-    console.log(assignment);
-    
+  updateAssignment(id: string, assignment: Assignment): Observable<any> {    
     return this.http
       .put<any>(this.uri + '/' + id, assignment, { headers: this.headers })
       .pipe(

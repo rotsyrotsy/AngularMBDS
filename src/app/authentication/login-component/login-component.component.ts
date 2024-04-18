@@ -58,7 +58,9 @@ export class LoginComponentComponent {
     this.authService.login(this.email, this.password).subscribe((response) => {
       if (response.success) {
         if (typeof response.data.token == 'string') {
+          console.log(localStorage);
           localStorage.setItem('token', response.data.token);
+          console.log(localStorage);
         }
         this.loading = false;
         this.globalService.closeSnackBar();
