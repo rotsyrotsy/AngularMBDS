@@ -1,9 +1,9 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import { Subject } from '../subjects/subject.model';
 import { GlobalConstants } from './global-constants';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +11,12 @@ import { isPlatformBrowser } from '@angular/common';
 export class SubjectsService {
   subjects: Subject[] =[]
   uri = GlobalConstants.urlAPI+'/subject';
-  headers= new HttpHeaders()
-  .set('content-type', 'application/json')
-  .set('Access-Control-Allow-Origin', '*');
 
-  constructor(private http:HttpClient,@Inject(PLATFORM_ID) public platformId: object) {
-      if (isPlatformBrowser(this.platformId)) {
-        this.headers = this.headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-      }
-  }
+  constructor(private http:HttpClient,
+    private authService:AuthService
+  ) {}
   getAllSubjects(page:number):Observable<any> {
-    return this.http.get<Subject[]>(this.uri + "?page=" + page, {'headers':this.headers})
+    return this.http.get<Subject[]>(this.uri + "?page=" + page, {'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -29,7 +24,7 @@ export class SubjectsService {
     );
   }
   getAllSubjectsNoPagination():Observable<any> {
-    return this.http.get<any>(this.uri + "/nopagination", {'headers':this.headers})
+    return this.http.get<any>(this.uri + "/nopagination", {'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -37,12 +32,7 @@ export class SubjectsService {
     );
   }
   addSubject(formdata:FormData):Observable<any>{
-    let fdheaders = new HttpHeaders();
-    fdheaders = fdheaders.append('enctype', 'multipart/form-data');
-    if (isPlatformBrowser(this.platformId)) {
-      fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-    }
-    return this.http.post<any>(this.uri, formdata,{ headers: fdheaders })
+    return this.http.post<any>(this.uri, formdata,{ headers: this.authService.getHeaders(true) })
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

@@ -1,10 +1,10 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, catchError, forkJoin,  of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, forkJoin, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { bdInitialAssignments } from './data';
 import { GlobalConstants } from './global-constants';
-import {  isPlatformBrowser } from '@angular/common';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +13,9 @@ export class AssignmentsService {
   assignements: Assignment[] = [];
   uri = GlobalConstants.urlAPI + '/assignment';
 
-  headers = new HttpHeaders()
-    .set('content-type', 'application/json')
-    .set('Access-Control-Allow-Origin', '*');
-
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) public platformId: object
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.headers = this.headers.append(
-        'auth-token',
-        localStorage.getItem('token') != undefined
-          ? '' + localStorage.getItem('token')
-          : ''
-      );
-    }
-  }
+  constructor(private http: HttpClient,
+    private authService:AuthService,
+  ) {}
 
   getAssignmentsPagines(
     page: number,
@@ -42,9 +28,8 @@ export class AssignmentsService {
         urlParams += '&' + key + '=' + params[key];
       }
     }
-    console.log("liiiiiiiiiiiste",this.headers);
     return this.http
-      .get<Assignment[]>(this.uri + urlParams, { headers: this.headers })
+      .get<Assignment[]>(this.uri + urlParams, { headers: this.authService.getHeaders() })
       .pipe(
         catchError((data: any) => {
           return of(data.error);
@@ -63,7 +48,7 @@ export class AssignmentsService {
     }
     return this.http
       .get<any>(this.uri + '/nopagination' + urlParams, {
-        headers: this.headers,
+        headers: this.authService.getHeaders(),
       })
       .pipe(
         catchError((data: any) => {
@@ -74,16 +59,16 @@ export class AssignmentsService {
 
   addAssignment(assignment: Assignment): Observable<any> {
     return this.http
-      .post<any>(this.uri, assignment, { headers: this.headers })
+      .post<any>(this.uri, assignment, { headers: this.authService.getHeaders() })
       .pipe(
         catchError((data: any) => {
           return of(data.error);
         })
       );
   }
-  updateAssignment(id: string, assignment: Assignment): Observable<any> {    
+  updateAssignment(id: string, assignment: Assignment): Observable<any> {
     return this.http
-      .put<any>(this.uri + '/' + id, assignment, { headers: this.headers })
+      .put<any>(this.uri + '/' + id, assignment, { headers: this.authService.getHeaders() })
       .pipe(
         catchError((data: any) => {
           return of(data.error);
@@ -92,7 +77,7 @@ export class AssignmentsService {
   }
   deleteAssignment(assignment: Assignment): Observable<any> {
     return this.http
-      .delete(this.uri + '/' + assignment._id, { headers: this.headers })
+      .delete(this.uri + '/' + assignment._id, { headers: this.authService.getHeaders() })
       .pipe(
         catchError((data: any) => {
           return of(data.error);
@@ -101,7 +86,7 @@ export class AssignmentsService {
   }
   getAssignment(id: number): Observable<any | undefined> {
     return this.http
-      .get<any>(this.uri + '/' + id, { headers: this.headers })
+      .get<any>(this.uri + '/' + id, { headers: this.authService.getHeaders() })
       .pipe(
         catchError((data: any) => {
           return of(data.error);

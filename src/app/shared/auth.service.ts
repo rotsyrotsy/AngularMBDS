@@ -27,20 +27,11 @@ export class AuthService {
   logOut(){
     this.loggedIn=false;
     if (isPlatformBrowser(this.platformId)) {
-      console.log(localStorage);
-      
       localStorage.clear();
-      console.log(localStorage);
     }
   }
   getCurrentUser(){
-    let fdheaders = new HttpHeaders();
-    fdheaders = fdheaders.append('content-type', 'application/json')
-    fdheaders = fdheaders.append('Access-Control-Allow-Origin', '*');
-    if (isPlatformBrowser(this.platformId)) {
-      fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-    }
-    return this.http.get<any>(this.uri + "/profile", {'headers':fdheaders})
+    return this.http.get<any>(this.uri + "/profile", {'headers':this.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -50,6 +41,7 @@ export class AuthService {
   isAdmin(){
     const isUserAdmin = new Promise(
       (resolve, reject)=>{
+        if (isPlatformBrowser(this.platformId)) {
           this.getCurrentUser()
           .subscribe((response) => {
             if (response.success) {
@@ -60,6 +52,7 @@ export class AuthService {
             }
           });
         }
+      }
       
     );
     return isUserAdmin;
@@ -76,17 +69,24 @@ export class AuthService {
     )
   }
   updateUser(formdata:FormData):Observable<any>{
-    let fdheaders = new HttpHeaders();
-    fdheaders = fdheaders.append('enctype', 'multipart/form-data');
-    fdheaders = fdheaders.append('Access-Control-Allow-Origin', '*');
-    if (isPlatformBrowser(this.platformId)) {
-      fdheaders = fdheaders.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-    }
-    return this.http.put<any>(this.uri + "/update", formdata, {'headers':fdheaders})
+    return this.http.put<any>(this.uri + "/update", formdata, {'headers':this.getHeaders(true)})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
       })
     );
+  }
+  getHeaders(isFormData:boolean=false):HttpHeaders{
+    let headers = new HttpHeaders();
+    if (isFormData) {
+      headers = headers.append('enctype', 'multipart/form-data');
+    }else{
+      headers = headers.append('content-type', 'application/json');
+    }
+    headers = headers.append('Access-Control-Allow-Origin', '*');
+    if (isPlatformBrowser(this.platformId)) {
+      headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+    }
+    return headers;
   }
 }
