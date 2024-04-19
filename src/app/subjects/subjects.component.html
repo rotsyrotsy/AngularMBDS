@@ -33,7 +33,7 @@
             <th mat-header-cell *matHeaderCellDef>Professeur</th>
             <td mat-cell *matCellDef="let a">
                 <div class="flex-container">
-                    {{ a.professor.name }}
+                    <div class="prof-name">{{ a.professor.name }}</div>
                     <div class="mat-mdc-card-avatar" [ngStyle]="{'background-image': 'url('+(a.professor?.picture ?? defaultImage)+')', 'background-size': 'cover'}"></div>    
                 </div>
             </td>

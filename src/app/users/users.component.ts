@@ -6,7 +6,12 @@ import { GlobalService } from '../shared/global.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,9 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: 'app-users',
   standalone: true,
-  providers: [
-    provideNativeDateAdapter(),
-  ],
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatButtonModule,
     MatCardModule,
@@ -31,31 +34,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatToolbarModule,
   ],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrl: './users.component.css',
 })
 export class UsersComponent {
   user!: User | undefined;
   defaultImage = GlobalConstants.defaultImage;
   hide = true;
-  email:string|undefined = '';
+  email: string | undefined = '';
   password = '';
-  emailFormControl = new FormControl('', [
-    Validators.email,
-  ]);
+  emailFormControl = new FormControl('', [Validators.email]);
   currentFile?: any;
   preview = '';
   fileName = 'Changer la photo';
-  name:string|undefined='';
+  name: string | undefined = '';
 
   constructor(
     private globalService: GlobalService,
-    private authService : AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.getCurrentUserFromService();
   }
-  getCurrentUserFromService(){
+  getCurrentUserFromService() {
     this.globalService.setLoading(true);
     this.authService.getCurrentUser().subscribe((response) => {
       if (response.success) {
@@ -74,22 +75,24 @@ export class UsersComponent {
     if (event.target.files && event.target.files[0]) {
       this.currentFile = event.target.files[0];
       const reader = new FileReader();
-      reader.onload=(e:any)=>{
+      reader.onload = (e: any) => {
         this.preview = e.target.result;
-      }
+      };
       reader.readAsDataURL(event.target.files[0]);
       this.fileName = this.currentFile.name;
     } else {
       this.fileName = 'Changer la photo';
     }
   }
-  updateProfile(){
+  updateProfile() {
     const formdata = new FormData();
-    formdata.append('name',this.name!);
-    formdata.append('file',this.currentFile);
-    formdata.append('email',this.email!);
-    formdata.append('password',this.password);
-
+    if (this.user !== undefined) {
+      if(this.user.name!=this.name) formdata.append('name', this.name!);
+      if(this.currentFile!=undefined) formdata.append('file', this.currentFile);
+      if(this.user.email!=this.email) formdata.append('email', this.email!);
+      // formdata.append('password',this.password!);
+      console.log(formdata);
+    }
     this.globalService.setLoading(true);
     this.authService.updateUser(formdata).subscribe((response) => {
       if (response.success) {
