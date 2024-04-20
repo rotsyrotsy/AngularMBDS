@@ -14,7 +14,7 @@
                 <div class="form">
                     <mat-form-field>
                         <mat-label>Nom</mat-label>
-                        <input [formControl]="nomFormControl" matInput placeholder="Nom" name="nom" [(ngModel)]="nomAssignment" required>
+                        <input [formControl]="nomFormControl" matInput placeholder="Nom" name="nom" required>
                         @if (nomFormControl.hasError('required')) {
                           <mat-error>Veuillez donner un intitulé au devoir</mat-error>
                         }
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                   <button type="button" mat-button matStepperPrevious>Précédent</button>
-                  <button type="submit" mat-button color="primary" [disabled]="nomAssignment=='' || subjectControl===undefined">
+                  <button type="submit" mat-button color="primary" [disabled]="nomFormControl==null || subjectControl===null">
                     Valider
                   </button>
                 </div>

@@ -40,9 +40,8 @@ export class UsersComponent {
   user!: User | undefined;
   defaultImage = GlobalConstants.defaultImage;
   hide = true;
-  email: string | undefined = '';
   password = '';
-  emailFormControl = new FormControl('', [Validators.email]);
+  emailFormControl = new FormControl<string|undefined>(undefined, [Validators.email]);
   currentFile?: any;
   preview = '';
   fileName = 'Changer la photo';
@@ -61,7 +60,7 @@ export class UsersComponent {
     this.authService.getCurrentUser().subscribe((response) => {
       if (response.success) {
         this.user = response.data.user;
-        this.email = this.user?.email;
+        this.emailFormControl.setValue(this.user?.email);
         this.name = this.user?.name;
       } else {
         this.globalService.openSnackBar(response.error, '', [
@@ -85,11 +84,14 @@ export class UsersComponent {
     }
   }
   updateProfile() {
+    if (this.emailFormControl.value == undefined) return;
+    if (this.emailFormControl.value == '') return;
+
     const formdata = new FormData();
     if (this.user !== undefined) {
       if(this.user.name!=this.name) formdata.append('name', this.name!);
       if(this.currentFile!=undefined) formdata.append('file', this.currentFile);
-      if(this.user.email!=this.email) formdata.append('email', this.email!);
+      if(this.user.email!=this.emailFormControl.value!) formdata.append('email', this.emailFormControl.value!);
       // formdata.append('password',this.password!);
       console.log(formdata);
     }

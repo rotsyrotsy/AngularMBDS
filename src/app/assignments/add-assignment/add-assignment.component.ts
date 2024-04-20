@@ -45,10 +45,9 @@ import moment from 'moment';
 export class AddAssignmentComponent {
   subjects: SubjectProfessor[] = [];
   subjectControl = new FormControl<SubjectProfessor | null>(null, Validators.required);
-  nomFormControl = new FormControl('', [Validators.required]);
+  nomFormControl = new FormControl<string | null>(null, [Validators.required]);
 
   //champs du formulaire
-  nomAssignment = '';
   dateDeRendu = undefined;
 
   constructor(
@@ -72,10 +71,11 @@ export class AddAssignmentComponent {
   }
 
   onSubmit() {
-    if (this.nomAssignment == '' || this.subjectControl.value?._id === undefined) return;
+    if (this.nomFormControl.value == undefined || this.subjectControl.value?._id === undefined) return;
+    if (this.nomFormControl.value == '' || this.subjectControl.value?._id === '') return;
 
     let newAssignment = new Assignment();
-    newAssignment.nom = this.nomAssignment;
+    newAssignment.nom = this.nomFormControl.value!;
     newAssignment.rendu = false;
     newAssignment.subject_id = this.subjectControl.value._id;
     if(this.dateDeRendu !== undefined){
