@@ -36,4 +36,13 @@ export class SubjectsService {
       })
     );
   }
+  addSubject(formdata:FormData):Observable<any>{
+    return this.http.post<any>(this.uri, formdata,{ headers: this.headers})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      }
+      )
+    )
+  }
 }

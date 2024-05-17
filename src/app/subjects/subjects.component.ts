@@ -22,6 +22,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../shared/auth.service';
 import { SubjectProfessor } from './subject_professor.model';
 import { SubjectsService } from '../shared/subjects.service';
+import { AddAssignmentComponent } from '../assignments/add-assignment/add-assignment.component';
+import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 @Component({
   selector: 'app-subjects',
@@ -64,6 +66,7 @@ export class SubjectsComponent {
   searchKeyword = '';
   searchDateDeRendu = undefined;
   defaultImage = GlobalConstants.defaultImage;
+  isAdmin=false;
   
   constructor(
     private subjectsService: SubjectsService,
@@ -75,9 +78,14 @@ export class SubjectsComponent {
 
   ngOnInit(): void {
     this.getSubjectsFromService();
+    this.authService.isAdmin().then((admin) => {
+      if (admin) {
+        this.isAdmin = true;
+      }
+    });
   }
-  getSubjectsFromService() {
-    this.globalService.setLoading(true);
+  getSubjectsFromService(load=true) {
+    if(load) this.globalService.setLoading(true);
     this.subjectsService
       .getAllSubjects(this.page)
       .subscribe((data) => {
@@ -96,7 +104,7 @@ export class SubjectsComponent {
         } else {
           this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);
         }
-        this.globalService.setLoading(false);
+        if(load) this.globalService.setLoading(false);
       });
   }
   pagePrecedente() {
@@ -123,5 +131,19 @@ export class SubjectsComponent {
   }
   navigateDetails(id: String | undefined) {
     this.router.navigate(['subject', id]);
+  }
+  openAddDialog(){
+    if(!this.isAdmin){
+      this.globalService.openSnackBar("Vous ne pouvez pas accéder à cette fonctionnalité.", '', ['danger-snackbar']);  
+    }else{
+      this.dialog.open(AddSubjectComponent, {
+        minWidth: '500px',
+        data: {
+          callbackFunction: () => {
+            this.getSubjectsFromService(false);
+          },
+        },
+      });
+    }
   }
 }
