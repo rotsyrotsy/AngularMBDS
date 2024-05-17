@@ -23,7 +23,6 @@ import { AuthService } from '../../shared/auth.service';
     MatGridListModule,
     RouterOutlet,
     RouterLink,
-    MatButtonModule,
     MatCardModule,
     CommonModule,
     MatButtonModule,

@@ -16,7 +16,6 @@ export class AuthService {
 
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
-
     const body = {"email": email, "password": password};
     return this.http.post<any>(this.uri+"/login", body)
     .pipe(
@@ -25,7 +24,6 @@ export class AuthService {
       }
       )
     )
-  
   }
   logOut(){
     const localStorage = this.document.defaultView?.localStorage;

@@ -4,7 +4,6 @@ import { GlobalConstants } from '../../shared/global-constants';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { GlobalService } from '../../shared/global.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../../shared/auth.service';
 import { DialogDeleteAssignmentComponent } from '../dialog-delete-assignment/dialog-delete-assignment.component';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
@@ -47,6 +46,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   templateUrl: './list-assignments.component.html',
   styleUrl: './list-assignments.component.css',

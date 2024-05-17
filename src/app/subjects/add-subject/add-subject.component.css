@@ -4,13 +4,11 @@
     border-radius: 8px;
     padding: 8px 16px;
   }
-
   .form {
     display: flex;
     flex-direction: column;
     margin: 5px;
   }
-
   .mat-mdc-form-field {
     margin-top: 16px;
     width: 100%;
@@ -33,13 +31,11 @@
     left: 0px;
     top: 0px;
   }
-
   .mat-toolbar-single-row {
     height: auto !important;
     background: transparent;
     padding: 0;
   }
-
   .mat-toolbar-single-row button {
     width: 100px;
   }

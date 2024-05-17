@@ -1,30 +1,30 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, forkJoin,  of } from 'rxjs';
+import { HttpClient,  } from '@angular/common/http';
 import { bdInitialAssignments } from './data';
 import { GlobalConstants } from './global-constants';
-import { DOCUMENT } from '@angular/common';
-import { AssignmentFK } from '../assignments/assignment_fk.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AssignmentsService {
-
-  assignements: Assignment[] =[]
-  uri = GlobalConstants.urlAPI+'/assignment';
-
+  assignements: Assignment[] = [];
+  uri = GlobalConstants.urlAPI + '/assignment';
   constructor(private http: HttpClient,
     private authService:AuthService,
   ) {}
 
-  getAssignmentsPagines(page:number, limit:number, params:any={}):Observable<any> {
-    let urlParams:string = "?page=" + page + "&limit=" + limit;
-    if(params){
-      for (let key of  Object.keys(params)){
-        urlParams += "&"+key+"="+params[key]
+  getAssignmentsPagines(
+    page: number,
+    limit: number,
+    params: any = {}
+  ): Observable<any> {
+    let urlParams: string = '?page=' + page + '&limit=' + limit;
+    if (params) {
+      for (let key of Object.keys(params)) {
+        urlParams += '&' + key + '=' + params[key];
       }
     };
     return this.http.get<Assignment[]>(this.uri + urlParams, {'headers':this.authService.getHeaders()})
@@ -71,10 +71,10 @@ export class AssignmentsService {
   deleteAssignment(assignment:Assignment):Observable<any>{
       return this.http.delete(this.uri+"/"+assignment._id,{'headers':this.authService.getHeaders()})
       .pipe(
-        catchError((data:any)=>{
+        catchError((data: any) => {
           return of(data.error);
         })
-        );
+      );
   }
   getAssignment(id:number):Observable<any|undefined>{
     return this.http.get<any>(this.uri+"/"+id,{'headers':this.authService.getHeaders()})
@@ -85,19 +85,18 @@ export class AssignmentsService {
     );
   }
 
-  peuplerBDavecForkJoin():Observable<any> {
-    let appelsVersAddAssignment:Observable<any>[] = [];
+  peuplerBDavecForkJoin(): Observable<any> {
+    let appelsVersAddAssignment: Observable<any>[] = [];
 
-    bdInitialAssignments.forEach(a => {
+    bdInitialAssignments.forEach((a) => {
       const nouvelAssignment = new Assignment();
       nouvelAssignment.nom = a.nom;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
 
-      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
+      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
     });
 
     return forkJoin(appelsVersAddAssignment);
   }
-
 }
