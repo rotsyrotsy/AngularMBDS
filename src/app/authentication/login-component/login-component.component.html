@@ -2,14 +2,13 @@
     <mat-card-title class="loginTitle">Login</mat-card-title>
     <mat-card-content>
         <form class="form" 
-        ngForm (submit)="onLogin($event);" 
+        ngForm (submit)="onLogin($event)" 
         #loginForm
         >
-            
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input type="email" matInput [formControl]="emailFormControl"
-                    placeholder="Ex.pat@example.com" [(ngModel)]="email" required>
+                    placeholder="Ex.pat@example.com" required>
                 @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
                 <mat-error>Entrez une adresse email valide</mat-error>
                 }
@@ -20,14 +19,14 @@
             <mat-form-field>
                 <mat-label>Mot de passe</mat-label>
                 <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
-                [formControl]="passwordFormControl" [(ngModel)]="password" required>
+                [formControl]="passwordFormControl" required>
                 <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 @if (passwordFormControl.hasError('required')) {
                     <mat-error>Entrez votre mot de passe</mat-error>
                 }
             </mat-form-field>
             <div class="button">
-                <button type="submit" mat-button color="primary" [disabled]="email=='' || password==''">  
+                <button type="submit" mat-button color="primary" [disabled]="emailFormControl==null || passwordFormControl==null"> 
                     Log In
                 </button>
             </div>
@@ -47,4 +46,3 @@
         Pas encore de compte ?
     </a>
 </p>
-  

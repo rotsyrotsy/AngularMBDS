@@ -28,8 +28,11 @@ export class AuthService {
   
   }
   logOut(){
-    this.loggedIn=false;
-    localStorage.clear();
+    const localStorage = this.document.defaultView?.localStorage;
+    if (localStorage) {
+      this.loggedIn=false;
+      localStorage.clear();
+    }
   }
   getCurrentUser(){
     return this.http.get<any>(this.uri + "/profile", {'headers':this.getHeaders()})

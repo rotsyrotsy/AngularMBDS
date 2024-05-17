@@ -38,7 +38,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     FormsModule,
     MatIconModule,
     MatSelectModule,
-    ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
@@ -53,17 +52,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './signup-component.component.css',
 })
 export class SignupComponentComponent {
-  passwordFormControl = new FormControl('', [Validators.required]);
-  emailFormControl = new FormControl('', [
+  passwordFormControl = new FormControl<string|null>(null, [Validators.required]);
+  emailFormControl = new FormControl<string|null>(null, [
     Validators.required,
     Validators.email,
   ]);
-  nameFormControl = new FormControl('', [Validators.required]);
+  nameFormControl = new FormControl<string|null>(null, [Validators.required]);
   roles: string[] = ['ROLE_USER_STUDENT', 'ROLE_USER_PROFESSOR'];
   hidePassword = true;
-  email = '';
-  password = '';
-  name = '';
+  
   selectedRole = this.roles[0];
   loading = false;
   currentFile?: any;
@@ -91,10 +88,13 @@ export class SignupComponentComponent {
     }
   }
   onSignup(stepper: MatStepper) {
+    if (this.nameFormControl.value == undefined || this.emailFormControl.value == undefined || this.passwordFormControl.value === undefined) return;
+    if (this.nameFormControl.value == '' || this.emailFormControl.value == '' || this.passwordFormControl.value === '') return;
+
     const formdata = new FormData();
-    formdata.append('name',this.name);
-    formdata.append('password',this.password);
-    formdata.append('email',this.email);
+    formdata.append('name',this.nameFormControl.value!);
+    formdata.append('password',this.passwordFormControl.value!);
+    formdata.append('email',this.emailFormControl.value!);
     formdata.append('role',this.selectedRole);
     formdata.append('file',this.currentFile);
     this.loading = true;
@@ -118,9 +118,9 @@ export class SignupComponentComponent {
     });
   }
   resetForm(){
-    this.email = '';
-    this.password = '';
-    this.name = '';
+    this.emailFormControl.reset();
+    this.passwordFormControl.reset();
+    this.nameFormControl.reset();
     this.selectedRole = this.roles[0];
     this.loading = false;
     this.currentFile = undefined;

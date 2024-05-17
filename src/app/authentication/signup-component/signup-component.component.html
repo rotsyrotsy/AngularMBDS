@@ -12,7 +12,6 @@
               matInput
               [formControl]="nameFormControl"
               placeholder="Ex.pat@example.com"
-              [(ngModel)]="name"
               required
             />
             @if (nameFormControl.hasError('required')) {
@@ -72,7 +71,6 @@
               matInput
               [formControl]="emailFormControl"
               placeholder="Ex.pat@example.com"
-              [(ngModel)]="email"
               required
             />
             @if (emailFormControl.hasError('email') &&
@@ -89,7 +87,6 @@
               placeholder="Password"
               [type]="hidePassword ? 'password' : 'text'"
               [formControl]="passwordFormControl"
-              [(ngModel)]="password"
               required
             />
             <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
@@ -126,7 +123,7 @@
               type="submit"
               mat-button
               (click)="onSignup(stepper)"
-              [disabled]="email == '' || password == '' || name == ''"
+              [disabled]="emailFormControl == null || passwordFormControl == null || nameFormControl == null"
             >
               S'inscrire
             </button>
@@ -145,5 +142,5 @@
   </mat-card-content>
 </mat-card>
 <p class="text-center">
-  <a routerLink="/auth/login"> Vous avez deja un compte ? </a>
+  <a routerLink="/auth/login"> Vous avez déjà un compte ? </a>
 </p>
