@@ -35,7 +35,7 @@ export class DragDropAssignmentsComponent {
   ngOnInit(): void {
     this.globalService.setLoading(true);
     this.assignmentsService
-      .getAssignmentsNoPagination({'rendu':false})
+    .getAssignmentsNoPagination({'rendu':false})
       .subscribe((data) => {
         if (data.success) {
           this.nonRendus = data.data;

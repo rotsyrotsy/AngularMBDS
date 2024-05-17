@@ -1,88 +1,100 @@
 @if(user){
-<div>
-  <form  ngForm #updateUserForm (submit)="updateProfile()">
-    <mat-card style="padding: 10px">
-      <mat-card-header>
-        <mat-card-title>Profil utilisateur</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="flex-container">
-          <div class="img-profile mat-elevation-z8">
-            <img
-              src="{{
-                preview !== ''
-                  ? preview
-                  : user.picture
-                  ? user.picture
-                  : defaultImage
-              }}"
-              alt="{{ user.name }}"
-            />
-          </div>
-
-          <div>
-            <h3>{{ user.name }}</h3>
-            <p>{{ user.email }}</p>
-            <mat-form-field>
-              <div>
-                <mat-toolbar>
-                  <input
-                    matInput
-                    [value]="fileName"
-                    [ngStyle]="{ fontSize: '16px', fontWeight: 'normal' }"
-                  />
-                </mat-toolbar>
-
-                <input
-                  type="file"
-                  id="fileInput"
-                  accept="image/*"
-                  (change)="selectFile($event)"
-                  name="fileInput"
+    <div>
+      <form  ngForm #updateUserForm (submit)="updateProfile()">
+        <mat-card style="padding: 10px">
+          <mat-card-header>
+            <mat-card-title>Profil utilisateur</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="flex-container">
+              <div class="img-profile mat-elevation-z8">
+                <img
+                  src="{{
+                    preview !== ''
+                      ? preview
+                      : user.picture
+                      ? user.picture
+                      : defaultImage
+                  }}"
+                  alt="{{ user.name }}"
                 />
               </div>
-            </mat-form-field>
-          </div>
-        </div>
-        <h3>Modifier les informations</h3>
-        <div class="form">
-          <mat-form-field>
-            <mat-label>Nom</mat-label>
-            <input matInput [(ngModel)]="name" name="name" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input
-              type="email"
-              matInput
-              [formControl]="emailFormControl"
-              placeholder="Ex.pat@example.com"
-              [(ngModel)]="email"
-              name="email"
-            />
-            @if (emailFormControl.hasError('email')) {
-            <mat-error>Entrez une adresse email valide</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Mot de passe</mat-label>
-            <input
-              matInput
-              placeholder="Password"
-              [type]="hide ? 'password' : 'text'"
-              [(ngModel)]="password"
-              name="password"
-            />
-            <mat-icon matSuffix (click)="hide = !hide">{{
-              hide ? "visibility_off" : "visibility"
-            }}</mat-icon>
-          </mat-form-field>
-          <div class="button">
-            <button type="submit" mat-button color="primary">Enregistrer</button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </form>
-</div>
-}
+    
+              <div>
+                <h3>{{ user.name }}</h3>
+                <p>{{ user.email }}</p>
+                <mat-form-field>
+                  <div>
+                    <mat-toolbar>
+                      <input
+                        matInput
+                        [value]="fileName"
+                        [ngStyle]="{ fontSize: '16px', fontWeight: 'normal' }"
+                      />
+                    </mat-toolbar>
+    
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/*"
+                      (change)="selectFile($event)"
+                      name="fileInput"
+                    />
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
+            <h3>Modifier les informations</h3>
+            <div class="form">
+              <mat-form-field>
+                <mat-label>Nom</mat-label>
+                <input matInput [(ngModel)]="name" name="name" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  [formControl]="emailFormControl"
+                  placeholder="Ex.pat@example.com"
+                  name="email"
+                />
+                @if (emailFormControl.hasError('email')) {
+                <mat-error>Entrez une adresse email valide</mat-error>
+                }
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Mot de passe</mat-label>
+                <input
+                  matInput
+                  placeholder="Password"
+                  [type]="hide ? 'password' : 'text'"
+                  [(ngModel)]="password"
+                  name="password"
+                />
+                <mat-icon matSuffix (click)="hide = !hide">{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Confirmation du mot de passe</mat-label>
+                <input
+                  matInput
+                  placeholder="Password"
+                  [type]="hide ? 'password' : 'text'"
+                  [(ngModel)]="password"
+                  name="password"
+                />
+                <mat-icon matSuffix (click)="hide = !hide">{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </mat-form-field>
+              <div class="button">
+                <button type="submit" mat-button color="primary">Enregistrer</button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+    }

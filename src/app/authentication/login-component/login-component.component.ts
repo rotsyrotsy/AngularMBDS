@@ -38,13 +38,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class LoginComponentComponent {
   hide = true;
-  email = '';
-  password = '';
-  emailFormControl = new FormControl('', [
+  emailFormControl = new FormControl<string | null>(null, [
     Validators.required,
     Validators.email,
   ]);
-  passwordFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl = new FormControl<string | null>(null, [Validators.required]);
   loading = false;
 
   constructor(
@@ -53,14 +51,16 @@ export class LoginComponentComponent {
     private globalService: GlobalService,
   ) {}
 
-  onLogin() {
+  onLogin(event:any){
     this.loading = true;
-    this.authService.login(this.email, this.password).subscribe((response) => {
+    if (this.emailFormControl.value == undefined || this.passwordFormControl.value === undefined) return;
+    if (this.emailFormControl.value == '' || this.passwordFormControl.value === '') return;
+
+    this.authService.login(this.emailFormControl.value!, this.passwordFormControl.value!).subscribe((response) => {
       if (response.success) {
         if (typeof response.data.token == 'string') {
           localStorage.setItem('token', response.data.token);
         }
-        this.loading = false;
         this.globalService.closeSnackBar();
         this.router.navigate(['/home']);
       } else {
@@ -68,6 +68,7 @@ export class LoginComponentComponent {
           'danger-snackbar',
         ]);
       }
+      this.loading = false;
     });
   }
 }

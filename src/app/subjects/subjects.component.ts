@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../shared/auth.service';
 import { SubjectProfessor } from './subject_professor.model';
 import { SubjectsService } from '../shared/subjects.service';
+import { AddAssignmentComponent } from '../assignments/add-assignment/add-assignment.component';
 import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 @Component({
@@ -129,7 +130,6 @@ export class SubjectsComponent {
   navigateDetails(id: String | undefined) {
     this.router.navigate(['subject', id]);
   }
-
   openAddDialog(){
     if(!this.isAdmin){
       this.globalService.openSnackBar("Vous ne pouvez pas accéder à cette fonctionnalité.", '', ['danger-snackbar']);  

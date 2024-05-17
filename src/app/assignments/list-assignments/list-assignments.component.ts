@@ -39,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
     RouterOutlet,
     RouterLink,
     MatButtonModule,
+    MatSelectModule,
     MatListModule,
     CommonModule,
     MatDatepickerModule,

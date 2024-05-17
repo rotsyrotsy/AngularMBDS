@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, catchError, forkJoin, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, forkJoin,  of } from 'rxjs';
+import { HttpClient,  } from '@angular/common/http';
 import { bdInitialAssignments } from './data';
 import { GlobalConstants } from './global-constants';
 import { AuthService } from './auth.service';
@@ -12,7 +12,6 @@ import { AuthService } from './auth.service';
 export class AssignmentsService {
   assignements: Assignment[] = [];
   uri = GlobalConstants.urlAPI + '/assignment';
-
   constructor(private http: HttpClient,
     private authService:AuthService,
   ) {}
@@ -27,14 +26,13 @@ export class AssignmentsService {
       for (let key of Object.keys(params)) {
         urlParams += '&' + key + '=' + params[key];
       }
-    }
-    return this.http
-      .get<Assignment[]>(this.uri + urlParams, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError((data: any) => {
-          return of(data.error);
-        })
-      );
+    };
+    return this.http.get<Assignment[]>(this.uri + urlParams, {'headers':this.authService.getHeaders()})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
   }
   getAssignmentsNoPagination(params: any = {}): Observable<any> {
     let urlParams: string = '';
@@ -46,52 +44,45 @@ export class AssignmentsService {
         i++;
       }
     }
-    return this.http
-      .get<any>(this.uri + '/nopagination' + urlParams, {
-        headers: this.authService.getHeaders(),
+    return this.http.get<any>(this.uri + '/nopagination' + urlParams, {'headers':this.authService.getHeaders()})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
       })
-      .pipe(
-        catchError((data: any) => {
-          return of(data.error);
-        })
-      );
+    );
   }
 
-  addAssignment(assignment: Assignment): Observable<any> {
-    return this.http
-      .post<any>(this.uri, assignment, { headers: this.authService.getHeaders() })
+  addAssignment(assignment:Assignment):Observable<any>{
+    return this.http.post<any>(this.uri, assignment,{'headers':this.authService.getHeaders()})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+      );
+  }
+  updateAssignment(id:string, assignment:Assignment):Observable<any>{
+    return this.http.put<any>(this.uri+"/"+id,assignment, {'headers':this.authService.getHeaders()})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+      );
+  }
+  deleteAssignment(assignment:Assignment):Observable<any>{
+      return this.http.delete(this.uri+"/"+assignment._id,{'headers':this.authService.getHeaders()})
       .pipe(
         catchError((data: any) => {
           return of(data.error);
         })
       );
   }
-  updateAssignment(id: string, assignment: Assignment): Observable<any> {
-    return this.http
-      .put<any>(this.uri + '/' + id, assignment, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError((data: any) => {
-          return of(data.error);
-        })
-      );
-  }
-  deleteAssignment(assignment: Assignment): Observable<any> {
-    return this.http
-      .delete(this.uri + '/' + assignment._id, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError((data: any) => {
-          return of(data.error);
-        })
-      );
-  }
-  getAssignment(id: number): Observable<any | undefined> {
-    return this.http
-      .get<any>(this.uri + '/' + id, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError((data: any) => {
-          return of(data.error);
-        })
-      );
+  getAssignment(id:number):Observable<any|undefined>{
+    return this.http.get<any>(this.uri+"/"+id,{'headers':this.authService.getHeaders()})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
   }
 
   peuplerBDavecForkJoin(): Observable<any> {

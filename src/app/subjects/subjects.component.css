@@ -26,3 +26,6 @@ th {
     gap: 1rem;
     align-items: center;
 }
+.prof-name{
+  min-width: 100px;
+}

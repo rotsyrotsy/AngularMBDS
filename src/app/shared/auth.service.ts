@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {  Inject, Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { GlobalConstants } from './global-constants';
-import {  isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,9 @@ export class AuthService {
   loggedIn = false;
   uri = GlobalConstants.urlAPI+"/users";
 
-  constructor(private http:HttpClient, @Inject(PLATFORM_ID) public platformId: object) {
-  }
+
+  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {}
+
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
     const body = {"email": email, "password": password};
@@ -25,8 +26,9 @@ export class AuthService {
     )
   }
   logOut(){
-    this.loggedIn=false;
-    if (isPlatformBrowser(this.platformId)) {
+    const localStorage = this.document.defaultView?.localStorage;
+    if (localStorage) {
+      this.loggedIn=false;
       localStorage.clear();
     }
   }
@@ -41,17 +43,15 @@ export class AuthService {
   isAdmin(){
     const isUserAdmin = new Promise(
       (resolve, reject)=>{
-        if (isPlatformBrowser(this.platformId)) {
-          this.getCurrentUser()
-          .subscribe((response) => {
-            if (response.success) {
-              const userdata = response.data;        
-              resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
-            } else {
-              reject(response.message);
-            }
-          });
-        }
+        this.getCurrentUser()
+        .subscribe((response) => {
+          if (response.success) {
+            const userdata = response.data;        
+            resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
+          } else {
+            reject(response.message);
+          }
+        });
       }
       
     );
@@ -84,7 +84,9 @@ export class AuthService {
       headers = headers.append('content-type', 'application/json');
     }
     headers = headers.append('Access-Control-Allow-Origin', '*');
-    if (isPlatformBrowser(this.platformId)) {
+
+    const localStorage = this.document.defaultView?.localStorage;
+    if (localStorage) {
       headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
     }
     return headers;
