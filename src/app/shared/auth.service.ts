@@ -73,4 +73,25 @@ export class AuthService {
       )
     )
   }
+  updateUser(formdata:FormData):Observable<any>{
+    return this.http.put<any>(this.uri + "/update", formdata, {'headers':this.getHeaders(true)})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
+  }
+  getHeaders(isFormData:boolean=false):HttpHeaders{
+    let headers = new HttpHeaders();
+    if (isFormData) {
+      headers = headers.append('enctype', 'multipart/form-data');
+    }else{
+      headers = headers.append('content-type', 'application/json');
+    }
+    headers = headers.append('Access-Control-Allow-Origin', '*');
+    // if (isPlatformBrowser(this.platformId)) {
+      headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+    // }
+    return headers;
+  }
 }
