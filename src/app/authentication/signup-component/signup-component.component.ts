@@ -79,11 +79,12 @@ export class SignupComponentComponent {
   selectFile(event: any): void {
     this.progress = 0;
     if (event.target.files && event.target.files[0]) {
-      this.currentFile = event.target.files[0];;
+      this.currentFile = event.target.files[0];
       const reader = new FileReader();
       reader.onload=(e:any)=>{
         this.preview = e.target.result;
       }
+      reader.readAsDataURL(event.target.files[0]);
       this.fileName = this.currentFile.name;
     } else {
       this.fileName = 'Select file';
@@ -107,8 +108,6 @@ export class SignupComponentComponent {
 
         this.resetForm();
       } else {
-        console.log(response);
-        
         this.globalService.closeSnackBar();
         this.globalService.openSnackBar(response.message, '', [
           'danger-snackbar',

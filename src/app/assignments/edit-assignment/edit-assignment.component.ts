@@ -72,8 +72,7 @@ export class EditAssignmentComponent {
 
     this.subjectsService.getAllSubjectsNoPagination().subscribe((data) => {
       if (data.success) {
-        data = data.data;
-        this.subjects = data.docs;
+        this.subjects = data.data;
         this.globalService.closeSnackBar();
 
         // get the assignment
@@ -96,14 +95,14 @@ export class EditAssignmentComponent {
               
             }
           } else {
-            this.globalService.openSnackBar(response.error, '', [
+            this.globalService.openSnackBar(response.error ? response.error : response.message, '', [
               'danger-snackbar',
             ]);
           }    
           this.globalService.setLoading(false);
         });
       } else {
-        this.globalService.openSnackBar(data.error, '', [
+        this.globalService.openSnackBar(data.error ? data.error : data.message, '', [
           'danger-snackbar',
         ]);
       }

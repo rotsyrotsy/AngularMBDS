@@ -40,6 +40,23 @@ export class AssignmentsService {
       })
     );
   }
+  getAssignmentsNoPagination(params: any = {}): Observable<any> {
+    let urlParams: string = '';
+    if (params) {
+      let i = 0;
+      for (let key of Object.keys(params)) {
+        if (i == 0) urlParams += '?';
+        urlParams += '&' + key + '=' + params[key];
+        i++;
+      }
+    }
+    return this.http.get<any>(this.uri + '/nopagination' + urlParams, {'headers':this.headers})
+    .pipe(
+      catchError((data:any)=>{
+        return of(data.error);
+      })
+    );
+  }
   getAssignmentsNonRendus():Observable<any> {
     return this.http.get<any>(this.uri + "?page=1&limit=10", {'headers':this.headers})
     .pipe(

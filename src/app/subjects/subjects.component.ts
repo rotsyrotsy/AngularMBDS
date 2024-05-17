@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RenduDirective } from '../shared/rendu.directive';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,7 +39,6 @@ import { AddSubjectComponent } from './add-subject/add-subject.component';
     RouterOutlet,
     RouterLink,
     MatButtonModule,
-    RenduDirective,
     MatListModule,
     CommonModule,
     MatDatepickerModule,

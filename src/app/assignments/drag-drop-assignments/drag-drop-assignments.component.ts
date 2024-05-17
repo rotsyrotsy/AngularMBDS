@@ -35,12 +35,10 @@ export class DragDropAssignmentsComponent {
   ngOnInit(): void {
     this.globalService.setLoading(true);
     this.assignmentsService
-      .getAssignmentsNonRendus()
+    .getAssignmentsNoPagination({'rendu':false})
       .subscribe((data) => {
-        console.log(data);
         if (data.success) {
-          data = data.data;
-          this.nonRendus = data.docs;
+          this.nonRendus = data.data;
           this.globalService.closeSnackBar();
         } else {
           this.globalService.openSnackBar(data.error, '', ['danger-snackbar']);

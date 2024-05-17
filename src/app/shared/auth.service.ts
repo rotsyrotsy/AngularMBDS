@@ -53,8 +53,6 @@ export class AuthService {
         .subscribe((response) => {
           if (response.success) {
             const userdata = response.data;        
-            // console.log(userdata.user.role,userdata.user.role==="ROLE_USER_PROFESSOR");
-                
             resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
           } else {
             reject(response.message);
