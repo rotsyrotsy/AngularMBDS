@@ -6,6 +6,7 @@ import { bdInitialAssignments } from './data';
 import { GlobalConstants } from './global-constants';
 import { DOCUMENT } from '@angular/common';
 import { AssignmentFK } from '../assignments/assignment_fk.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,10 @@ export class AssignmentsService {
 
   assignements: Assignment[] =[]
   uri = GlobalConstants.urlAPI+'/assignment';
-  
-  headers= new HttpHeaders()
-  .set('content-type', 'application/json')
-  .set('Access-Control-Allow-Origin', '*');
 
-  constructor(private http:HttpClient,@Inject(DOCUMENT) private document: Document) {
-      const localStorage = document.defaultView?.localStorage;
-      if (localStorage) {
-        this.headers = this.headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-      }
-    }
+  constructor(private http: HttpClient,
+    private authService:AuthService,
+  ) {}
 
   getAssignmentsPagines(page:number, limit:number, params:any={}):Observable<any> {
     let urlParams:string = "?page=" + page + "&limit=" + limit;
@@ -33,7 +27,7 @@ export class AssignmentsService {
         urlParams += "&"+key+"="+params[key]
       }
     };
-    return this.http.get<Assignment[]>(this.uri + urlParams, {'headers':this.headers})
+    return this.http.get<Assignment[]>(this.uri + urlParams, {'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -50,20 +44,8 @@ export class AssignmentsService {
         i++;
       }
     }
-    return this.http.get<any>(this.uri + '/nopagination' + urlParams, {'headers':this.headers})
+    return this.http.get<any>(this.uri + '/nopagination' + urlParams, {'headers':this.authService.getHeaders()})
     .pipe(
-      catchError((data:any)=>{
-        return of(data.error);
-      })
-    );
-  }
-  getAssignmentsNonRendus():Observable<any> {
-    return this.http.get<any>(this.uri + "?page=1&limit=10", {'headers':this.headers})
-    .pipe(
-      map(data => {
-        data.data.docs = data.data.docs.filter((element:AssignmentFK)=>element.rendu==false);
-        return data;
-      }),
       catchError((data:any)=>{
         return of(data.error);
       })
@@ -71,7 +53,7 @@ export class AssignmentsService {
   }
 
   addAssignment(assignment:Assignment):Observable<any>{
-    return this.http.post<any>(this.uri, assignment,{'headers':this.headers})
+    return this.http.post<any>(this.uri, assignment,{'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -79,7 +61,7 @@ export class AssignmentsService {
       );
   }
   updateAssignment(id:string, assignment:Assignment):Observable<any>{
-    return this.http.put<any>(this.uri+"/"+id,assignment, {'headers':this.headers})
+    return this.http.put<any>(this.uri+"/"+id,assignment, {'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -87,7 +69,7 @@ export class AssignmentsService {
       );
   }
   deleteAssignment(assignment:Assignment):Observable<any>{
-      return this.http.delete(this.uri+"/"+assignment._id,{'headers':this.headers})
+      return this.http.delete(this.uri+"/"+assignment._id,{'headers':this.authService.getHeaders()})
       .pipe(
         catchError((data:any)=>{
           return of(data.error);
@@ -95,7 +77,7 @@ export class AssignmentsService {
         );
   }
   getAssignment(id:number):Observable<any|undefined>{
-    return this.http.get<any>(this.uri+"/"+id,{'headers':this.headers})
+    return this.http.get<any>(this.uri+"/"+id,{'headers':this.authService.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

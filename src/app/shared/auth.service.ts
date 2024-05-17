@@ -11,16 +11,9 @@ export class AuthService {
   loggedIn = false;
   uri = GlobalConstants.urlAPI+"/users";
 
-  headers= new HttpHeaders()
-  .set('content-type', 'application/json')
-  .set('Access-Control-Allow-Origin', '*');
 
-  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {
-      const localStorage = document.defaultView?.localStorage;
-      if (localStorage) {
-        this.headers = this.headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-      }
-    }
+  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {}
+
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
 
@@ -39,7 +32,7 @@ export class AuthService {
     localStorage.clear();
   }
   getCurrentUser(){
-    return this.http.get<any>(this.uri + "/profile", {'headers':this.headers})
+    return this.http.get<any>(this.uri + "/profile", {'headers':this.getHeaders()})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -89,9 +82,11 @@ export class AuthService {
       headers = headers.append('content-type', 'application/json');
     }
     headers = headers.append('Access-Control-Allow-Origin', '*');
-    // if (isPlatformBrowser(this.platformId)) {
+
+    const localStorage = this.document.defaultView?.localStorage;
+    if (localStorage) {
       headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
-    // }
+    }
     return headers;
   }
 }
