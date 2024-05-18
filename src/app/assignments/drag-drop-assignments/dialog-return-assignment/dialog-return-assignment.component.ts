@@ -50,13 +50,12 @@ export class DialogReturnAssignmentComponent {
     updateAssignment.note = this.noteAssignment;
     updateAssignment.remarque = this.remarqueAssignment;
     updateAssignment.rendu = true;
-    this.data.callbackFunction();
+    this.data.callbackFunction(this.noteAssignment);
 
     this.assignmentsService
       .updateAssignment(this.data.assignment._id!, updateAssignment)
       .subscribe((response) => {
         if (response.success) {
-          // this.data.callbackFunction();
           this.globalService.openSnackBar(response.message, '', [
             'success-snackbar',
           ]);

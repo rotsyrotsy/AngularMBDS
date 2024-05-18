@@ -47,5 +47,17 @@
         }
       </div>
     </div>
+    <mat-paginator
+    #paginator
+    class="demo-paginator"
+    (page)="handlePageEvent($event)"
+    [length]="totalPages"
+    [pageSize]="limit"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[5,10,20,50]"
+    [pageIndex]="page"
+    aria-label="Select page"
+  >
+  </mat-paginator>
   </mat-card-content>
 </mat-card>

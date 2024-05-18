@@ -56,3 +56,6 @@
     font-size: smaller;
     color: gray;
 }
+:host ::ng-deep.mat-mdc-paginator .mat-mdc-paginator-container {
+  justify-content: center;
+}

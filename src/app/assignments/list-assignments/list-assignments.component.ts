@@ -113,7 +113,7 @@ export class ListAssignmentsComponent {
     this.page = this.nextPage;
     this.getAssignmentFromService();
   }
-  getAssignmentsFromService() {}
+  
   premierePage() {
     this.page = 1;
     this.getAssignmentFromService();
