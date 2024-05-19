@@ -8,7 +8,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { LayoutComponent } from './layout/layout.component';
 import { SignupComponentComponent } from './authentication/signup-component/signup-component.component';
 import { LoginComponentComponent } from './authentication/login-component/login-component.component';
-import { authStudentGuard } from './shared/authStudent.guard';
+import { authAdminGuard } from './shared/authAdmin.guard';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { UsersComponent } from './users/users.component';
 
@@ -23,14 +23,14 @@ export const routes: Routes = [
     {path:'',
     component:LayoutComponent,
     children:[
-        {path:'home', component:AssignmentsComponent},
-        {path:'add', component:AddAssignmentComponent, canActivate: [authStudentGuard]},
-        {path:'assignment/:id', component:AssignmentDetailComponent},
-        {path:'assignment/:id/edit', component:EditAssignmentComponent, canActivate: [authGuard]},
-        {path:'subjects', component:SubjectsComponent},
-        {path:'profile', component:UsersComponent},
+        {path:'home', component:AssignmentsComponent, canActivate: [authGuard]},
+        {path:'add', component:AddAssignmentComponent, canActivate: [authGuard]},
+        {path:'assignment/:id', component:AssignmentDetailComponent , canActivate: [authGuard]},
+        {path:'assignment/:id/edit', component:EditAssignmentComponent, canActivate: [authGuard, authAdminGuard]},
+        {path:'subjects', component:SubjectsComponent , canActivate: [authGuard]},
+        {path:'profile', component:UsersComponent , canActivate: [authGuard]},
     ]},
 
-    
+
 
 ];
