@@ -14,6 +14,13 @@ export class AuthService {
 
   constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {}
 
+  isLoggedIn(){
+    const localStorage = this.document.defaultView?.localStorage;
+    if (localStorage) {
+      return (localStorage.getItem('token')===undefined || localStorage.getItem('token')===null || localStorage.getItem('token')==='') ? false : true;
+    }
+    return false;
+  }
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
     const body = {"email": email, "password": password};

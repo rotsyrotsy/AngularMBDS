@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
 
-  const loggedIn = authService.loggedIn;
+  const loggedIn = authService.isLoggedIn();  
     if (!loggedIn) {
       console.log("GUARD : navigation non autorisee , Utliisateur non connecté");
       globalService.openSnackBar("Vous devez être connecté pour accéder à cette page.", '', [
