@@ -37,7 +37,6 @@ export class LayoutComponent {
   title = 'Application de gestion des devoirs';
   isCollapsed = true;
   navigation: { [key: string]: string }[] = [];
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -49,9 +48,14 @@ export class LayoutComponent {
     this.globalService.closeSnackBar();
     this.navigation.push(
       { icon: 'home', label: 'Accueil', url: '/home' },
-      { icon: 'add', label: 'Ajouter un devoir', url: '/add' },
-      { icon: 'list', label: 'Matières', url: '/subjects' },
-    );
+      { icon: 'list', label: 'Matières', url: '/subjects' }
+    )
+    this.authService.isAdmin().then((admin) => {
+      if (!admin) {
+        this.navigation.push({ icon: 'add', label: 'Ajouter un devoir', url: '/add' })
+      }
+    });
+    
   }
   logout() {
     this.authService.logOut();

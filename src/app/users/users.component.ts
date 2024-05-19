@@ -40,12 +40,13 @@ export class UsersComponent {
   user!: User | undefined;
   defaultImage = GlobalConstants.defaultImage;
   hide = true;
-  password = '';
   emailFormControl = new FormControl<string|undefined>(undefined, [Validators.email]);
   currentFile?: any;
   preview = '';
   fileName = 'Changer la photo';
   name: string | undefined = '';
+  passwordConfirmationFormControl = new FormControl<string | null>(null);
+  newPasswordFormControl = new FormControl<string | null>(null);
 
   constructor(
     private globalService: GlobalService,
@@ -84,8 +85,7 @@ export class UsersComponent {
     }
   }
   updateProfile() {
-    if (this.emailFormControl.value == undefined) return;
-    if (this.emailFormControl.value == '') return;
+    if (this.emailFormControl.value == undefined || this.emailFormControl.value == '') return;
 
     const formdata = new FormData();
     if (this.user !== undefined) {
@@ -93,6 +93,13 @@ export class UsersComponent {
       if(this.currentFile!=undefined) formdata.append('file', this.currentFile);
       if(this.user.email!=this.emailFormControl.value!) formdata.append('email', this.emailFormControl.value!);
     }
+    if (this.newPasswordFormControl.value !== undefined) {      
+      if (this.passwordConfirmationFormControl.value === undefined) return;
+      if(this.newPasswordFormControl.value! === this.passwordConfirmationFormControl.value! ){
+        formdata.append('password', this.newPasswordFormControl.value!);
+      }
+    };
+
     this.globalService.setLoading(true);
     this.authService.updateUser(formdata).subscribe((response) => {
       if (response.success) {
@@ -100,14 +107,14 @@ export class UsersComponent {
         this.globalService.openSnackBar(response.message, '', [
           'success-snackbar',
         ]);
-        this.getCurrentUserFromService();
       } else {
         this.globalService.closeSnackBar();
         this.globalService.openSnackBar(response.message, '', [
           'danger-snackbar',
         ]);
-        this.globalService.setLoading(false);
       }
+      this.globalService.setLoading(false);
+
     });
   }
 }
