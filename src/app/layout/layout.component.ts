@@ -35,6 +35,8 @@ import { RouterModule } from '@angular/router';
 })
 export class LayoutComponent {
   title = 'Application de gestion des devoirs';
+  user: any = null;
+  role: String = '';
   isCollapsed = true;
   navigation: { [key: string]: string }[] = [];
   constructor(
@@ -50,12 +52,21 @@ export class LayoutComponent {
       { icon: 'home', label: 'Accueil', url: '/home' },
       { icon: 'list', label: 'Matières', url: '/subjects' }
     )
-    this.authService.isAdmin().then((admin) => {
-      if (!admin) {
-        this.navigation.push({ icon: 'add', label: 'Ajouter un devoir', url: '/add' })
+    this.authService.getCurrentUser().subscribe((response) => {
+      if (response.success) {
+        this.user = response.data.user;
+        this.role = this.user.role == 'ROLE_USER_PROFESSOR' ? 'Professeur' : 'Etudiant';
+        if(this.role === "Etudiant"){
+          this.navigation.push({ icon: 'add', label: 'Ajouter un devoir', url: '/add' })
+        }
+
+        console.log('Utilisateur connecté : ', this.user);
+      } else {
+        this.globalService.openSnackBar(response.error, '', [
+          'danger-snackbar',
+        ]);
       }
     });
-    
   }
   logout() {
     this.authService.logOut();

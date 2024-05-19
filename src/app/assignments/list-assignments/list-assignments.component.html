@@ -47,7 +47,7 @@
         <mat-card-header>
           <mat-card-title-group>
             <mat-card-title>{{ a.nom }}</mat-card-title>
-            <mat-card-subtitle>{{ a.subject.name }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ a.subject.name }} - {{a.subject.professor?.name}} </mat-card-subtitle>
             <div
               mat-card-avatar
               [ngStyle]="{

@@ -5,6 +5,7 @@
   </button>
   <h1>{{ title }}</h1>
   <span class="example-spacer"></span>
+  <h2> {{ user.name }} - {{ role }} </h2>
   <button mat-icon-button aria-label="Settings" [matMenuTriggerFor]="menu">
     <mat-icon>settings</mat-icon>
   </button>
@@ -36,6 +37,6 @@
   </div>
 </mat-drawer-container>
 
-<!-- 
+<!--
     <button mat-button (click)="genererDonneesDeTest()">Peupler BD</button>
     -->

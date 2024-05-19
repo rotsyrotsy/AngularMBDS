@@ -46,14 +46,14 @@ export class AuthService {
         this.getCurrentUser()
         .subscribe((response) => {
           if (response.success) {
-            const userdata = response.data;        
+            const userdata = response.data;
             resolve(userdata.user.role==="ROLE_USER_PROFESSOR");
           } else {
             reject(response.message);
           }
         });
       }
-      
+
     );
     return isUserAdmin;
   }

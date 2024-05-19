@@ -6,20 +6,22 @@ import { GlobalService } from './global.service';
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const globalService = inject(GlobalService);
+  const router = inject(Router);
 
-  return authService.isAdmin()
-  .then((admin)=>{
-      if(admin){
-        console.log("GUARD : navigation autorisee");
-        return true;
-      }else{
-        console.log("GUARD : navigation non autorisee");
-        globalService.openSnackBar("Vous ne pouvez pas accéder à cette page.", '', [
-          'danger-snackbar',
-        ]);
-        return false;
-      }
+
+  const loggedIn = authService.loggedIn;
+    if (!loggedIn) {
+      console.log("GUARD : navigation non autorisee , Utliisateur non connecté");
+      globalService.openSnackBar("Vous devez être connecté pour accéder à cette page.", '', [
+        'danger-snackbar',
+      ]);
+      router.navigate(['/auth/login']);
+      return false;
     }
-  );
-  
-};
+    console.log("GUARD : navigation autorisee, Utilisateur connecté");
+    return true;
+
+
+  }
+
+
