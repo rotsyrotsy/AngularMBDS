@@ -110,8 +110,10 @@ export class DragDropAssignmentsComponent {
               event.previousIndex,
               event.currentIndex,
             );
-            this.getAssignmentNonRendusFromService(false);
             event.container.data[event.currentIndex].note = note+"/20";
+          },
+          callbackFunction2: () => {
+            this.getAssignmentNonRendusFromService(false);
           },
         },
       });

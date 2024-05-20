@@ -64,6 +64,7 @@ export class DialogReturnAssignmentComponent {
             'danger-snackbar',
           ]);
         }
+        this.data.callbackFunction2();
       });
   }
 }
