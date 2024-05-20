@@ -19,7 +19,11 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 ### Améliorations
 * Mise en place d'un layout global pour toutes les pages
 * Liste des assignments sous forme de Material Card
+![Alt text](/screenshots/2.png?raw=true "Material cards")
+
 * Formulaire de type Stepper pour l'ajout et modification des assignments
+![Alt text](/screenshots/3.png?raw=true "stepper")
+
 * Restriction des fonctionnalités de suppression et modification des assignments aux professeurs (admin)
 * Contrainte d'ajout de note et remarque avant le rendu d'un assignment
 * Modifications du auth guard et des permissions par rôle
@@ -27,11 +31,22 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 ### Ajout de nouvelles fonctionnalités
 * Ajout d'une ToolBar et d'un Sidenav
 * Page de login
+![Alt text](/screenshots/login.png?raw=true "login")
+
 * Page d'inscription avec formulaire de type Stepper
+![Alt text](/screenshots/register.png?raw=true "inscription")
+
 * Ajout de photo de profil pour les utilisateurs et image des matières
+![Alt text](/screenshots/matieres.png?raw=true "images")
+
 * Onglets pour les assignments rendus et non rendu avec possibilité de drag & drop pour le rendu
+![Alt text](/screenshots/dragdrop.png?raw=true "drag & drop")
+
 * Ajout de messages de notification (SnackBar Material)
+
 * Profil utilisateur avec possibilité de modification des données
+![Alt text](/screenshots/profil.png?raw=true "profil")
+
 * Déploiement du front sur [vercel](https://nodejs.org/en/download/prebuilt-installer)
 
 ## Installation et test
