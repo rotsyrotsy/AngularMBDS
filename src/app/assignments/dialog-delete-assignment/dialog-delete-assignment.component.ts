@@ -41,7 +41,7 @@ export class DialogDeleteAssignmentComponent {
             'success-snackbar',
           ]);
           this.data.callbackFunction();
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/home']);
         } else {
           this.globalService.openSnackBar(response.error, '', [
             'danger-snackbar',

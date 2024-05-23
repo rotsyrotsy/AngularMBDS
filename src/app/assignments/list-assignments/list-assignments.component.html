@@ -39,8 +39,9 @@
       <button type="submit" mat-flat-button color="primary">Rechercher</button>
     </div>
   </form>
+  
 
-  <mat-grid-list cols="4" rowHeight="2:3">
+  <mat-grid-list cols="4" rowHeight="2:2.75">
     @for(a of assignements; track a.nom){
     <mat-grid-tile>
       <mat-card class="example-card mat-elevation-z8">
@@ -58,13 +59,14 @@
             ></div>
           </mat-card-title-group>
         </mat-card-header>
-
-        <img
-          (click)="navigateDetails(a._id)"
-          mat-card-image
-          src="{{ a.subject.picture ? a.subject.picture : defaultImage }}"
-          alt="{{ a.subject.name }}"
-        />
+        <div class="img-card">
+          <img
+            (click)="navigateDetails(a._id)"
+            mat-card-image
+            src="{{ a.subject.picture ? a.subject.picture : defaultImage }}"
+            alt="{{ a.subject.name }}"
+          />
+        </div>
         <mat-card-content>
           <p>Auteur : {{ a.student.name }}</p>
           <p>Date de rendu : {{ a.dateDeRendu | date }}</p>

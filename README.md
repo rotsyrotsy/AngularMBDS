@@ -16,38 +16,59 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 
 ## Contribution
 
-### Améliorations
-* Mise en place d'un layout global pour toutes les pages
-* Liste des assignments sous forme de Material Card
+### Travail fait
+
+* Ajout d'une ToolBar et d'un Sidenav dans le layout global de toutes les pages
+ 
+* Ajout d'une gestion de login/password : authentification à l'aide de JSON Web Tokens (JWT)
+![Alt text](/screenshots/login.png?raw=true "login")
+     
+* Comme dans le TP on gérera le cas particulier admin (qui lui seul peut faire EDIT et DELETE des assignments).
+![Alt text](/screenshots/show1.png?raw=true "show")
+
+* Ajouter de nouvelles propriétés au modèle des Assignments (auteur, matière, note, remarque)
+
+* Améliorer l'affichage des Assignments
+1. Afficher dans la liste des Assignments chaque Assignment sous forme d'une Material Card
 ![Alt text](/screenshots/2.png?raw=true "Material cards")
 
-* Formulaire de type Stepper pour l'ajout et modification des assignments
+2. La vue détails montrera en plus les remarques, la note s'il a été rendu, l'auteur, la matière, le professeur, etc.
+![Alt text](/screenshots/show.png?raw=true "show")
+
+3. Les formulaires d'ajout et de détails proposeront un choix fixe de matières (et associeront automatiquement le prof et l'image illustrant la matière)
+![Alt text](/screenshots/add2.png?raw=true "add assignments with subject")
+
+* Afficher les Assignments dans deux onglets séparés selon qu'ils ont été rendus ou pas encore rendus avec drag'n'drop pour passer d'un état à l'autre.
+![Alt text](/screenshots/dragdrop2.png?raw=true "drag & drop avant le rendu")
+![Alt text](/screenshots/dragdrop.png?raw=true "drag & drop")
+     
+
+* Utiliser un Formulaire de type Stepper pour l'ajout d'Assignments (éventuellement pour la modification)
 ![Alt text](/screenshots/3.png?raw=true "stepper")
 
-* Restriction des fonctionnalités de suppression et modification des assignments aux professeurs (admin)
-* Contrainte d'ajout de note et remarque avant le rendu d'un assignment
-* Modifications du auth guard et des permissions par rôle
+* Ajout de messages de notification (SnackBar Material)
+![Alt text](/screenshots/notif.png?raw=true "Snackbar Material")
 
-### Ajout de nouvelles fonctionnalités
-* Ajout d'une ToolBar et d'un Sidenav
-* Page de login
-![Alt text](/screenshots/login.png?raw=true "login")
+* Collection d'élèves et de profs pour faciliter l'association devoir/élève et matières/profs
 
+* Hébergement sur [vercel](https://nodejs.org/en/download/prebuilt-installer)
+
+### Atouts apportés
 * Page d'inscription avec formulaire de type Stepper
 ![Alt text](/screenshots/register.png?raw=true "inscription")
 
-* Ajout de photo de profil pour les utilisateurs et image des matières
-![Alt text](/screenshots/matieres.png?raw=true "images")
+* Page de liste des matières
+![Alt text](/screenshots/matieres.png?raw=true "matières")
 
-* Onglets pour les assignments rendus et non rendu avec possibilité de drag & drop pour le rendu
-![Alt text](/screenshots/dragdrop.png?raw=true "drag & drop")
+* Ajout d'une nouvelle matière (cas particulier pour l'admin)
+![Alt text](/screenshots/ajout-matiere.png?raw=true "ajout matière")
 
-* Ajout de messages de notification (SnackBar Material)
+* Gestion des utilisateurs
+1. Ajout de photo de profil pour les utilisateurs
 
-* Profil utilisateur avec possibilité de modification des données
+2. Profil utilisateur avec possibilité de modification des données
 ![Alt text](/screenshots/profil.png?raw=true "profil")
 
-* Déploiement du front sur [vercel](https://nodejs.org/en/download/prebuilt-installer)
 
 ## Installation et test
 1. Clonez ce repository sur votre machine locale

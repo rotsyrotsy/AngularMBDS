@@ -97,6 +97,12 @@ export class UsersComponent {
       if (this.passwordConfirmationFormControl.value === undefined) return;
       if(this.newPasswordFormControl.value! === this.passwordConfirmationFormControl.value! ){
         formdata.append('password', this.newPasswordFormControl.value!);
+      }else{
+        this.globalService.closeSnackBar();
+        this.globalService.openSnackBar("Le nouveau mot de passe n'est pas confirmé", '', [
+          'danger-snackbar',
+        ]);
+        return;
       }
     };
 

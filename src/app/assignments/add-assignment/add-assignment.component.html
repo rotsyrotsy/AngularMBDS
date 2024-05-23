@@ -42,7 +42,12 @@
                                 <mat-option>None</mat-option>
                                 @for (subject of subjects; track subject) {
                                     <mat-option [value]="subject">
-                                        <img [ngStyle]="{'width':'20px','height':'20px','border-radius':'50%'}" src="{{ (subject.picture=='') ? subject.picture :  'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'}}" >
+                                        <img [ngStyle]="{'width':'20px','height':'20px','border-radius':'50%'}" 
+                                          src="{{
+                                            subject.picture
+                                              ? subject.picture
+                                              : defaultImage
+                                          }}">
                                         &nbsp;&nbsp;<span>{{subject.name}}</span>
                                     </mat-option>
                                 }
