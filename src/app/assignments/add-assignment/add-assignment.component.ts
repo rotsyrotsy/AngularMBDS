@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SubjectsService } from '../../shared/subjects.service';
 import { SubjectProfessor } from '../../subjects/subject_professor.model';
 import moment from 'moment';
+import { GlobalConstants } from '../../shared/global-constants';
 
 @Component({
   selector: 'app-add-assignment',
@@ -49,6 +50,7 @@ export class AddAssignmentComponent {
 
   //champs du formulaire
   dateDeRendu = undefined;
+  defaultImage = GlobalConstants.defaultImage;
 
   constructor(
     private assignmentsService: AssignmentsService,

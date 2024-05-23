@@ -41,6 +41,7 @@
       >
         {{ assignmentTransmis.rendu ? "Rendu" : "Non rendu" }}
       </p>
+      <p>Auteur : {{ assignmentTransmis.student.name }}</p>
       <p>Matière : {{ assignmentTransmis.subject.name }}</p>
       <p>
         Note : @if (assignmentTransmis.note) {<strong
@@ -53,10 +54,10 @@
     <mat-card-actions>
       <nav>
         <a routerLink="/assignment/{{ assignmentTransmis._id }}/edit">
-          <button mat-button>MODIFIER</button>
+          <button mat-button color="primary">MODIFIER</button>
         </a>
       </nav>
-      <button mat-button (click)="onDeleteAssignment()">SUPPRIMER</button>
+      <button mat-button color="warn" (click)="onDeleteAssignment()">SUPPRIMER</button>
     </mat-card-actions>
     }
   </mat-card>
