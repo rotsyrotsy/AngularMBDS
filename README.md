@@ -51,7 +51,7 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 
 * Collection d'élèves et de profs pour faciliter l'association devoir/élève et matières/profs
 
-* Hébergement sur [vercel](https://nodejs.org/en/download/prebuilt-installer)
+* Hébergement sur [https://angular-mbds-assignment.vercel.app](https://angular-mbds-assignment.vercel.app/home)
 
 ### Atouts apportés
 * Page d'inscription avec formulaire de type Stepper
