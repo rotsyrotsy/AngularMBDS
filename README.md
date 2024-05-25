@@ -54,6 +54,9 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 * Hébergement sur [https://angular-mbds-assignment.vercel.app](https://angular-mbds-assignment.vercel.app/home)
 
 ### Atouts apportés
+* Affichage d'un spinner lors du chargement des pages
+![Alt text](/screenshots/loading.gif?raw=true "loading")
+
 * Page d'inscription avec formulaire de type Stepper
 ![Alt text](/screenshots/register.png?raw=true "inscription")
 
@@ -69,10 +72,12 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 2. Profil utilisateur avec possibilité de modification des données
 ![Alt text](/screenshots/profil.png?raw=true "profil")
 
+* Intégration de l'élément accordion pour l'affichage de la liste des assignments (en bas) et la zone de drag n drop (en haut)
+![Alt text](/screenshots/accordion1.png?raw=true "Accordion expanded for assignment list")
+![Alt text](/screenshots/accordion2.png?raw=true "Accordion expanded for assignment state")
+
 * 404 Page Not Found quand une référence n'existe pas
 ![Alt text](/screenshots/404.png?raw=true "page not found")
-
-
 
 ## Installation et test
 1. Clonez ce repository sur votre machine locale
