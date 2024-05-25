@@ -9,7 +9,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { GlobalService } from '../../shared/global.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-delete-assignment',
@@ -29,7 +28,6 @@ export class DialogDeleteAssignmentComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private assignmentsService: AssignmentsService,
     private globalService: GlobalService,
-    private router: Router,
   ) {}
   onDelete() {
     this.assignmentsService
@@ -40,8 +38,9 @@ export class DialogDeleteAssignmentComponent {
           this.globalService.openSnackBar(response.message, '', [
             'success-snackbar',
           ]);
-          this.data.callbackFunction();
-          // this.router.navigate(['/home']);
+          setTimeout(() => {
+            this.data.callbackFunction();
+          }, 500);
         } else {
           this.globalService.openSnackBar(response.error, '', [
             'danger-snackbar',

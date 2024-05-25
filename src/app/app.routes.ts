@@ -11,6 +11,7 @@ import { LoginComponentComponent } from './authentication/login-component/login-
 import { authAdminGuard } from './shared/authAdmin.guard';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { UsersComponent } from './users/users.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
     {path:'', redirectTo:'home', pathMatch:'full'},
@@ -30,6 +31,8 @@ export const routes: Routes = [
         {path:'subjects', component:SubjectsComponent , canActivate: [authGuard]},
         {path:'profile', component:UsersComponent , canActivate: [authGuard]},
     ]},
+    { path: 'pageNotFound',  component: PageNotFoundComponent },
+    {path:'**', redirectTo:'pageNotFound', pathMatch:'full'},
 
 
 

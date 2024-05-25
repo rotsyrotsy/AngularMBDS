@@ -11,8 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AuthService } from '../shared/auth.service';
 import { AssignmentsService } from '../shared/assignments.service';
 import { GlobalService } from '../shared/global.service';
-import { SpinnerComponent } from '../spinner/spinner.component';
 import { RouterModule } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 @Component({
   selector: 'app-layout',
   standalone: true,
@@ -28,7 +28,6 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    SpinnerComponent,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
@@ -54,7 +53,9 @@ export class LayoutComponent {
     )
     this.authService.getCurrentUser().subscribe((response) => {
       if (response.success) {
-        this.user = response.data.user;
+        this.authService.setUserSubject(response.data.user);
+        this.authService.getUserSubject().subscribe(val=>{this.user = val});
+        
         this.role = this.user.role == 'ROLE_USER_PROFESSOR' ? 'Professeur' : 'Etudiant';
         if(this.role === "Etudiant"){
           this.navigation.push({ icon: 'add', label: 'Ajouter un devoir', url: '/add' })

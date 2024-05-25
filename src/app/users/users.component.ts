@@ -56,8 +56,8 @@ export class UsersComponent {
   ngOnInit(): void {
     this.getCurrentUserFromService();
   }
-  getCurrentUserFromService() {
-    this.globalService.setLoading(true);
+  getCurrentUserFromService(loading = true) {
+    if(loading) this.globalService.setLoading(true);
     this.authService.getCurrentUser().subscribe((response) => {
       if (response.success) {
         this.user = response.data.user;
@@ -68,7 +68,7 @@ export class UsersComponent {
           'danger-snackbar',
         ]);
       }
-      this.globalService.setLoading(false);
+      if(loading) this.globalService.setLoading(false);
     });
   }
   selectFile(event: any): void {
@@ -93,7 +93,7 @@ export class UsersComponent {
       if(this.currentFile!=undefined) formdata.append('file', this.currentFile);
       if(this.user.email!=this.emailFormControl.value!) formdata.append('email', this.emailFormControl.value!);
     }
-    if (this.newPasswordFormControl.value !== undefined) {      
+    if (this.newPasswordFormControl.value !== undefined && this.newPasswordFormControl.value !== "") {      
       if (this.passwordConfirmationFormControl.value === undefined) return;
       if(this.newPasswordFormControl.value! === this.passwordConfirmationFormControl.value! ){
         formdata.append('password', this.newPasswordFormControl.value!);
@@ -113,6 +113,8 @@ export class UsersComponent {
         this.globalService.openSnackBar(response.message, '', [
           'success-snackbar',
         ]);
+        this.getCurrentUserFromService(false);
+        this.authService.setUserSubject(response.data.user);
       } else {
         this.globalService.closeSnackBar();
         this.globalService.openSnackBar(response.message, '', [
@@ -120,7 +122,6 @@ export class UsersComponent {
         ]);
       }
       this.globalService.setLoading(false);
-
     });
   }
 }

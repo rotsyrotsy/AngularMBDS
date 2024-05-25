@@ -11,6 +11,9 @@
   .example-card {
     max-width: 290px;
   }
+  .example-card:hover {
+    transform: scale(1.05);
+  }
   .mat-elevation-z8 {
       box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
     }
@@ -22,11 +25,9 @@
       display: flex;
       gap: 1rem;
       align-items: center;
-      margin: 25px 0 25px 25px;
   }
   .img-card{
     height: 150px;
-    width: 290px;
   }
   .img-card > img{
     width: 100%;
@@ -39,4 +40,17 @@
   .mat-mdc-card-content{
     padding-top: 10px;
   }
-  
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust the minimum width of grid items and allow the grid to automatically fit the available space */
+    padding-top: 10px;
+  }
+  .grid-item {
+    padding: 20px 0 20px 0;
+  }
+  @media screen and (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust column width for smaller screens */
+    }
+  }

@@ -69,6 +69,10 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 2. Profil utilisateur avec possibilité de modification des données
 ![Alt text](/screenshots/profil.png?raw=true "profil")
 
+* 404 Page Not Found quand une référence n'existe pas
+![Alt text](/screenshots/404.png?raw=true "page not found")
+
+
 
 ## Installation et test
 1. Clonez ce repository sur votre machine locale
@@ -81,7 +85,7 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 
 4. Placez-vous à la racine du projet et lancez les commandes suivantes
 ```sh
-npm build
+npm install
 ng serve
 ```
 

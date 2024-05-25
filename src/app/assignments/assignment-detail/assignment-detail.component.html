@@ -1,30 +1,9 @@
 @if(assignmentTransmis){
 <div>
-  <mat-card class="card-container" style="padding: 10px">
-    <mat-card-header>
-      <mat-card-title>{{ assignmentTransmis.nom }}</mat-card-title>
-      <mat-card-subtitle>{{
-        assignmentTransmis.dateDeRendu | date
-      }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="flex-container">
-        <div
-          class="flex-item example-header-image"
-          [ngStyle]="{
-            'background-image':
-              'url(' +
-              (assignmentTransmis.subject.professor?.picture ?? defaultImage) +
-              ')'
-          }"
-        ></div>
-        <div class="flex-item">
-          {{ assignmentTransmis.subject.professor?.name }}
-        </div>
-      </div>
-      <div>
+  <mat-card class="card-container">
+    <div class="flex-container">
+      <div class="flex-item img-card">
         <img
-          style="max-width: 400px"
           src="{{
             assignmentTransmis.subject.picture
               ? assignmentTransmis.subject.picture
@@ -33,33 +12,66 @@
           alt="{{ assignmentTransmis.subject.name }}"
         />
       </div>
-      <p
-        [ngStyle]="{
-          color: getColorRendu(assignmentTransmis),
-          'font-weight': 'bold'
-        }"
-      >
-        {{ assignmentTransmis.rendu ? "Rendu" : "Non rendu" }}
-      </p>
-      <p>Auteur : {{ assignmentTransmis.student.name }}</p>
-      <p>Matière : {{ assignmentTransmis.subject.name }}</p>
-      <p>
-        Note : @if (assignmentTransmis.note) {<strong
-          >{{ assignmentTransmis.note }}/20</strong
-        >}
-      </p>
-      <p>{{ assignmentTransmis.remarque }}</p>
-    </mat-card-content>
-    @if (isAdmin) {
-    <mat-card-actions>
-      <nav>
-        <a routerLink="/assignment/{{ assignmentTransmis._id }}/edit">
-          <button mat-button color="primary">MODIFIER</button>
-        </a>
-      </nav>
-      <button mat-button color="warn" (click)="onDeleteAssignment()">SUPPRIMER</button>
-    </mat-card-actions>
-    }
+      <div class="flex-item" style="width: 500px;">
+        <div>
+          <div class="mat-mdc-card-title">
+            {{ assignmentTransmis.nom }} 
+            <span class="mat-mdc-card-title-subtitle">
+              ( {{ assignmentTransmis.subject.name }} )
+            </span>
+          </div>
+          <div class="mat-mdc-card-subtitle">
+            {{ assignmentTransmis.dateDeRendu | date }}
+          </div>
+          
+        </div>
+        <div>
+          <h3
+            [ngStyle]="{
+              color: getColorRendu(assignmentTransmis),
+              'font-weight': 'bold'
+            }"
+          >
+            {{ assignmentTransmis.rendu ? "Rendu" : "Non rendu" }}
+          </h3>
+          <fieldset class="mb-10">
+            <div class="flex-container" style="align-items: center;">
+              <div
+               mat-card-avatar
+                class="flex-item"
+                [ngStyle]="{
+                  'background-image':
+                    'url(' +
+                   (assignmentTransmis.subject.professor?.picture ?? defaultImage) +
+                    ')',
+                  'background-size':'cover'
+                }"
+              ></div>
+              <div class="flex-item" style="margin-bottom: 10px;">
+                {{ assignmentTransmis.subject.professor?.name }}
+              </div>
+            </div>
+            <p>Etudiant : {{ assignmentTransmis.student.name }}</p>
+          </fieldset>
+          <fieldset class="mb-10">
+            <p>
+              Note : @if (assignmentTransmis.note) {<strong
+                >{{ assignmentTransmis.note }}/20</strong
+              >}
+            </p>
+            <p>{{ assignmentTransmis.remarque }}</p>
+          </fieldset>
+        </div>
+        @if (isAdmin) {
+          <div>
+            <a routerLink="/assignment/{{ assignmentTransmis._id }}/edit">
+              <button mat-button color="primary">MODIFIER</button>
+            </a>
+            <button mat-button color="warn" (click)="onDeleteAssignment()">SUPPRIMER</button>
+          </div>
+        }
+      </div>
+    </div>
   </mat-card>
 </div>
 

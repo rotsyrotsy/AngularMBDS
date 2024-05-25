@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {  Inject, Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
 import { GlobalConstants } from './global-constants';
 import { DOCUMENT } from '@angular/common';
 
@@ -10,9 +10,19 @@ import { DOCUMENT } from '@angular/common';
 export class AuthService {
   loggedIn = false;
   uri = GlobalConstants.urlAPI+"/users";
+  private userSubject: BehaviorSubject<any>;
 
+  setUserSubject(user: any) {
+    this.userSubject.next(user);
+  }
 
-  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {}
+  getUserSubject(): Observable<any> {
+    return this.userSubject.asObservable();
+  }
+
+  constructor(private http:HttpClient, @Inject(DOCUMENT) private document: Document) {
+    this.userSubject = new BehaviorSubject(null);
+  }
 
   isLoggedIn(){
     const localStorage = this.document.defaultView?.localStorage;

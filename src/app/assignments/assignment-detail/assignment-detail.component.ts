@@ -41,6 +41,7 @@ export class AssignmentDetailComponent {
     private globalService: GlobalService,
     public dialog: MatDialog,
     private authService : AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -51,10 +52,11 @@ export class AssignmentDetailComponent {
       if (response.success) {
         this.assignmentTransmis = response.data[0];
       } else {
-        this.globalService.openSnackBar(response.error, '', [
+        this.globalService.openSnackBar(response.error ?? response.message, '', [
           'danger-snackbar',
         ]);
-      }
+        this.router.navigate(['/pageNotFound'], { skipLocationChange: true });
+    }
       this.globalService.setLoading(false);
     });
     this.authService.isAdmin()
@@ -93,7 +95,9 @@ export class AssignmentDetailComponent {
         width: '250px',
         data: {
           assignment: this.assignmentTransmis,
-          callbackFunction: () => {} 
+          callbackFunction: () => {
+            this.router.navigate(['/home']);
+          } 
         },
       });
     }else{
