@@ -59,7 +59,6 @@ export class LayoutComponent {
         if(this.role === "Etudiant"){
           this.navigation.push({ icon: 'add', label: 'Ajouter un devoir', url: '/add' })
         }
-        console.log('Utilisateur connecté : ', this.user);
       } else {
         this.globalService.openSnackBar(response.error, '', [
           'danger-snackbar',
