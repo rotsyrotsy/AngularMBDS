@@ -71,23 +71,6 @@ export class DragDropAssignmentsComponent {
         if(loading) this.globalService.setLoading(false);
       });
   }
-  pagePrecedente() {
-    this.page = this.prevPage;
-    this.getAssignmentNonRendusFromService();
-  }
-  pageSuivante() {
-    this.page = this.nextPage;
-    this.getAssignmentNonRendusFromService();
-  }
-  
-  premierePage() {
-    this.page = 1;
-    this.getAssignmentNonRendusFromService();
-  }
-  dernierePage() {
-    this.page = this.totalPages;
-    this.getAssignmentNonRendusFromService();
-  }
   handlePageEvent(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;

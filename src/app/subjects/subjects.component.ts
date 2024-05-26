@@ -21,7 +21,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../shared/auth.service';
 import { SubjectProfessor } from './subject_professor.model';
 import { SubjectsService } from '../shared/subjects.service';
-import { AddAssignmentComponent } from '../assignments/add-assignment/add-assignment.component';
 import { AddSubjectComponent } from './add-subject/add-subject.component';
 
 @Component({
@@ -88,6 +87,7 @@ export class SubjectsComponent {
       .getAllSubjects(this.page)
       .subscribe((data) => {
         if (data.success) {
+          console.log(data);
           data = data.data;
           this.subjects = data.docs;
           this.page = data.page;
@@ -104,23 +104,6 @@ export class SubjectsComponent {
         }
         if(load) this.globalService.setLoading(false);
       });
-  }
-  pagePrecedente() {
-    this.page = this.prevPage;
-    this.getSubjectsFromService();
-  }
-  pageSuivante() {
-    this.page = this.nextPage;
-    this.getSubjectsFromService();
-  }
-  getAssignmentsFromService() {}
-  premierePage() {
-    this.page = 1;
-    this.getSubjectsFromService();
-  }
-  dernierePage() {
-    this.page = this.totalPages;
-    this.getSubjectsFromService();
   }
   handlePageEvent(event: PageEvent) {
     this.page = event.pageIndex + 1;

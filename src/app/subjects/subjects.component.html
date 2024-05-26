@@ -40,16 +40,19 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+        
+  
+        <div class="pagination-number">
+            Total documents : {{ totalDocs }}&nbsp;Total pages : {{ totalPages }}<br />
+            Documents par page: {{ limit }}&nbsp;Page courante : {{ page }}
+          </div>
         <mat-paginator
-        #paginator
-        class="demo-paginator"
-        (page)="handlePageEvent($event)"
-        [length]="totalPages"
-        [pageSize]="limit"
-        [showFirstLastButtons]="true"
-        [pageIndex]="page"
-        aria-label="Select page"
-        >
-        </mat-paginator>
+            [length]="totalDocs"
+            [pageSize]="limit"
+            aria-label="Select page"
+            [showFirstLastButtons]="true"
+            [pageIndex]="page-1"
+            (page)="handlePageEvent($event)"
+        />
     </mat-card>
 </div>

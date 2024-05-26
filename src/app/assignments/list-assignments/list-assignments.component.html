@@ -103,11 +103,11 @@
     #paginator
     class="demo-paginator"
     (page)="handlePageEvent($event)"
-    [length]="totalPages"
+    [length]="totalDocs"
     [pageSize]="limit"
     [showFirstLastButtons]="true"
-    [pageSizeOptions]="[8, 16, 24]"
-    [pageIndex]="page"
+    [pageSizeOptions]="[8, 16, 24,40]"
+    [pageIndex]="page-1"
     aria-label="Select page"
   >
   </mat-paginator>

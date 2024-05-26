@@ -105,23 +105,6 @@ export class ListAssignmentsComponent {
         this.globalService.setLoading(false);
       });
   }
-  pagePrecedente() {
-    this.page = this.prevPage;
-    this.getAssignmentFromService();
-  }
-  pageSuivante() {
-    this.page = this.nextPage;
-    this.getAssignmentFromService();
-  }
-  
-  premierePage() {
-    this.page = 1;
-    this.getAssignmentFromService();
-  }
-  dernierePage() {
-    this.page = this.totalPages;
-    this.getAssignmentFromService();
-  }
   handlePageEvent(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
