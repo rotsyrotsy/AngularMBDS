@@ -31,7 +31,7 @@ export class SubjectsService {
     );
   }
   addSubject(formdata:FormData):Observable<any>{
-    return this.http.post<any>(this.uri, formdata,{ headers: this.authService.getHeaders(true)})
+    return this.http.post<any>(this.uri, formdata,{ 'headers': this.authService.getHeaders(true)})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);

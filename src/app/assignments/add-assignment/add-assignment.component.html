@@ -72,6 +72,14 @@
                     Valider
                   </button>
                 </div>
+                @if (loading) {
+                  <div class="center">
+                    <mat-progress-spinner
+                      diameter="40"
+                      mode="indeterminate"
+                    ></mat-progress-spinner>
+                  </div>
+              }
             </mat-step>
           </mat-stepper>
         </form>

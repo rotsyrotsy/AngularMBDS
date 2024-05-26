@@ -21,6 +21,7 @@ import { SubjectsService } from '../../shared/subjects.service';
 import { SubjectProfessor } from '../../subjects/subject_professor.model';
 import moment from 'moment';
 import { GlobalConstants } from '../../shared/global-constants';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-add-assignment',
@@ -39,6 +40,7 @@ import { GlobalConstants } from '../../shared/global-constants';
     MatCardModule,
     MatStepperModule,
     MatSelectModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './add-assignment.component.html',
   styleUrl: './add-assignment.component.css',
@@ -51,6 +53,7 @@ export class AddAssignmentComponent {
   //champs du formulaire
   dateDeRendu = undefined;
   defaultImage = GlobalConstants.defaultImage;
+  loading=false;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -73,6 +76,7 @@ export class AddAssignmentComponent {
   }
 
   onSubmit() {
+    this.loading = true;
     if (this.nomFormControl.value == undefined || this.subjectControl.value?._id === undefined) return;
     if (this.nomFormControl.value == '' || this.subjectControl.value?._id === '') return;
 
@@ -95,6 +99,7 @@ export class AddAssignmentComponent {
             'danger-snackbar',
           ]);
         }
+        this.loading = false;
       });
   }
 }

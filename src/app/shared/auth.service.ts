@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {  Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of } from 'rxjs';
 import { GlobalConstants } from './global-constants';
 import { DOCUMENT } from '@angular/common';
 
@@ -34,7 +34,7 @@ export class AuthService {
   login(email:string, password:string):Observable<any>{
     this.loggedIn=true;
     const body = {"email": email, "password": password};
-    return this.http.post<any>(this.uri+"/login", body)
+    return this.http.post<any>(this.uri+"/login", body,{'headers':this.getHeaders(false,false)})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -75,9 +75,7 @@ export class AuthService {
     return isUserAdmin;
   }
   register(formdata:FormData):Observable<any>{
-    let fdheaders = new HttpHeaders();
-    fdheaders = fdheaders.append('enctype', 'multipart/form-data');
-    return this.http.post<any>(this.uri+"/signup", formdata,{ headers: fdheaders })
+    return this.http.post<any>(this.uri+"/signup", formdata,{'headers':this.getHeaders(true,false)})
     .pipe(
       catchError((data:any)=>{
         return of(data.error);
@@ -93,7 +91,7 @@ export class AuthService {
       })
     );
   }
-  getHeaders(isFormData:boolean=false):HttpHeaders{
+  getHeaders(isFormData:boolean=false, needAuthToken:boolean=true):HttpHeaders{
     let headers = new HttpHeaders();
     if (isFormData) {
       headers = headers.append('enctype', 'multipart/form-data');
@@ -101,10 +99,11 @@ export class AuthService {
       headers = headers.append('content-type', 'application/json');
     }
     headers = headers.append('Access-Control-Allow-Origin', '*');
-
-    const localStorage = this.document.defaultView?.localStorage;
-    if (localStorage) {
-      headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+    if (needAuthToken){
+      const localStorage = this.document.defaultView?.localStorage;
+      if (localStorage) {
+        headers = headers.append('auth-token', localStorage.getItem('token')!=undefined ? ''+localStorage.getItem('token') : '');
+      }
     }
     return headers;
   }
