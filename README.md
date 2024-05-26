@@ -1,11 +1,17 @@
-### _Rafamantanantsoa Rotsy Vonimanitra_
-### _Ratsirarson Joharisoa_
+# AssignmentApp 📖
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*Klh1l7wkoG6PDPb9A5oCHQ.png" width="150">  
 
-# AssignmentApp
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*Klh1l7wkoG6PDPb9A5oCHQ.png" width="150">
 Frontend du projet Angular 17 pour les étudiants du Master MIAGE Madagascar 2024.
 
-## Introduction
+Lien du projet Back - End Node JS : [Assignment Backend Node](https://github.com/Junx2001/MBDSNode)
+
+
+## Contributeurs
+
+### [Rafamantanantsoa Rotsy Vonimanitra](https://github.com/rotsyrotsy)
+### [Ratsirarson Joharisoa](https://github.com/Junx2001)
+
+## Présentation
 Le projet AssignmentApp est une application Angular - NodeJS, gérant les devoirs des étudiants d'une école.
 Chaque étudiant a un compte sur l'application, lui permettant d'y déposer ses devoirs afin que le professeur
 correspondant le note et le rende. Chaque professeur joue le rôle d'administrateur, qui ajoute leurs matières
@@ -13,6 +19,29 @@ sur le système, note les devoirs, donne des remarques et les rendent.
 
 La partie frontend du projet montre le flux des devoirs dans le système.
 Nous avons effectué plusieurs tâches et les avons réparties par module frontend et backend.
+
+## Installation et lancement
+1. Clonez ce repository sur votre machine locale
+`git clone https://github.com/rotsyrotsy/AngularMBDS.git`
+
+2. Installez node (21.1.0) et npm depuis [https://nodejs.org/en/download/prebuilt-installer](https://nodejs.org/en/download/prebuilt-installer)
+
+3. Installez Angular 17
+`npm install -g @angular/cli@17`
+
+4. Placez-vous à la racine du projet et lancez les commandes suivantes
+```sh
+npm install
+ng serve
+```
+
+Ces commandes construisent l'application et lancent un serveur de développement. Vous pouvez accéder à l'application dans votre navigateur en allant à l'adresse `http://localhost:4200`.
+
+5. Pour build l'application en production
+```sh
+ng build
+```
+Cette commande va créer le répertoire `dist` avec tous les fichiers compilés.  
 
 ## Contribution
 
@@ -79,19 +108,3 @@ Nous avons effectué plusieurs tâches et les avons réparties par module fronte
 * 404 Page Not Found quand une référence n'existe pas
 ![Alt text](/screenshots/404.png?raw=true "page not found")
 
-## Installation et test
-1. Clonez ce repository sur votre machine locale
-`git clone https://github.com/rotsyrotsy/AngularMBDS.git`
-
-2. Installez node 21.1.0 depuis [https://nodejs.org/en/download/prebuilt-installer](https://nodejs.org/en/download/prebuilt-installer)
-
-3. Installez Angular 17
-`npm install -g @angular/cli@17`
-
-4. Placez-vous à la racine du projet et lancez les commandes suivantes
-```sh
-npm install
-ng serve
-```
-
-Ces commandes construisent l'application et lancent un serveur de développement. Vous pouvez accéder à l'application dans votre navigateur en allant à l'adresse `http://localhost:4200`.
