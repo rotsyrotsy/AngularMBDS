@@ -5,6 +5,9 @@ Frontend du projet Angular 17 pour les étudiants du Master MIAGE Madagascar 202
 
 Lien du projet Back - End Node JS : [Assignment Backend Node](https://github.com/Junx2001/MBDSNode)
 
+Lien vers l'application en ligne : [Angular Assignment Application](https://angular-mbds-assignment.vercel.app/home)
+
+Lien vers l'API de l'application en ligne : [Assignment Application API](https://assignmentapp.me/api)
 
 ## Contributeurs
 
@@ -80,7 +83,7 @@ Cette commande va créer le répertoire `dist` avec tous les fichiers compilés.
 
 * Collection d'élèves et de profs pour faciliter l'association devoir/élève et matières/profs
 
-* Hébergement sur [https://angular-mbds-assignment.vercel.app](https://angular-mbds-assignment.vercel.app/home)
+* Hébergement sur vercel : [https://angular-mbds-assignment.vercel.app](https://angular-mbds-assignment.vercel.app/home)
 
 ### Atouts apportés
 * Affichage d'un spinner lors du chargement des pages
