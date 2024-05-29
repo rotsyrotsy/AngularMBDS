@@ -97,6 +97,7 @@ export class DragDropAssignmentsComponent {
           },
           callbackFunction2: () => {
             this.getAssignmentNonRendusFromService(false);
+            this.assignmentsService.reloadAssignmentListComponent();
           },
         },
       });

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, catchError, forkJoin,  of } from 'rxjs';
+import { Observable, Subject, catchError, forkJoin,  of } from 'rxjs';
 import { HttpClient,  } from '@angular/common/http';
-import { bdInitialAssignments } from './data';
 import { bdNonRenduAssignments } from './data1';
 import { bdRendusAssignments } from './data2';
 import { GlobalConstants } from './global-constants';
@@ -14,9 +13,16 @@ import { AuthService } from './auth.service';
 export class AssignmentsService {
   assignements: Assignment[] = [];
   uri = GlobalConstants.urlAPI + '/assignment';
+  private reloadAssignmentListSubject = new Subject<void>();
+  reloadAssignmentListComponent$ = this.reloadAssignmentListSubject.asObservable();
+
   constructor(private http: HttpClient,
     private authService:AuthService,
   ) {}
+
+  reloadAssignmentListComponent() {
+    this.reloadAssignmentListSubject.next();
+  }
 
   getAssignmentsPagines(
     page: number,

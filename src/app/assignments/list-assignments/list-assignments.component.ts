@@ -80,6 +80,10 @@ export class ListAssignmentsComponent {
     return a.rendu ? 'green' : 'red';
   }
   ngOnInit(): void {
+    this.assignmentsService.reloadAssignmentListComponent$.subscribe(() => {
+      this.onSearchAssignments();
+      console.log('Reloading MyComponent...');
+    });
     this.getAssignmentFromService();
   }
   getAssignmentFromService(params:any = {}) {
@@ -89,7 +93,7 @@ export class ListAssignmentsComponent {
       .subscribe((data) => {
         if (data.success) {
           data = data.data;
-          this.assignements = data.docs;
+          this.assignements = data.docs
           this.page = data.page;
           this.limit = data.limit;
           this.totalDocs = data.totalDocs;
@@ -108,7 +112,7 @@ export class ListAssignmentsComponent {
   handlePageEvent(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
-    this.getAssignmentFromService();
+    this.onSearchAssignments();
   }
   navigateDetails(id: String | undefined) {
     this.router.navigate(['assignment', id]);
@@ -120,7 +124,7 @@ export class ListAssignmentsComponent {
         data: {
           assignment: assignment,
           callbackFunction: () => {
-            this.getAssignmentFromService();
+            this.onSearchAssignments();
           },
         },
       });
