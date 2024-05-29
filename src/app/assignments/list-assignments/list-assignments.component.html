@@ -21,7 +21,7 @@
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Date de Rendu</mat-label>
+        <mat-label>Date d'envoi</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
@@ -68,7 +68,7 @@
           </div>
           <mat-card-content>
             <p>Auteur : {{ a.student.name }}</p>
-            <p>Date de rendu : {{ a.dateDeRendu | date }}</p>
+            <p>Envoyé le {{ a.dateDeRendu | date }}</p>
             <p [ngStyle]="{ color: getColorRendu(a), 'font-weight': 'bold' }">
               {{ a.rendu ? "RENDU" : "NON RENDU" }}
             </p>
