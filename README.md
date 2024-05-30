@@ -11,8 +11,8 @@ Lien vers l'API de l'application en ligne : [Assignment Application API](https:/
 
 ## Contributeurs
 
-### [15 - Rafamantanantsoa Rotsy Vonimanitra](https://github.com/rotsyrotsy)
-### [52 - Ratsirarson Joharisoa](https://github.com/Junx2001)
+### [13 - Rafamantanantsoa Rotsy Vonimanitra](https://github.com/rotsyrotsy)
+### [50 - Ratsirarson Joharisoa](https://github.com/Junx2001)
 
 ## Présentation
 Le projet AssignmentApp est une application Angular - NodeJS, gérant les devoirs des étudiants d'une école.
@@ -22,7 +22,7 @@ sur le système, note les devoirs, donne des remarques et les rendent.
 
 La partie frontend du projet montre le flux des devoirs dans le système.
 Nous avons effectué plusieurs tâches et les avons réparties par module frontend et backend.  
-`Ratsirarson Joharisoa` s'est chargé du `backend` en Node JS et du `déploiement` et `Rafamantanantsoa Rotsy Vonimanitra` s'est chargée du frontend en `Angular`.
+`50 - Ratsirarson Joharisoa` s'est chargé du `backend` en Node JS et du `déploiement` et `13 - Rafamantanantsoa Rotsy Vonimanitra` s'est chargée du frontend en `Angular`.
 
 ## Installation et lancement
 1. Clonez ce repository sur votre machine locale
