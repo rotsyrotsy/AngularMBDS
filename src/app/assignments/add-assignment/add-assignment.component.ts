@@ -91,7 +91,8 @@ export class AddAssignmentComponent {
       .addAssignment(newAssignment)
       .subscribe((response) => {
         if (response.success) {
-          this.globalService.openSnackBar(response.message, '', [
+          let message = "Devoir créé avec succès.";
+          this.globalService.openSnackBar(message, '', [
             'success-snackbar',
           ]);
         } else {

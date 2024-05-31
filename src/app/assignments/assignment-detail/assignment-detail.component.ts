@@ -78,7 +78,8 @@ export class AssignmentDetailComponent {
         .updateAssignment(this.assignmentTransmis._id!, this.assignmentTransmis)
         .subscribe((response) => {
           if (response.success) {
-            this.globalService.openSnackBar(response.message, '', [
+            let message = "Devoir rendu avec succès.";
+            this.globalService.openSnackBar(message, '', [
               'success-snackbar',
             ]);
           } else {

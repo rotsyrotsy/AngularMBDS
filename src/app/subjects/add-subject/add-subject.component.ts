@@ -73,7 +73,8 @@ export class AddSubjectComponent {
     this.subjectService.addSubject(formdata).subscribe((response) => {
       if (response.success) {
         this.globalService.closeSnackBar();
-        this.globalService.openSnackBar(response.message, '', [
+        let message = "Nouvelle matière enregistrée."
+        this.globalService.openSnackBar(message, '', [
           'success-snackbar',
         ]);
         this.data.callbackFunction();

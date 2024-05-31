@@ -130,7 +130,8 @@ export class EditAssignmentComponent {
       .updateAssignment(this.assignment._id!, updateAssignment)
       .subscribe((response) => {
         if (response.success) {
-          this.globalService.openSnackBar(response.message, '', [
+          let message = "Devoir modifié avec succès.";
+          this.globalService.openSnackBar(message, '', [
             'success-snackbar',
           ]);
           this.router.navigate(['/assignment/'+this.assignment?._id]);

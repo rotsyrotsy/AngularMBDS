@@ -102,6 +102,7 @@ export class SignupComponentComponent {
     this.authService.register(formdata).subscribe((response) => {
       if (response.success) {
         this.globalService.closeSnackBar();
+        let message = "Votre compte a bien été enregistré.";
         this.globalService.openSnackBar(response.message, '', [
           'success-snackbar',
         ]);

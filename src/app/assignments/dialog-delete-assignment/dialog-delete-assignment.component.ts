@@ -35,7 +35,8 @@ export class DialogDeleteAssignmentComponent {
       .subscribe((response) => {
         if (response.success) {
           this.data.assignement = undefined;
-          this.globalService.openSnackBar(response.message, '', [
+          let message = "Devoir supprimé avec succès.";
+          this.globalService.openSnackBar(message, '', [
             'success-snackbar',
           ]);
           setTimeout(() => {

@@ -110,7 +110,8 @@ export class UsersComponent {
     this.authService.updateUser(formdata).subscribe((response) => {
       if (response.success) {
         this.globalService.closeSnackBar();
-        this.globalService.openSnackBar(response.message, '', [
+        let message = "Les modifications sur votre compte ont été enregistré."
+        this.globalService.openSnackBar(message, '', [
           'success-snackbar',
         ]);
         this.getCurrentUserFromService(false);

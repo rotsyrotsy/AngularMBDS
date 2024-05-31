@@ -56,7 +56,8 @@ export class DialogReturnAssignmentComponent {
       .updateAssignment(this.data.assignment._id!, updateAssignment)
       .subscribe((response) => {
         if (response.success) {
-          this.globalService.openSnackBar(response.message, '', [
+          let message = "Devoir rendu avec succès.";
+          this.globalService.openSnackBar(message, '', [
             'success-snackbar',
           ]);
         } else {
